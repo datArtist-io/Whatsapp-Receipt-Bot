@@ -1,7 +1,8 @@
 {
   "name": "whatsapp-receipt-bot",
   "version": "1.0.0",
-  "description": "Automatically generates and sends WhatsApp receipts when a sale is made",
+  "private": true,
+  "description": "Generates a PDF receipt for each sale and sends it to the customer on WhatsApp",
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
