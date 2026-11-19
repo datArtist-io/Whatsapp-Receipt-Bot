@@ -16,7 +16,7 @@ body{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0
 .form-side{display:flex;flex-direction:column;padding:28px 40px 32px}
 .form-side .brand{align-self:flex-start}
 .box{width:100%;max-width:400px;margin:auto;padding:40px 0}
-h1 .ital{color:var(--green-ink)}
+h1 .ital{font-size:1.13em;line-height:.9;color:var(--green-ink);letter-spacing:-.025em}
 h1{font:500 clamp(34px,3.8vw,46px)/1.02 var(--display);letter-spacing:-.045em;margin:0 0 10px;text-wrap:balance}
 .lead{color:var(--mute);margin:0 0 28px;font-size:16px}
 .tabs{display:flex;gap:2px;padding:3px;border-radius:12px;background:var(--paper2);margin-bottom:24px}
@@ -72,13 +72,19 @@ select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card
   .box{padding:32px 0 8px;margin-top:8px}
 }
 @media (prefers-reduced-motion:reduce){.b,.rc{opacity:1;transform:none;animation:none}}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.box>*,#form>*{animation:rise .8s cubic-bezier(.16,1,.3,1) both}
+.box>*:nth-child(2){animation-delay:.06s}.box>*:nth-child(3){animation-delay:.1s}.box>*:nth-child(4){animation-delay:.14s}
+#form>*:nth-child(1){animation-delay:.2s}#form>*:nth-child(2){animation-delay:.25s}#form>*:nth-child(3){animation-delay:.3s}#form>*:nth-child(4){animation-delay:.35s}#form>*:nth-child(n+5){animation-delay:.4s}
+.btn{border-radius:10px;box-shadow:none}
+@media (prefers-reduced-motion:reduce){.box>*,#form>*{animation:none}}
 </style>
 </head>
 <body>
 <div class="form-side">
   <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
   <div class="box">
-    <h1 id="title">Start keeping your books in a <span class="ital">chat.</span></h1>
+    <h1 id="title">Start keeping your books<br><span class="ital">in a chat.</span></h1>
     <p class="lead" id="lead">Free. Ready in a minute. No card needed.</p>
     <p class="notice" id="notice" hidden></p>
     <div class="tabs" role="tablist">
@@ -137,7 +143,7 @@ function setMode(m) {
   mode = m;
   document.querySelectorAll('.tabs button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.m === m));
   document.querySelectorAll('[data-only=signup]').forEach((el) => (el.hidden = m !== 'signup'));
-  $('#title').innerHTML = m === 'signup' ? 'Start keeping your books in a <span class="ital">chat.</span>' : 'Welcome <span class="ital">back.</span>';
+  $('#title').innerHTML = m === 'signup' ? 'Start keeping your books<br><span class="ital">in a chat.</span>' : 'Welcome<br><span class="ital">back to your shop.</span>';
   $('#lead').textContent = m === 'signup' ? 'Free. Ready in a minute. No card needed.' : 'Sign in with your phone number and password.';
   $('#go').textContent = m === 'signup' ? 'Create my account' : 'Sign in';
   $('#fine').hidden = m !== 'signup';
