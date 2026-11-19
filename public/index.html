@@ -51,7 +51,7 @@ p{text-wrap:pretty}
 .art img.who{position:absolute;left:50%;bottom:-6px;height:94%;width:auto;transform:translateX(-50%);filter:drop-shadow(0 30px 40px rgba(14,31,22,.18))}
 .float{position:absolute;z-index:2;background:#fff;border-radius:16px;box-shadow:0 1px 0 rgba(14,31,22,.04),0 18px 40px -16px rgba(14,31,22,.35);opacity:0;transform:translateY(14px) scale(.96);animation:pop .7s var(--spring) forwards}
 .f-msg{right:6%;top:9%;max-width:220px;padding:10px 14px;font-size:13.5px;background:var(--ink);color:#fff;border-radius:16px 16px 4px 16px;animation-delay:.7s}
-.f-rcpt{right:4%;top:52%;width:214px;overflow:hidden;animation-delay:1.3s}
+.f-rcpt{right:5%;top:30%;width:214px;overflow:hidden;animation-delay:1.3s}
 .f-rcpt::before{content:"";display:block;height:4px;background:var(--green)}
 .f-rcpt div{padding:12px 14px 14px}
 .f-rcpt small{display:flex;justify-content:space-between;align-items:center;font:600 10.5px/1 var(--mono);color:var(--mute)}
@@ -196,7 +196,8 @@ section.block{padding:120px 0 0}
 .f-row p{margin:0;color:var(--mute);font-size:15px}
 
 .final{background:var(--ink);color:#fff;border-radius:32px;padding:88px 64px;margin:120px 0 0;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:24px;min-height:520px}
-.final .cheer{position:absolute;right:3%;bottom:0;height:94%;width:auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
+.final .pic{position:absolute;right:32px;top:32px;bottom:32px;width:min(44%,460px);border-radius:24px;background:radial-gradient(90% 70% at 50% 30%,#FBEFE4,#F2DCCB);overflow:hidden}
+.final .cheer{position:absolute;left:50%;bottom:0;height:92%;width:auto;transform:translateX(-50%)}
 .final::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 80% at 78% 60%,rgba(20,184,107,.22),transparent 70%)}
 .final>*{position:relative}
 .final h2{font:600 clamp(34px,4.6vw,60px)/1.02 var(--display);letter-spacing:-.04em;margin:0 0 16px;max-width:12ch}
@@ -224,7 +225,9 @@ button.btn[data-demo][disabled]{opacity:.7}
   .orb-head{flex-direction:column;align-items:flex-start;gap:0}
   .orb-wrap{height:600px}
   .final{grid-template-columns:1fr;padding:56px 28px 0;min-height:0}
-  .final .cheer{position:relative;right:auto;bottom:-8px;height:auto;width:min(420px,90%);margin:24px auto 0;display:block}
+  .final{padding-bottom:28px}
+  .final .pic{position:relative;inset:auto;width:100%;height:380px;margin-top:32px}
+  .final .cheer{height:auto;width:94%}
   .printer,.note{display:none}
   .band{grid-template-columns:repeat(2,1fr)}
   .band p{grid-column:1/-1;max-width:none;padding:20px 0 4px}
@@ -290,7 +293,7 @@ button.btn[data-demo][disabled]{opacity:.7}
       <div class="art" aria-hidden="true" data-enter style="animation-delay:.2s">
         <img class="who" src="/img/p-beanbag.webp" width="905" height="1100" alt="" fetchpriority="high">
         <div class="float f-kpi"><small>Profit this month</small><b>₦326,400</b><span>Sales minus spending</span><svg viewBox="0 0 120 28" fill="none" stroke="#14B86B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 24l18-6 16 3 18-10 16 4 18-9 16 2 14-6"/></svg></div>
-        <div class="float f-msg">Sold 2 bags of rice and 1 palm oil to Chidi. He paid by transfer</div>
+        <div class="float f-msg">Sold 2 rice and 1 palm oil to Chidi, paid by transfer</div>
         <div class="float f-rcpt"><div><small>Receipt R-0061 <i>PAID</i></small><b>Chidi Okonkwo</b><strong>₦160,500</strong></div></div>
       </div>
     </section>
@@ -402,7 +405,7 @@ button.btn[data-demo][disabled]{opacity:.7}
         <p>Open a demo shop full of sample sales, then tell Slipp about a sale and watch the receipt appear.</p>
         <div class="ctas"><button class="btn btn-green" data-demo>Try the live demo</button><a class="btn btn-line" href="/start">Create your shop</a></div>
       </div>
-      <img class="cheer" src="/img/p-cheer.webp" width="723" height="1000" alt="" loading="lazy" decoding="async">
+      <div class="pic"><img class="cheer" src="/img/p-cheer-2.webp" width="940" height="1000" alt="" loading="lazy" decoding="async"></div>
     </section>
   </main>
 
