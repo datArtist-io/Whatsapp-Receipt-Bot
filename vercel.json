@@ -2,6 +2,22 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/api/session",
+      "destination": "/api/auth?session=1"
+    },
+    {
+      "source": "/api/sample",
+      "destination": "/api/receipt?sample=1"
+    },
+    {
+      "source": "/api/telegram/setup",
+      "destination": "/api/telegram?setup=1"
+    },
+    {
+      "source": "/api/webhooks/:provider",
+      "destination": "/api/pay?provider=:provider"
+    },
+    {
       "source": "/r/:token",
       "destination": "/r"
     }

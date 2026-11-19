@@ -1,12 +1,16 @@
 // POST /api/telegram : updates from the Slipp Telegram bot.
+// GET /api/telegram (or /api/telegram/setup) : points the bot at this deployment.
 const { waitUntil } = require("@vercel/functions");
 const telegram = require("../lib/telegram");
 const inbox = require("../lib/inbox");
 const { origin } = require("../lib/sale");
 const { json, jsonBody, fail } = require("../lib/http");
 
+const setup = require("../lib/routes/telegram-setup");
+
 module.exports = async (req, res) => {
   try {
+    if (req.method === "GET") return setup(req, res);
     if (req.method !== "POST") return json(res, 405, { error: "Use POST." });
     if (!telegram.validSecret(req.headers["x-telegram-bot-api-secret-token"])) return json(res, 401, { error: "Not from Telegram." });
     const update = await jsonBody(req);

@@ -83,7 +83,8 @@ The tests run against an in-memory Postgres (PGlite) with Claude, Telegram and M
 ## Project layout
 
 ```
-api/            Vercel functions: telegram, whatsapp, dashboard, session, cron/, receipt, sale, sample, status, webhooks/
+api/            Vercel functions: auth, chat, dashboard, telegram, whatsapp, cron/, receipt, sale, pay, status (10, under the free plan's limit of 12)
+lib/routes/     small handlers those functions share: sign-in links, sample receipt, Telegram setup, Paystack, Flutterwave
 lib/            assistant (Claude and its tools), store (database), chat senders, PDF drawing, signed links
 db/             the database schema
 public/         landing page, dashboard/, quick receipt maker (app/), receipt page (r/), styles, logo

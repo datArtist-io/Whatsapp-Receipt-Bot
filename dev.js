@@ -13,6 +13,7 @@ if (fs.existsSync(".env")) {
 
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon", ".json": "application/json" };
 const PUBLIC = path.join(__dirname, "public");
+const VERCEL = JSON.parse(fs.readFileSync(path.join(__dirname, "vercel.json"), "utf8"));
 
 function serveFile(res, file) {
   fs.readFile(file, (err, data) => {
@@ -26,7 +27,21 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
   const p = decodeURIComponent(url.pathname);
   if (p.startsWith("/api/")) {
-    const file = path.join(__dirname, "api", p.slice(5).replace(/\/$/, "") + ".js");
+    // the same API rewrites as vercel.json
+    let ap = p;
+    for (const r of VERCEL.rewrites || []) {
+      if (!r.source.startsWith("/api/")) continue;
+      const re = new RegExp("^" + r.source.replace(/:(\w+)/g, "(?<$1>[^/]+)") + "$");
+      const m = p.match(re);
+      if (m) {
+        const dest = new URL(r.destination.replace(/:(\w+)/g, (_, k) => m.groups[k]), "http://localhost");
+        ap = dest.pathname;
+        dest.searchParams.forEach((v, k) => url.searchParams.set(k, v));
+        req.url = ap + "?" + url.searchParams.toString();
+        break;
+      }
+    }
+    const file = path.join(__dirname, "api", ap.slice(5).replace(/\/$/, "") + ".js");
     if (!file.startsWith(path.join(__dirname, "api")) || !fs.existsSync(file)) { res.statusCode = 404; return res.end("Not found"); }
     try { return await require(file)(req, res); } catch (e) { console.error(e); res.statusCode = 500; return res.end("Error"); }
   }

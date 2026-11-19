@@ -5,7 +5,11 @@ const store = require("../lib/store");
 const auth = require("../lib/auth");
 const { json, jsonBody, fail } = require("../lib/http");
 
+const session = require("../lib/routes/session");
+
 module.exports = async (req, res) => {
+  const u = new URL(req.url, "http://x");
+  if (u.searchParams.has("session") || u.pathname.endsWith("/session")) return session(req, res);
   try {
     if (req.method !== "POST" || !auth.isJson(req)) return json(res, 405, { error: "Use POST with JSON." });
     if (!require("../lib/db").ready()) return json(res, 503, { error: "Slipp is getting set up. Accounts open in a few minutes, so please try again shortly." });

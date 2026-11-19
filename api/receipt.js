@@ -4,9 +4,13 @@ const { receiptPdf } = require("../lib/pdf");
 const { total, money, methodName } = require("../lib/sale");
 const { json, fail } = require("../lib/http");
 
+const sample = require("../lib/routes/sample");
+
 module.exports = async (req, res) => {
   try {
-    const q = new URL(req.url, "http://x").searchParams;
+    const u = new URL(req.url, "http://x");
+    if (u.searchParams.has("sample") || u.pathname.endsWith("/sample")) return sample(req, res);
+    const q = u.searchParams;
     const sale = token.decode(q.get("t") || "");
     if (!sale || sale.v !== 1) return json(res, 404, { error: "This receipt link is not valid." });
     if (q.get("format") === "pdf") {
