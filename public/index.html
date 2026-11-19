@@ -182,24 +182,33 @@ section.block{padding-top:152px}
 .view img{display:block;width:100%;height:auto}
 .v1{background:#E4F0E7}.v2{background:#F1E9DA}.v3{background:#E3ECEC}.v4{background:#ECE8DF}
 
-/* owners: a row of cards you swipe, each one a small story */
-.owners{display:grid;grid-auto-flow:column;grid-auto-columns:296px;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 max(24px,calc(50vw - 576px));padding:4px max(24px,calc(50vw - 576px)) 8px;margin:0 calc(50% - 50vw);scrollbar-width:none;cursor:grab}
-.owners::-webkit-scrollbar{display:none}
-.owners.drag{cursor:grabbing;scroll-snap-type:none}
-.owner{scroll-snap-align:start;margin:0;user-select:none;-webkit-user-select:none}
-.owner .ph{position:relative;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:var(--paper2)}
-.owner .ph img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;transition:transform 1s var(--ease)}
-.owner:hover .ph img{transform:scale(1.03)}
-.owner .said{position:absolute;right:12px;bottom:12px;margin:0;width:fit-content;max-width:84%;background:var(--ink);color:#fff;font-size:14px;line-height:1.4;padding:10px 14px;border-radius:16px 16px 4px 16px;box-shadow:0 12px 24px -12px rgba(14,31,22,.5)}
-.owner .got{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line2)}
-.owner .got span{font-size:13.5px;color:var(--mute)}
-.owner .got b{font:600 15px/1 var(--mono);letter-spacing:-.02em;white-space:nowrap}
-.owner .got b.due{color:#9A6A12}
-.strip-nav{display:flex;gap:8px;justify-content:flex-end;margin-top:28px}
-.strip-nav button{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .2s,opacity .2s}
-.strip-nav button:hover{box-shadow:inset 0 0 0 1px var(--ink)}
-.strip-nav button:disabled{opacity:.35;cursor:default}
-.strip-nav svg{width:18px;height:18px}
+/* the owners globe: 24 tiles spread evenly on a sphere so none touch, faded by how squarely they face you */
+.globe{position:relative;height:820px;perspective:1800px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden}
+.globe.drag{cursor:grabbing}
+.orb{position:absolute;left:50%;top:46%;width:0;height:0;transform-style:preserve-3d}
+.tile{position:absolute;left:-75px;top:-94px;width:150px;height:188px;border-radius:16px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 0 0 1px rgba(14,31,22,.06),0 16px 30px -18px rgba(14,31,22,.45);will-change:opacity;cursor:pointer;transition:box-shadow .3s}
+.tile.focus{box-shadow:0 0 0 2px var(--green),0 20px 40px -18px rgba(14,31,22,.5)}
+.tile img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%;pointer-events:none}
+.tile.msg{display:flex;flex-direction:column;justify-content:space-between;padding:14px;background:var(--ink);color:#fff}
+.tile.msg .av{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 20%;box-shadow:0 0 0 2px rgba(255,255,255,.9)}
+.tile.msg span{font-size:15px;line-height:1.3;letter-spacing:-.01em}
+.tile.res{display:flex;flex-direction:column;padding:16px 14px 14px}
+.tile.res::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--green)}
+.tile.res.due::before{background:#D9A23B}.tile.res.stat{background:var(--mint)}.tile.res.stat::before{background:var(--green-ink)}
+.tile.res .av{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 20%;box-shadow:0 0 0 2px #fff,0 0 0 3px var(--line)}
+.tile.res small{margin-top:auto;font:500 11px/1.3 var(--mono);color:var(--mute)}
+.tile.res b{font:600 21px/1.15 var(--mono);letter-spacing:-.03em;margin-top:6px}
+.tile.res.due b{color:#9A6A12}.tile.res.stat b{color:var(--green-ink)}
+.tile.res i{position:absolute;right:12px;top:16px;font:700 9px/1 var(--sans);letter-spacing:.06em;font-style:normal;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green-ink)}
+.tile.res.due i{background:#FBEBD0;color:#9A6A12}.tile.res.stat i{background:#fff}
+.story-cap{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);width:min(560px,calc(100% - 32px));display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 16px 12px 12px;border-radius:18px;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 0 0 1px var(--line),0 18px 40px -20px rgba(14,31,22,.35);transition:opacity .35s var(--ease)}
+.story-cap.swap{opacity:0}
+.story-cap img{width:46px;height:46px;border-radius:12px;object-fit:cover;object-position:50% 20%}
+.story-cap q{display:block;font:400 19px/1.25 var(--serif);font-style:italic;color:var(--ink);quotes:"“" "”"}
+.story-cap small{display:block;font:500 12px/1.3 var(--mono);color:var(--mute);margin-top:3px}
+.story-cap b{font:600 17px/1 var(--mono);letter-spacing:-.02em;white-space:nowrap;color:var(--green-ink)}
+.story-cap b.due{color:#9A6A12}
+.globe-hint{position:absolute;right:0;top:8px;font:500 12px/1 var(--mono);color:var(--faint)}
 
 /* what it keeps: a typeset ledger, one row per job */
 .ledger{border-top:1px solid var(--ink)}
@@ -280,8 +289,12 @@ button.btn[data-demo][disabled]{opacity:.7}
   .view{height:auto;aspect-ratio:4/3.4}
   .view .port{width:240px;margin-left:-120px}
   .final{border-radius:22px}
-  .owners{padding:4px 16px 8px;scroll-padding:0 16px;grid-auto-columns:76vw;gap:14px}
-  .strip-nav{display:none}
+  .globe{height:620px;margin:0 -16px}
+  .orb{top:40%}
+  .story-cap{grid-template-columns:auto 1fr;bottom:16px}
+  .story-cap b{grid-column:2;margin-top:-6px}
+  .story-cap q{font-size:17px}
+  .globe-hint{display:none}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lt,.rv,.clip{transform:none!important;opacity:1!important;filter:none!important;clip-path:none!important;transition:none!important}.rule::before,.ledger::before{transform:none!important}.rule>*{opacity:1!important}.float{opacity:1!important;transform:none!important;animation:none!important}.printer .slip{transform:none!important;transition:none}[data-enter]{opacity:1!important;transform:none!important;animation:none!important}.idx .prog{display:none}.view figure{transition:none}}
 </style>
@@ -381,23 +394,13 @@ button.btn[data-demo][disabled]{opacity:.7}
     </section>
 
     <section class="block" id="people">
-      <div class="rule"><b>Who it's for</b><span>Twelve owners, twelve messages</span></div>
+      <div class="rule"><b>Who it's for</b><span>Drag the globe to turn it</span></div>
       <div class="head"><h2 class="h2">Every kind of shop.<br><span class="ital">Every kind of owner.</span></h2><p class="sub">Fashion, food, phones, provisions. Each owner sits beside a message they might send, and what Slipp sends back.</p></div>
-      <div class="owners" id="owners">
-        <figure class="owner"><div class="ph"><img src="/img/ph-beanbag.webp" width="640" height="800" alt="A smiling woman on a green beanbag holding a phone" loading="lazy" decoding="async"><p class="said">Sold 2 rice and 1 palm oil to Chidi</p></div><figcaption class="got"><span>Receipt R-0061</span><b>₦160,500</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-stripes.webp" width="640" height="800" alt="A man in a green striped shirt and bucket hat" loading="lazy" decoding="async"><p class="said">Sold 3 cartons of Indomie to Tunde, 11,800 each</p></div><figcaption class="got"><span>Receipt R-0064</span><b>₦35,400</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-bags.webp" width="640" height="800" alt="A smiling woman in a coral blazer holding shopping bags" loading="lazy" decoding="async"><p class="said">Sold 2 handbags to Funke, 25k each</p></div><figcaption class="got"><span>Receipt R-0072</span><b>₦50,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-cardigan.webp" width="640" height="800" alt="A young man in a green cardigan lowering his sunglasses" loading="lazy" decoding="async"><p class="said">Add 20 bags of rice to stock</p></div><figcaption class="got"><span>Rice 50kg in stock</span><b>40 bags</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-lime.webp" width="640" height="800" alt="A smiling woman in a lime sweater holding her phone" loading="lazy" decoding="async"><p class="said">What sold best this month?</p></div><figcaption class="got"><span>Rice 50kg, 6 bags</span><b>₦432,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-sky.webp" width="640" height="800" alt="A smiling woman in pink against a blue sky" loading="lazy" decoding="async"><p class="said">Sold 2 jeans to Ada, 18k each</p></div><figcaption class="got"><span>Receipt R-0071</span><b>₦36,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-black.webp" width="640" height="800" alt="An excited man in a denim jacket looking at his phone" loading="lazy" decoding="async"><p class="said">Invoice Kunle for 4 phone cases, 3,500 each, due Monday</p></div><figcaption class="got"><span>Invoice INV-0073</span><b class="due">₦14,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-laptop.webp" width="640" height="800" alt="A man in an orange cap working on a laptop" loading="lazy" decoding="async"><p class="said">How much did I make this week?</p></div><figcaption class="got"><span>Profit this week</span><b>₦96,200</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-orange.webp" width="640" height="800" alt="A woman in cargo trousers against an orange wall" loading="lazy" decoding="async"><p class="said">Sold 3 cargo trousers to Zainab, 12k each</p></div><figcaption class="got"><span>Receipt R-0074</span><b>₦36,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-tee.webp" width="640" height="800" alt="A young man in a green t-shirt with a backpack" loading="lazy" decoding="async"><p class="said">Paid 15k for fuel</p></div><figcaption class="got"><span>Expense saved</span><b>₦15,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-headwrap.webp" width="640" height="800" alt="A smiling woman in glasses and a green headwrap" loading="lazy" decoding="async"><p class="said">Spent 40k on fabric</p></div><figcaption class="got"><span>Expense saved</span><b>₦40,000</b></figcaption></figure>
-        <figure class="owner"><div class="ph"><img src="/img/ph-cheer.webp" width="640" height="800" alt="A woman cheering on an orange beanbag with a laptop" loading="lazy" decoding="async"><p class="said">Who still owes me?</p></div><figcaption class="got"><span>Emeka Obi, due Friday</span><b class="due">₦35,400</b></figcaption></figure>
+      <div class="globe" id="globe">
+        <div class="orb" id="orb"></div>
+        <span class="globe-hint" aria-hidden="true">Drag to turn, tap a tile</span>
+        <div class="story-cap" id="cap" aria-live="polite"><img alt="" id="capImg"><div><q id="capMsg"></q><small id="capLbl"></small></div><b id="capVal"></b></div>
       </div>
-      <div class="strip-nav"><button type="button" id="prev" aria-label="Previous owners"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" id="next" aria-label="More owners"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
     </section>
 
     <section class="block" id="features">
@@ -468,18 +471,84 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
   }
 }));
 
-// The owners strip: arrows, and drag to scroll with a mouse.
+// The owners globe. Tiles sit on an even (Fibonacci) spread with more room between them than their own size,
+// so they never cut into each other. Each tile fades by how squarely it faces you, and the one in front
+// is told in full in the caption underneath.
 (() => {
-  const row = document.getElementById('owners'), prev = document.getElementById('prev'), next = document.getElementById('next');
-  const step = () => row.querySelector('.owner').offsetWidth + 20;
-  const sync = () => { prev.disabled = row.scrollLeft < 8; next.disabled = row.scrollLeft + row.clientWidth > row.scrollWidth - 8; };
-  prev.onclick = () => row.scrollBy({ left: -step() * 2, behavior: 'smooth' });
-  next.onclick = () => row.scrollBy({ left: step() * 2, behavior: 'smooth' });
-  row.addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); sync();
-  let x0 = null, s0 = 0;
-  row.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; x0 = e.clientX; s0 = row.scrollLeft; row.classList.add('drag'); });
-  addEventListener('pointermove', (e) => { if (x0 !== null) row.scrollLeft = s0 - (e.clientX - x0); });
-  addEventListener('pointerup', () => { if (x0 === null) return; x0 = null; row.classList.remove('drag'); const k = Math.round(row.scrollLeft / step()); row.scrollTo({ left: k * step(), behavior: 'smooth' }); });
+  const wrap = document.getElementById('globe'), orb = document.getElementById('orb');
+  const O = [
+    ['ph-beanbag', 'Sold 2 rice and 1 palm oil to Chidi', 'Receipt R-0061', '₦160,500', 'paid'],
+    ['ph-stripes', 'Sold 3 cartons of Indomie to Tunde, 11,800 each', 'Receipt R-0064', '₦35,400', 'paid'],
+    ['ph-bags', 'Sold 2 handbags to Funke, 25k each', 'Receipt R-0072', '₦50,000', 'paid'],
+    ['ph-cardigan', 'Add 20 bags of rice to stock', 'Rice 50kg in stock', '40 bags', 'stat'],
+    ['ph-lime', 'What sold best this month?', 'Rice 50kg, 6 bags', '₦432,000', 'stat'],
+    ['ph-sky', 'Sold 2 jeans to Ada, 18k each', 'Receipt R-0071', '₦36,000', 'paid'],
+    ['ph-black', 'Invoice Kunle for 4 phone cases, 3,500 each, due Monday', 'Invoice INV-0073', '₦14,000', 'due'],
+    ['ph-laptop', 'How much did I make this week?', 'Profit this week', '₦96,200', 'stat'],
+    ['ph-orange', 'Sold 3 cargo trousers to Zainab, 12k each', 'Receipt R-0074', '₦36,000', 'paid'],
+    ['ph-tee', 'Paid 15k for fuel', 'Expense saved', '₦15,000', 'stat'],
+    ['ph-headwrap', 'Spent 40k on fabric', 'Expense saved', '₦40,000', 'stat'],
+    ['ph-cheer', 'Who still owes me?', 'Emeka Obi, due Friday', '₦35,400', 'due'],
+  ];
+  const tag = { paid: 'PAID', due: 'DUE', stat: 'SAVED' };
+  const N = O.length * 3, R = 440, GOLD = Math.PI * (3 - Math.sqrt(5));
+  const tiles = [];
+  for (let i = 0; i < N; i++) {
+    const y = 1 - 2 * (i + .5) / N, lat = Math.asin(y) * 180 / Math.PI, lon = (i * GOLD * 180 / Math.PI) % 360;
+    const k = i % O.length, kind = Math.floor(i / O.length), o = O[(k * 5 + kind * 4) % O.length], el = document.createElement('div');
+    if (kind === 0) { el.className = 'tile'; el.innerHTML = `<img src="/img/${o[0]}.webp" alt="" loading="lazy" decoding="async">`; }
+    else if (kind === 1) { el.className = 'tile msg'; el.innerHTML = `<img class="av" src="/img/${o[0]}.webp" alt=""><span>${o[1]}</span>`; }
+    else { el.className = 'tile res ' + o[4]; el.innerHTML = `<img class="av" src="/img/${o[0]}.webp" alt=""><i>${tag[o[4]]}</i><small>${o[2]}</small><b>${o[3]}</b>`; }
+    el.style.transform = `rotateY(${lon.toFixed(2)}deg) rotateX(${(-lat).toFixed(2)}deg) translateZ(${R}px)`;
+    el.dataset.o = O.indexOf(o); orb.append(el); tiles.push({ el, lon, lat });
+  }
+  const cap = document.getElementById('cap'), ci = document.getElementById('capImg'), cm = document.getElementById('capMsg'), cl = document.getElementById('capLbl'), cv = document.getElementById('capVal');
+  let shown = -1;
+  const tell = (k) => {
+    if (k === shown) return; const first = shown < 0; shown = k; const o = O[k];
+    const put = () => { ci.src = `/img/${o[0]}.webp`; cm.textContent = o[1]; cl.textContent = 'Slipp: ' + o[2]; cv.textContent = o[3]; cv.className = o[4] === 'due' ? 'due' : ''; cap.classList.remove('swap'); };
+    if (first) return put(); cap.classList.add('swap'); setTimeout(put, 200);
+  };
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ry = 0, rx = -8, vy = calm ? 0 : .06, vx = 0, drag = null, moved = 0, aim = null, seen = false, sc = 1, focus = null;
+  const fit = () => { sc = Math.min(1, wrap.clientWidth / (wrap.clientWidth < 600 ? 620 : 1040), (wrap.clientHeight - 110) / 900); };
+  fit(); addEventListener('resize', fit);
+  const rad = Math.PI / 180;
+  const frame = () => {
+    if (aim) { ry += (aim.ry - ry) * .1; rx += (aim.rx - rx) * .1; if (Math.abs(aim.ry - ry) < .2 && Math.abs(aim.rx - rx) < .2) aim = null; }
+    else if (!drag) { ry += vy; rx += vx; vx *= .93; vy += ((calm ? 0 : .06) * Math.sign(vy || 1) - vy) * .02; }
+    rx = Math.max(-40, Math.min(40, rx));
+    orb.style.transform = `translateZ(${-R}px) scale(${sc}) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    // how squarely each tile faces the viewer: the z of its normal after the globe's rotation
+    let best = -2, bestT = null;
+    const cx = Math.cos(rx * rad), sx = Math.sin(rx * rad);
+    for (const t of tiles) {
+      const a = (ry + t.lon) * rad, l = t.lat * rad;
+      const nx = Math.sin(a) * Math.cos(l), ny0 = Math.sin(l), nz0 = Math.cos(a) * Math.cos(l);
+      const nz = nz0 * cx + ny0 * sx;
+      const op = Math.max(0, Math.min(1, (nz + .02) / .42)) * (.55 + .45 * Math.max(0, nz));
+      if (t.op !== op) { t.el.style.opacity = op.toFixed(3); t.el.style.visibility = op ? 'visible' : 'hidden'; t.op = op; }
+      if (nz > best) { best = nz; bestT = t; }
+    }
+    if (bestT !== focus) { if (focus) focus.el.classList.remove('focus'); focus = bestT; focus.el.classList.add('focus'); tell(+focus.el.dataset.o); }
+    if (seen) requestAnimationFrame(frame);
+  };
+  new IntersectionObserver((es) => { const v = es[0].isIntersecting; if (v && !seen) { seen = true; requestAnimationFrame(frame); } else if (!v) seen = false; }).observe(wrap);
+  seen = true; frame(); seen = false;
+  wrap.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY }; moved = 0; aim = null; wrap.classList.add('drag'); wrap.setPointerCapture(e.pointerId); });
+  wrap.addEventListener('pointermove', (e) => {
+    if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; moved += Math.abs(dx) + Math.abs(dy);
+    ry += dx * .22; rx -= dy * .18; vy = dx * .22; vx = -dy * .18; drag.x = e.clientX; drag.y = e.clientY;
+  });
+  const up = (e) => {
+    if (!drag) return; drag = null; wrap.classList.remove('drag'); vy = Math.max(-5, Math.min(5, vy)); vx = Math.max(-3, Math.min(3, vx));
+    if (moved < 6) { // a tap: turn the tapped tile to face you
+      const el = document.elementsFromPoint(e.clientX, e.clientY).find((n) => n.classList && n.classList.contains('tile'));
+      const t = el && tiles.find((x) => x.el === el);
+      if (t) { let target = -t.lon; while (target - ry > 180) target -= 360; while (ry - target > 180) target += 360; aim = { ry: target, rx: Math.max(-40, Math.min(40, t.lat)) }; vy = calm ? 0 : .06 * Math.sign(vy || 1); }
+    }
+  };
+  wrap.addEventListener('pointerup', up); wrap.addEventListener('pointercancel', up);
 })();
 
 // Motion: split headings into masked lines, tag blocks, reveal each once as it enters the view.
@@ -488,7 +557,7 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
     h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map((line, i) => `<span class="ln"><span class="lt" style="--d:${(i * .12).toFixed(2)}s">${line}</span></span>`).join('');
   });
   const tag = (sel, step = .08, base = 0) => document.querySelectorAll(sel).forEach((el, i) => { el.classList.add('rv'); el.style.setProperty('--d', (base + (i % 8) * step).toFixed(2) + 's'); });
-  tag('.head .sub', 0, .25); tag('.idx li'); tag('.lr', .07); tag('.final p, .final .ctas', .1, .3); tag('footer .cols > div', .08); tag('.owner', .07);
+  tag('.head .sub', 0, .25); tag('.idx li'); tag('.lr', .07); tag('.final p, .final .ctas', .1, .3); tag('footer .cols > div', .08); tag('.globe', 0, .1);
   document.querySelectorAll('.view, .final .pic').forEach((el) => el.classList.add('clip'));
   const els = document.querySelectorAll('.ln, .rv, .rule, .ledger, .clip');
   const heroH = document.querySelector('.hero h1');
