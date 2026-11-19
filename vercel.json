@@ -36,5 +36,12 @@
       "path": "/api/cron/daily",
       "schedule": "0 8 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/dashboard",
+      "destination": "/app",
+      "permanent": false
+    }
   ]
 }

@@ -9,15 +9,18 @@ create table if not exists slipp.businesses (
   address text not null default '',
   bank text not null default '',          -- "GTBank · 0123456789 · Ada Stores", printed on invoices
   invoice_seq integer not null default 0,
+  owner_name text not null default '',
+  login_phone text unique,                -- for signing in on the website (digits, with country code)
+  password_hash text,
   created_at timestamptz not null default now()
 );
 
--- A chat that belongs to a business owner: a WhatsApp number or a Telegram chat.
+-- A chat that belongs to a business owner: the web app, a WhatsApp number or a Telegram chat.
 create table if not exists slipp.chats (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references slipp.businesses(id) on delete cascade,
-  channel text not null check (channel in ('whatsapp', 'telegram')),
-  address text not null,                  -- WhatsApp number (digits) or Telegram chat id
+  channel text not null check (channel in ('web', 'whatsapp', 'telegram')),
+  address text not null,                  -- business id (web), WhatsApp number (digits) or Telegram chat id
   display_name text not null default '',
   last_inbound_at timestamptz,
   created_at timestamptz not null default now(),
@@ -85,6 +88,7 @@ create table if not exists slipp.messages (
   chat_id uuid not null references slipp.chats(id) on delete cascade,
   role text not null check (role in ('user', 'assistant')),
   content text not null,
+  extra jsonb,                            -- receipts and buttons that came with a reply
   created_at timestamptz not null default now()
 );
 create index if not exists messages_chat on slipp.messages (chat_id, id desc);

@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
       });
       const more = invs.length > 10 ? `\n…and ${invs.length - 10} more.` : "";
       const text = `Good morning. ${invs.length === 1 ? "This invoice is" : "These invoices are"} waiting for payment:\n${lines.join("\n")}${more}\n\nReply "remind" with the invoice number and I'll get a reminder ready.`;
-      const button = { label: "Open dashboard", url: `${origin(req)}/dashboard?login=${links.loginCode(bid)}` };
+      const button = { label: "Open dashboard", url: `${origin(req)}/app?login=${links.loginCode(bid)}` };
       const chats = await store.chatsOf(bid);
       let delivered = false;
       for (const c of chats) {

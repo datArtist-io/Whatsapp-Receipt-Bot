@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Get started · Slipp</title>
+<meta name="description" content="Create your Slipp account. Free, and ready in a minute.">
+<meta name="theme-color" content="#F4F2EA">
+<link rel="icon" href="/brand/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/slipp.css">
+<style>
+body{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+.form-side{display:flex;flex-direction:column;padding:28px 40px 32px}
+.form-side .brand{align-self:flex-start}
+.box{width:100%;max-width:400px;margin:auto;padding:40px 0}
+h1{font:800 clamp(32px,3.6vw,42px)/1.04 var(--display);letter-spacing:-.04em;margin:0 0 10px;text-wrap:balance}
+.lead{color:var(--mute);margin:0 0 28px;font-size:16px}
+.tabs{display:flex;gap:2px;padding:3px;border-radius:12px;background:var(--paper2);margin-bottom:24px}
+.tabs button{flex:1;height:38px;border:0;border-radius:9px;background:none;font-weight:600;font-size:14.5px;color:var(--mute);cursor:pointer;transition:background-color .15s,color .15s}
+.tabs button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(14,31,22,.12)}
+form{display:grid;gap:16px}
+.f{display:grid;gap:6px}
+.f>span{font-size:13.5px;font-weight:600;color:var(--ink2)}
+.i{height:48px;width:100%;min-width:0;border:0;border-radius:12px;padding:0 14px;font-size:16px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .15s}
+.i:hover{box-shadow:inset 0 0 0 1px var(--faint)}
+.i:focus{outline:0;box-shadow:inset 0 0 0 2px var(--green)}
+.i::placeholder{color:var(--faint)}
+.phone{display:grid;grid-template-columns:112px 1fr;gap:8px}
+select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235D6A61' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 10px center/16px}
+.pw{position:relative}
+.pw .i{padding-right:64px}
+.pw button{position:absolute;right:6px;top:6px;height:36px;padding:0 10px;border:0;border-radius:9px;background:none;color:var(--mute);font-weight:600;font-size:13px;cursor:pointer}
+.pw button:hover{background:var(--paper2);color:var(--ink)}
+.submit{height:52px;font-size:16px;border-radius:14px;margin-top:4px}
+.err{color:var(--bad);font-size:14px;margin:0}
+.err:empty{display:none}
+.fine{color:var(--mute);font-size:13px;margin:4px 0 0;text-align:center}
+.fine a{color:var(--ink)}
+.notice{background:#FDF1DC;color:#6B4600;border-radius:12px;padding:12px 14px;font-size:14px;margin:0 0 20px}
+
+.show{position:relative;overflow:hidden;background:var(--ink);display:grid;place-items:center;padding:48px}
+.show::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 70% 20%,rgba(20,184,107,.18),transparent 70%)}
+.quote{position:absolute;left:48px;right:48px;bottom:44px;color:#C9D5CD;font-size:15px;max-width:420px}
+.quote b{display:block;color:#fff;font:700 22px/1.25 var(--display);letter-spacing:-.02em;margin-bottom:8px}
+.phonebox{position:relative;width:300px;border-radius:44px;background:#05120B;padding:10px;box-shadow:0 50px 90px -30px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.08);transform:translateY(-36px)}
+.scr{border-radius:35px;overflow:hidden;background:var(--paper);height:540px;display:flex;flex-direction:column}
+.scr .top{display:flex;align-items:center;gap:10px;padding:40px 16px 12px;border-bottom:1px solid var(--line)}
+.scr .top img{width:30px;padding:6px;background:#fff;border-radius:9px;box-shadow:var(--shadow)}
+.scr .top b{font-size:14px}
+.scr .top small{display:block;font-size:11.5px;color:var(--mute)}
+.scr .body{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:8px;justify-content:flex-end;overflow:hidden}
+.b{max-width:84%;padding:8px 12px;border-radius:15px;font-size:12.5px;line-height:1.45;opacity:0;transform:translateY(8px);animation:pop .5s var(--ease) forwards}
+.b.me{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:5px}
+.b.it{align-self:flex-start;background:#fff;border-bottom-left-radius:5px;box-shadow:0 0 0 1px var(--line)}
+.rc{align-self:flex-start;width:84%;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);animation:pop .5s var(--ease) forwards}
+.rc::before{content:"";display:block;height:3px;background:var(--green)}
+.rc div{padding:10px 12px 8px;display:grid;gap:1px}
+.rc small{font:600 10px/1 var(--mono);color:var(--mute);display:flex;justify-content:space-between}
+.rc small i{font-style:normal;background:var(--mint);color:var(--green-ink);padding:3px 6px;border-radius:99px;font:700 8.5px/1 var(--sans);letter-spacing:.06em}
+.rc b{font-size:13px;margin-top:6px}
+.rc strong{font:600 18px/1.2 var(--mono);letter-spacing:-.03em}
+.rc span{display:block;margin:0 8px 8px;height:30px;border-radius:9px;background:var(--green);color:#fff;font-size:11.5px;font-weight:600;display:grid;place-items:center}
+@keyframes pop{to{opacity:1;transform:none}}
+@media (max-width:900px){
+  body{grid-template-columns:1fr}
+  .show{display:none}
+  .form-side{padding:20px 16px 24px}
+  .box{padding:32px 0 8px;margin-top:8px}
+}
+@media (prefers-reduced-motion:reduce){.b,.rc{opacity:1;transform:none;animation:none}}
+</style>
+</head>
+<body>
+<div class="form-side">
+  <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
+  <div class="box">
+    <h1 id="title">Start keeping your books in a chat.</h1>
+    <p class="lead" id="lead">Free. Ready in a minute. No card needed.</p>
+    <p class="notice" id="notice" hidden></p>
+    <div class="tabs" role="tablist">
+      <button type="button" data-m="signup" aria-pressed="true">Create account</button>
+      <button type="button" data-m="signin" aria-pressed="false">Sign in</button>
+    </div>
+    <form id="form" novalidate>
+      <label class="f" data-only="signup"><span>Your name</span><input class="i" name="name" autocomplete="name" maxlength="60" placeholder="Ada Okafor"></label>
+      <label class="f" data-only="signup"><span>Business name</span><input class="i" name="business" autocomplete="organization" maxlength="60" placeholder="Ada Stores"></label>
+      <div class="f"><span id="phoneLbl">Phone number</span>
+        <div class="phone">
+          <select class="i" name="cc" aria-label="Country code">
+            <option value="234" data-cur="₦">🇳🇬 +234</option>
+            <option value="233" data-cur="GH₵">🇬🇭 +233</option>
+            <option value="254" data-cur="KSh">🇰🇪 +254</option>
+            <option value="27" data-cur="R">🇿🇦 +27</option>
+            <option value="256" data-cur="USh">🇺🇬 +256</option>
+            <option value="44" data-cur="£">🇬🇧 +44</option>
+            <option value="1" data-cur="$">🇺🇸 +1</option>
+          </select>
+          <input class="i" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="16" placeholder="0803 123 4567" aria-labelledby="phoneLbl">
+        </div>
+      </div>
+      <label class="f"><span>Password</span>
+        <span class="pw"><input class="i" name="password" type="password" autocomplete="new-password" minlength="6" maxlength="100" placeholder="At least 6 characters"><button type="button" id="peek">Show</button></span>
+      </label>
+      <p class="err" id="err" role="alert"></p>
+      <button class="btn btn-green submit" id="go">Create my account</button>
+      <p class="fine" id="fine">By creating an account you agree to keep your own records accurate. Slipp is free to use.</p>
+    </form>
+  </div>
+</div>
+
+<div class="show" aria-hidden="true">
+  <div class="phonebox"><div class="scr">
+    <div class="top"><img src="/brand/logo.svg" alt=""><div><b>Slipp</b><small>Your bookkeeper</small></div></div>
+    <div class="body">
+      <div class="b me" style="animation-delay:.3s">Sold 3 crates of eggs to Musa, 4,500 each. He paid cash</div>
+      <div class="b it" style="animation-delay:1.3s">Recorded receipt R-0018 for Musa: <b>₦13,500</b>.</div>
+      <div class="rc" style="animation-delay:1.8s"><div><small>Receipt R-0018 <i>PAID</i></small><b>Musa</b><strong>₦13,500</strong></div><span>Send to Musa on WhatsApp</span></div>
+      <div class="b me" style="animation-delay:3s">Who still owes me?</div>
+      <div class="b it" style="animation-delay:4s">Two people: Ngozi <b>₦21,000</b> (due today) and Bayo <b>₦15,400</b> (due Friday).</div>
+    </div>
+  </div></div>
+  <div class="quote"><b>Your sales, written down while you talk.</b>Receipts, invoices, stock and profit, from one chat.</div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+let mode = new URLSearchParams(location.search).has('signin') ? 'signin' : 'signup';
+const q = new URLSearchParams(location.search);
+if (q.has('expired')) { $('#notice').hidden = false; $('#notice').textContent = 'That sign-in link has expired. Sign in with your number and password, or ask Slipp in your chat for a new link.'; mode = 'signin'; }
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.tabs button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.m === m));
+  document.querySelectorAll('[data-only=signup]').forEach((el) => (el.hidden = m !== 'signup'));
+  $('#title').textContent = m === 'signup' ? 'Start keeping your books in a chat.' : 'Welcome back.';
+  $('#lead').textContent = m === 'signup' ? 'Free. Ready in a minute. No card needed.' : 'Sign in with your phone number and password.';
+  $('#go').textContent = m === 'signup' ? 'Create my account' : 'Sign in';
+  $('#fine').hidden = m !== 'signup';
+  document.querySelector('[name=password]').autocomplete = m === 'signup' ? 'new-password' : 'current-password';
+  $('#err').textContent = '';
+  history.replaceState(null, '', m === 'signin' ? '/start?signin' : '/start');
+}
+document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.m)));
+setMode(mode);
+
+$('#peek').addEventListener('click', () => {
+  const pw = document.querySelector('[name=password]');
+  pw.type = pw.type === 'password' ? 'text' : 'password';
+  $('#peek').textContent = pw.type === 'password' ? 'Show' : 'Hide';
+});
+
+$('#form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target, err = $('#err');
+  const cc = f.cc.value, local = f.phone.value.replace(/\D/g, '').replace(/^0+/, '');
+  const body = { action: mode, phone: cc + local, password: f.password.value };
+  if (mode === 'signup') {
+    Object.assign(body, { name: f.name.value, business: f.business.value, currency: f.cc.selectedOptions[0].dataset.cur, display: `+${cc} ${local.replace(/(\d{3})(\d{3})(\d+)/, '$1 $2 $3')}` });
+    if (!body.name.trim()) return (err.textContent = 'Add your name.', f.name.focus());
+    if (!body.business.trim()) return (err.textContent = 'Add your business name.', f.business.focus());
+  }
+  if (local.length < 7) return (err.textContent = 'Check your phone number.', f.phone.focus());
+  if (body.password.length < 6) return (err.textContent = 'Use a password of at least 6 characters.', f.password.focus());
+  err.textContent = ''; $('#go').disabled = true;
+  try {
+    const r = await fetch('/api/auth', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'Something went wrong. Try again.');
+    location.href = '/app';
+  } catch (e2) { err.textContent = e2.message; $('#go').disabled = false; }
+});
+</script>
+</body>
+</html>

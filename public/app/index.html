@@ -2,358 +2,225 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Slipp · New receipt</title>
-<meta name="theme-color" content="#F4F2EA">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Slipp</title>
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#F4F2EA">
 <link rel="icon" href="/brand/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/slipp.css">
-<style>
-.top{display:flex;align-items:center;justify-content:space-between;height:72px;gap:12px}
-.top .r{display:flex;align-items:center;gap:6px}
-.pill{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border-radius:999px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);font-size:13px;color:var(--mute)}
-.pill i{width:7px;height:7px;border-radius:50%;background:var(--faint)}
-.pill.on{color:var(--green-ink)}.pill.on i{background:var(--green)}
-
-.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px;align-items:start;padding:8px 0 40px}
-.card{background:var(--card);border-radius:20px;box-shadow:var(--shadow),inset 0 0 0 1px rgba(14,31,22,.04);padding:26px}
-h1{font:800 30px/1.05 var(--display);letter-spacing:-.035em;margin:0 0 4px}
-.sub{color:var(--mute);margin:0 0 22px;font-size:15px}
-label.f{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:0 0 6px}
-.in,select.in{width:100%;height:46px;border:0;border-radius:12px;padding:0 14px;background:#FAF9F5;box-shadow:inset 0 0 0 1px var(--line);font-size:15.5px;outline:none;transition:box-shadow .15s,background .15s}
-.in:focus{background:#fff;box-shadow:inset 0 0 0 1.5px var(--green),0 0 0 4px rgba(20,184,107,.12)}
-.in::placeholder{color:var(--faint)}
-.row{display:grid;gap:12px;margin-bottom:16px}
-.two{grid-template-columns:1fr 1fr}
-.phone{display:grid;grid-template-columns:104px 1fr;gap:8px}
-select.in{appearance:none;-webkit-appearance:none;background:#FAF9F5 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%235D6A61' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;padding-right:30px;cursor:pointer}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:13px;background:#F1EFE7;box-shadow:inset 0 0 0 1px var(--line)}
-.seg button{height:38px;border:0;border-radius:9px;background:transparent;color:var(--mute);font-weight:600;font-size:14.5px;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
-.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(14,31,22,.08),inset 0 0 0 1px var(--line)}
-.items{display:flex;flex-direction:column;gap:8px}
-.it{display:grid;grid-template-columns:1fr 70px 120px 36px;gap:8px;align-items:center;animation:in .35s var(--ease)}
-@keyframes in{from{opacity:0;transform:translateY(-4px)}}
-.it .in{height:44px}
-.it .num{font-family:var(--mono);font-size:14.5px;text-align:right}
-.x{width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:var(--faint);cursor:pointer;display:grid;place-items:center}
-.x:hover{background:#FBEDE6;color:var(--bad)}
-.x svg{width:16px;height:16px}
-.add{margin-top:10px}
-.foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
-.foot .tot{font-size:14px;color:var(--mute)}
-.foot .tot b{display:block;color:var(--ink);font:600 24px/1.1 var(--mono);letter-spacing:-.02em}
-.foot .btn{height:50px;padding:0 24px;border-radius:14px;font-size:16px}
-.more{background:none;border:0;padding:0;color:var(--green-ink);font-weight:600;font-size:14px;cursor:pointer;margin-top:4px}
-.err{color:var(--bad);font-size:14px;margin-top:12px;min-height:1.2em}
-
-.side{position:sticky;top:16px;display:flex;flex-direction:column;gap:16px}
-.preview-label{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--mute);margin:0 0 10px 4px}
-.slip .item span:empty::before,.slip .biz:empty::before{content:"Item";color:var(--faint)}
-.slip .biz:empty::before{content:"Your business"}
-.done{border-radius:20px;background:var(--ink);color:#fff;padding:20px;display:none;animation:in .45s var(--ease)}
-.done.show{display:block}
-.done h2{font:800 20px/1.1 var(--display);letter-spacing:-.025em;margin:0 0 4px;display:flex;align-items:center;gap:8px}
-.done h2 svg{width:20px;height:20px;color:#5BE3A0}
-.done p{margin:0 0 14px;color:#B7C4BC;font-size:14px}
-.done .acts{display:flex;gap:8px;flex-wrap:wrap}
-.done .acts .btn{flex:1}
-.done .btn-line{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
-.done .btn-line:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
-
-.recent{padding:6px 0 60px}
-.recent h2{font:800 20px/1 var(--display);letter-spacing:-.025em;margin:0 0 12px}
-.list{background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
-.rc{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:14px 18px;border-top:1px solid var(--line)}
-.rc:first-child{border-top:0}
-.rc b{display:block;font-weight:600}
-.rc small{color:var(--mute);font-size:13px}
-.rc .amt{font-family:var(--mono);font-weight:600}
-.rc .a{display:flex;gap:2px}
-.icon{width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:var(--mute);display:grid;place-items:center;cursor:pointer;text-decoration:none}
-.icon:hover{background:var(--paper2);color:var(--ink)}
-.icon svg{width:18px;height:18px}
-.icon.wa:hover{color:#128C4B;background:var(--mint)}
-.empty-list{padding:22px 18px;color:var(--mute);font-size:14.5px}
-
-dialog{border:0;padding:0;border-radius:22px;width:min(460px,calc(100vw - 28px));box-shadow:0 40px 80px -20px rgba(14,31,22,.4);background:var(--card);color:var(--ink)}
-dialog::backdrop{background:rgba(14,31,22,.35);backdrop-filter:blur(3px)}
-dialog[open]{animation:pop .45s var(--spring)}
-@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}}
-dialog form{padding:26px;display:flex;flex-direction:column;gap:14px}
-dialog h2{font:800 24px/1.1 var(--display);letter-spacing:-.03em;margin:0}
-dialog p{margin:-6px 0 2px;color:var(--mute);font-size:14.5px}
-dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:var(--shadow);animation:pop .4s var(--spring);z-index:50}
-
-@media (max-width:900px){
-  .grid{grid-template-columns:1fr}
-  .side{position:static}
-}
-@media (max-width:520px){
-  .card{padding:20px;border-radius:18px}
-  .it{grid-template-columns:1fr 56px 96px 32px;gap:6px}
-  .top .pill span{display:none}
-  .foot{flex-direction:column;align-items:stretch}
-  .foot .btn{width:100%}
-  .two{grid-template-columns:1fr}
-}
-</style>
+<link rel="stylesheet" href="/assets/app.css">
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
+<div class="shell" id="shell" hidden>
+  <!-- Sidebar (desktop) -->
+  <aside class="side" aria-label="Main">
     <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
-    <div class="r">
-      <span class="pill" id="auto" title=""><i></i><span>Checking…</span></span>
-      <button class="btn btn-ghost" id="setBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg>Business</button>
+    <div class="biz-card">
+      <span class="biz-av" id="bizAv"></span>
+      <span class="biz-txt"><b id="bizName"></b><small id="ownerName"></small></span>
     </div>
-  </header>
+    <nav class="nav" id="nav">
+      <a href="#chat" data-view="chat"><svg viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H8.5z"/><path d="M8 9h8M8 12.5h5"/></svg>Chat</a>
+      <a href="#overview" data-view="overview"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Overview</a>
+      <a href="#sales" data-view="sales"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg>Sales<span class="badge" id="navOwed" hidden></span></a>
+      <a href="#customers" data-view="customers"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.6c1.6.8 2.7 2.6 3 5.4"/></svg>Customers</a>
+      <a href="#stock" data-view="stock"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Stock<span class="badge warn" id="navLow" hidden></span></a>
+      <a href="#expenses" data-view="expenses"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg>Expenses</a>
+      <a href="#settings" data-view="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+    </nav>
+    <button class="new-sale btn btn-green" data-new-sale><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New sale</button>
+  </aside>
 
-  <div class="grid">
-    <form class="card" id="sale" novalidate>
-      <h1>New receipt</h1>
-      <p class="sub">Fill in the sale, then send the receipt to your customer.</p>
-      <div class="row two">
-        <div><label class="f" for="cName">Customer name</label><input class="in" id="cName" autocomplete="off" placeholder="Optional"></div>
-        <div><label class="f" for="cPhone">WhatsApp number</label>
-          <div class="phone"><select class="in" id="cc" aria-label="Country code"></select><input class="in" id="cPhone" inputmode="tel" autocomplete="off" placeholder="801 234 5678"></div>
+  <main class="main">
+    <!-- CHAT -->
+    <section class="view chat-view" data-view="chat">
+      <header class="chat-head">
+        <span class="bot-av"><img src="/brand/logo.svg" alt=""></span>
+        <div><b>Slipp</b><small>Your bookkeeper. Tell it what happened.</small></div>
+      </header>
+      <div class="thread" id="thread" aria-live="polite">
+        <div class="hello" id="hello" hidden>
+          <h1 id="helloTitle">Good day.</h1>
+          <p>Tell Slipp what you sold, spent or want to know, the way you'd text a friend.</p>
+          <div class="ideas" id="ideas">
+            <button data-say="Sold 2 bags of rice to Tunde for 45k each, paid by transfer"><b>Record a sale</b><span>"Sold 2 bags of rice to Tunde for 45k each, paid by transfer"</span></button>
+            <button data-say="Invoice Ada for 3 crates of eggs at 4,500 each, due Friday"><b>Send an invoice</b><span>"Invoice Ada for 3 crates of eggs at 4,500 each, due Friday"</span></button>
+            <button data-say="Spent 12k on diesel today"><b>Add an expense</b><span>"Spent 12k on diesel today"</span></button>
+            <button data-say="How much have I made this month?"><b>Ask about your money</b><span>"How much have I made this month?"</span></button>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <span class="f" style="display:block;font-size:13px;font-weight:600;color:var(--ink2)">Paid with</span>
-        <div class="seg" id="method" role="group" aria-label="Payment method">
-          <button type="button" data-v="cash" aria-pressed="true">Cash</button>
-          <button type="button" data-v="transfer" aria-pressed="false">Transfer</button>
-          <button type="button" data-v="card" aria-pressed="false">Card</button>
+      <form class="composer" id="composer" autocomplete="off">
+        <label class="sr" for="msg">Message Slipp</label>
+        <textarea id="msg" rows="1" placeholder="Message Slipp…" maxlength="2000"></textarea>
+        <button class="send" id="send" aria-label="Send" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg></button>
+      </form>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section class="view page" data-view="overview" hidden>
+      <header class="page-head">
+        <div><h1>Overview</h1><p class="sub" id="ovSub">How the business is doing.</p></div>
+        <label class="sr" for="period">Period</label>
+        <select class="select" id="period">
+          <option value="today">Today</option>
+          <option value="week">This week</option>
+          <option value="month" selected>This month</option>
+          <option value="last_month">Last month</option>
+          <option value="year">This year</option>
+          <option value="all">All time</option>
+        </select>
+      </header>
+      <div class="kpis">
+        <div class="kpi"><small>Sales</small><b id="kRev">₦0</b><em id="kRevSub">&nbsp;</em></div>
+        <div class="kpi"><small>Spent</small><b id="kExp">₦0</b><em id="kExpSub">&nbsp;</em></div>
+        <div class="kpi" id="kProfitBox"><small>Profit</small><b id="kProfit">₦0</b><em>Sales minus spending</em></div>
+        <div class="kpi owed"><small>Owed to you</small><b id="kOwed">₦0</b><em id="kOwedSub">&nbsp;</em></div>
+      </div>
+      <div class="two">
+        <div class="card">
+          <div class="card-h"><h2>Last 6 months</h2><div class="legend"><span><i></i>Sales</span><span><i class="x"></i>Spent</span></div></div>
+          <div class="chart" id="chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Best sellers</h2></div>
+          <ol class="rank" id="best"></ol>
+          <div class="card-h" style="margin-top:20px"><h2>Best customers</h2></div>
+          <ol class="rank" id="bestCust"></ol>
         </div>
       </div>
-      <div class="row" style="margin-bottom:6px"><span class="f" style="font-size:13px;font-weight:600;color:var(--ink2)">Items</span></div>
-      <div class="items" id="items"></div>
-      <button class="btn btn-ghost add" type="button" id="addItem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
-      <div id="refWrap" hidden class="row" style="margin-top:12px"><label class="f" for="ref">Reference</label><input class="in" id="ref" autocomplete="off" placeholder="Transfer or POS reference"></div>
-      <button class="more" type="button" id="refBtn">Add a reference</button>
-      <div class="foot">
-        <div class="tot">Total<b id="total">₦0.00</b></div>
-        <button class="btn btn-green" type="submit" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Create receipt</button>
-      </div>
-      <div class="err" id="err" role="alert"></div>
-    </form>
+    </section>
 
-    <aside class="side">
-      <div class="done" id="done" role="status">
-        <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span id="doneTitle">Receipt ready</span></h2>
-        <p id="doneText">Send it to your customer on WhatsApp.</p>
-        <div class="acts">
-          <a class="btn btn-green" id="waBtn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2A9.8 9.8 0 003.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1012 2.2zm0 17.9a8.1 8.1 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1112 20.1zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 01-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.8 11.8 11.8 0 004.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3z"/></svg>Send on WhatsApp</a>
-          <button class="btn btn-line" type="button" id="copyBtn">Copy link</button>
-          <a class="btn btn-line" id="openBtn" target="_blank" rel="noopener">Open</a>
+    <!-- SALES -->
+    <section class="view page" data-view="sales" hidden>
+      <header class="page-head">
+        <div><h1>Sales</h1><p class="sub">Every receipt and invoice, newest first.</p></div>
+        <button class="btn btn-green" data-new-sale><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New sale</button>
+      </header>
+      <div class="toolbar"><div class="seg" id="invFilter" role="group" aria-label="Show">
+        <button data-f="all" aria-pressed="true">All</button>
+        <button data-f="unpaid" aria-pressed="false">Unpaid</button>
+        <button data-f="paid" aria-pressed="false">Paid</button>
+      </div></div>
+      <div class="rows" id="invRows"></div>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section class="view page" data-view="customers" hidden>
+      <header class="page-head"><div><h1>Customers</h1><p class="sub">Who buys from you, and who still owes.</p></div></header>
+      <div class="rows" id="custRows"></div>
+    </section>
+
+    <!-- STOCK -->
+    <section class="view page" data-view="stock" hidden>
+      <header class="page-head"><div><h1>Stock</h1><p class="sub">Save prices once. Sales take items out of stock by themselves.</p></div></header>
+      <form class="card add" id="prodForm">
+        <label class="f"><span>Product</span><input class="i" name="name" required maxlength="60" placeholder="Rice 50kg"></label>
+        <label class="f"><span>Price</span><input class="i" name="price" inputmode="decimal" placeholder="45,000"></label>
+        <label class="f"><span>Add to stock</span><input class="i" name="stock_change" inputmode="numeric" placeholder="20"></label>
+        <button class="btn btn-ink">Save</button>
+      </form>
+      <div class="rows" id="prodRows"></div>
+    </section>
+
+    <!-- EXPENSES -->
+    <section class="view page" data-view="expenses" hidden>
+      <header class="page-head"><div><h1>Expenses</h1><p class="sub">What the business spends, so profit stays honest.</p></div></header>
+      <form class="card add" id="expForm">
+        <label class="f"><span>What for</span><input class="i" name="description" required maxlength="120" placeholder="Diesel"></label>
+        <label class="f"><span>Amount</span><input class="i" name="amount" required inputmode="decimal" placeholder="12,000"></label>
+        <label class="f"><span>Category</span><input class="i" name="category" maxlength="30" placeholder="Fuel"></label>
+        <button class="btn btn-ink">Add</button>
+      </form>
+      <div class="rows" id="expRows"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view page" data-view="settings" hidden>
+      <header class="page-head"><div><h1>Settings</h1><p class="sub">What shows on your receipts and invoices.</p></div></header>
+      <div class="two settings">
+        <form class="card form" id="bizForm">
+          <h2>Business</h2>
+          <label class="f"><span>Business name</span><input class="i" name="name" maxlength="60" required></label>
+          <div class="pair">
+            <label class="f"><span>Currency</span><input class="i" name="currency" maxlength="4"></label>
+            <label class="f"><span>Phone on receipts</span><input class="i" name="phone" maxlength="30"></label>
+          </div>
+          <label class="f"><span>Address</span><input class="i" name="address" maxlength="120"></label>
+          <label class="f"><span>Bank details for invoices</span><input class="i" name="bank" maxlength="120" placeholder="GTBank · 0123456789 · Ada Stores"></label>
+          <div><button class="btn btn-ink">Save changes</button></div>
+        </form>
+        <div class="stack">
+          <div class="card">
+            <h2>Use Slipp in your chats</h2>
+            <p class="muted">Slipp also works inside WhatsApp and Telegram, on the same records.</p>
+            <div class="apps" id="apps"></div>
+          </div>
+          <div class="card">
+            <h2>Account</h2>
+            <p class="muted" id="acctLine"></p>
+            <button class="btn btn-line" id="signOut">Sign out</button>
+          </div>
         </div>
       </div>
-      <div>
-        <div class="preview-label"><span>What your customer sees</span><button class="more" type="button" id="newBtn" hidden>New sale</button></div>
-        <article class="slip" id="preview" aria-label="Receipt preview"></article>
-      </div>
-    </aside>
-  </div>
+    </section>
+  </main>
 
-  <section class="recent">
-    <h2>Recent receipts</h2>
-    <div class="list" id="recent"></div>
-  </section>
+  <!-- Tab bar (phone) -->
+  <nav class="tabbar" id="tabbar" aria-label="Main">
+    <a href="#chat" data-view="chat"><svg viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H8.5z"/><path d="M8 9h8M8 12.5h5"/></svg>Chat</a>
+    <a href="#overview" data-view="overview"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Overview</a>
+    <a href="#sales" data-view="sales"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg>Sales</a>
+    <a href="#stock" data-view="stock"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Stock</a>
+    <button id="moreBtn" aria-haspopup="dialog"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>More</button>
+  </nav>
 </div>
 
-<dialog id="biz">
-  <form method="dialog" id="bizForm">
-    <h2 id="bizTitle">Your business</h2>
-    <p id="bizLead">This goes at the top of every receipt. It is saved on this device only.</p>
-    <div><label class="f" for="bName">Business name</label><input class="in" id="bName" required maxlength="60" placeholder="Mama Tee's Kitchen"></div>
-    <div class="row two" style="margin:0"><div><label class="f" for="bPhone">Phone</label><input class="in" id="bPhone" maxlength="30" placeholder="Optional"></div>
-      <div><label class="f" for="bCur">Currency</label><select class="in" id="bCur"></select></div></div>
-    <div><label class="f" for="bAddr">Address</label><input class="in" id="bAddr" maxlength="120" placeholder="Optional"></div>
-    <div id="keyRow" hidden><label class="f" for="bKey">Access code</label><input class="in" id="bKey" type="password" autocomplete="off" placeholder="Set by whoever runs this Slipp"></div>
-    <div class="acts"><button class="btn btn-ghost" value="cancel" formnovalidate id="bizCancel">Cancel</button><button class="btn btn-green" value="ok">Save</button></div>
-  </form>
+<dialog class="sheet" id="moreSheet">
+  <div class="sheet-in">
+    <a href="#customers" data-close>Customers</a>
+    <a href="#expenses" data-close>Expenses</a>
+    <a href="#settings" data-close>Settings</a>
+    <button class="btn btn-ghost" data-close>Close</button>
+  </div>
 </dialog>
 
-<script>
-(() => {
-'use strict';
-const $ = (s) => document.querySelector(s);
-const get = (k, d) => { try { const v = localStorage.getItem('slipp:' + k); return v === null ? d : JSON.parse(v); } catch { return d; } };
-const put = (k, v) => { try { localStorage.setItem('slipp:' + k, JSON.stringify(v)); } catch {} };
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-function toast(m) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.append(t); setTimeout(() => t.remove(), 2600); }
+<dialog class="modal" id="saleDlg">
+  <form class="modal-in" id="saleForm" method="dialog">
+    <div class="modal-h"><h2>New sale</h2><button type="button" class="x" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="seg" id="saleStatus"><button type="button" data-s="paid" aria-pressed="true">Paid now</button><button type="button" data-s="unpaid" aria-pressed="false">Invoice, pay later</button></div>
+    <div class="pair">
+      <label class="f"><span>Customer <em>optional</em></span><input class="i" name="customer_name" maxlength="60" list="custList"></label>
+      <label class="f"><span>WhatsApp number <em>optional</em></span><input class="i" name="customer_phone" inputmode="tel" maxlength="20"></label>
+    </div>
+    <datalist id="custList"></datalist>
+    <datalist id="prodList"></datalist>
+    <div class="items-h"><span>Item</span><span>Qty</span><span>Price</span><span></span></div>
+    <div class="items" id="items"></div>
+    <button type="button" class="link-btn" id="addItem">+ Add another item</button>
+    <div class="pair">
+      <label class="f" id="methodF"><span>Paid by</span><select class="i" name="method"><option value="transfer">Bank transfer</option><option value="cash">Cash</option><option value="pos">POS</option><option value="card">Card</option></select></label>
+      <label class="f" id="dueF" hidden><span>Due</span><select class="i" name="due_in_days"><option value="0">Today</option><option value="3">In 3 days</option><option value="7" selected>In a week</option><option value="14">In 2 weeks</option><option value="30">In a month</option></select></label>
+    </div>
+    <p class="err" id="saleErr" role="alert"></p>
+    <div class="modal-f"><div class="total-l">Total<b id="saleTotal">₦0</b></div><button class="btn btn-green" id="saleSave">Save sale</button></div>
+  </form>
+  <div class="modal-in done" id="saleDone" hidden>
+    <span class="done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+    <h2 id="doneTitle">Saved</h2>
+    <p class="muted" id="doneSub"></p>
+    <div class="done-acts">
+      <a class="btn btn-green" id="doneShare" target="_blank" rel="noopener">Send on WhatsApp</a>
+      <a class="btn btn-line" id="doneOpen" target="_blank" rel="noopener">View</a>
+    </div>
+    <button class="link-btn" data-close>Done</button>
+  </div>
+</dialog>
 
-const CODES = [['234', '🇳🇬 +234'], ['233', '🇬🇭 +233'], ['254', '🇰🇪 +254'], ['27', '🇿🇦 +27'], ['256', '🇺🇬 +256'], ['255', '🇹🇿 +255'], ['63', '🇵🇭 +63'], ['44', '🇬🇧 +44'], ['1', '🇺🇸 +1']];
-const CURS = [['₦', '₦ Naira'], ['GH₵', 'GH₵ Cedi'], ['KSh', 'KSh Shilling'], ['R', 'R Rand'], ['₱', '₱ Peso'], ['£', '£ Pound'], ['$', '$ Dollar'], ['€', '€ Euro']];
-for (const [v, l] of CODES) $('#cc').add(new Option(l, v));
-for (const [v, l] of CURS) $('#bCur').add(new Option(l, v));
-
-let biz = get('biz', { name: '', phone: '', address: '', currency: '₦' });
-let key = get('key', '');
-let method = 'cash';
-let status = { autoSend: false, needsKey: false };
-$('#cc').value = get('cc', '234');
-$('#cc').onchange = () => { put('cc', $('#cc').value); render(); };
-
-/* ---------- items ---------- */
-const X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
-function addItem(focus = true) {
-  const row = document.createElement('div');
-  row.className = 'it';
-  row.innerHTML = `<input class="in nm" placeholder="Item" maxlength="60" aria-label="Item"><input class="in num qt" inputmode="numeric" value="1" aria-label="Quantity"><input class="in num pr" inputmode="decimal" placeholder="0.00" aria-label="Price"><button class="x" type="button" aria-label="Remove item">${X}</button>`;
-  row.querySelector('.x').onclick = () => { if ($('#items').children.length > 1) row.remove(); else row.querySelectorAll('input').forEach((i, k) => (i.value = k === 1 ? '1' : '')); render(); };
-  $('#items').append(row);
-  if (focus) row.querySelector('.nm').focus();
-  render();
-}
-$('#addItem').onclick = () => addItem();
-$('#items').addEventListener('input', render);
-$('#items').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.classList.contains('pr')) { e.preventDefault(); addItem(); } });
-const num = (v) => { const n = parseFloat(String(v).replace(/[^\d.]/g, '')); return Number.isFinite(n) ? n : 0; };
-const items = () => [...document.querySelectorAll('.it')].map((r) => ({ name: r.querySelector('.nm').value.trim(), qty: Math.max(1, Math.round(num(r.querySelector('.qt').value) || 1)), price: num(r.querySelector('.pr').value) })).filter((i) => i.name || i.price);
-const fmt = (n) => (biz.currency || '₦') + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-/* ---------- method ---------- */
-document.querySelectorAll('#method button').forEach((b) => (b.onclick = () => {
-  method = b.dataset.v;
-  document.querySelectorAll('#method button').forEach((x) => x.setAttribute('aria-pressed', x === b));
-  render();
-}));
-$('#refBtn').onclick = () => { $('#refWrap').hidden = false; $('#refBtn').hidden = true; $('#ref').focus(); };
-['#cName', '#cPhone', '#ref'].forEach((s) => $(s).addEventListener('input', render));
-
-/* ---------- live preview ---------- */
-const NAMES = { cash: 'Cash', transfer: 'Bank transfer', card: 'Card' };
-function render() {
-  const list = items();
-  const tot = list.reduce((s, i) => s + i.qty * i.price, 0);
-  $('#total').textContent = fmt(tot);
-  const now = new Date().toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  $('#preview').innerHTML = `
-    <div class="biz">${esc(biz.name)}</div>
-    ${biz.address || biz.phone ? `<div class="bizsub">${esc([biz.address, biz.phone].filter(Boolean).join(' · '))}</div>` : ''}
-    <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
-    <dl><dt>Date</dt><dd>${esc(now)}</dd><dt>Customer</dt><dd>${esc($('#cName').value.trim() || 'Walk-in customer')}</dd><dt>Payment</dt><dd>${NAMES[method]}</dd>${$('#ref').value.trim() ? `<dt>Reference</dt><dd>${esc($('#ref').value.trim())}</dd>` : ''}</dl>
-    <hr class="cut">
-    ${(list.length ? list : [{ name: '', qty: 1, price: 0 }]).map((i) => `<div class="item"><span>${esc(i.name)}</span><b>${fmt(i.qty * i.price)}</b><small>${i.qty} × ${fmt(i.price)}</small></div>`).join('')}
-    <hr class="cut">
-    <div class="total"><span>Total</span><b>${fmt(tot)}</b></div>
-    <div class="thanks">Thank you for your purchase.</div>`;
-}
-
-/* ---------- phone ---------- */
-function fullPhone() {
-  let d = $('#cPhone').value.replace(/\D/g, '');
-  if (!d) return '';
-  const cc = $('#cc').value;
-  if (d.startsWith('00')) d = d.slice(2);
-  else if (d.startsWith(cc) && d.length > cc.length + 7) { /* already international */ }
-  else d = cc + d.replace(/^0+/, '');
-  return d;
-}
-
-/* ---------- create ---------- */
-let last = null;
-$('#sale').onsubmit = async (e) => {
-  e.preventDefault();
-  $('#err').textContent = '';
-  if (!biz.name) { openBiz(true); return; }
-  const list = items();
-  if (!list.length || list.some((i) => !i.name)) { $('#err').textContent = list.length ? 'Every item needs a name.' : 'Add at least one item.'; return; }
-  const phone = fullPhone();
-  if ($('#cPhone').value.trim() && phone.length < 8) { $('#err').textContent = 'That WhatsApp number looks too short.'; return; }
-  $('#go').disabled = true; $('#go').lastChild.textContent = 'Creating…';
-  try {
-    const res = await fetch('/api/sale', {
-      method: 'POST', headers: { 'content-type': 'application/json', ...(key ? { 'x-slipp-key': key } : {}) },
-      body: JSON.stringify({ business: biz, customer: { name: $('#cName').value, phone }, method, reference: $('#ref').value, items: list }),
-    });
-    const out = await res.json().catch(() => ({}));
-    if (!res.ok) { $('#err').textContent = out.error || 'Something went wrong. Try again.'; if (res.status === 401) openBiz(false); return; }
-    last = out;
-    showDone(out, phone);
-    const rec = get('recent', []);
-    rec.unshift({ id: out.id, date: out.date, name: $('#cName').value.trim(), phone, total: out.totalText, url: out.url, wa: out.waLink, sent: out.sent });
-    put('recent', rec.slice(0, 50));
-    renderRecent();
-  } catch {
-    $('#err').textContent = 'Could not reach Slipp. Check your connection and try again.';
-  } finally {
-    $('#go').disabled = false; $('#go').lastChild.textContent = 'Create receipt';
-  }
-};
-function showDone(out, phone) {
-  $('#done').classList.add('show');
-  $('#waBtn').href = out.waLink;
-  $('#openBtn').href = out.url;
-  if (out.sent) { $('#doneTitle').textContent = 'Sent on WhatsApp'; $('#doneText').textContent = `Receipt ${out.id} went to +${phone}. You can send it again or share the link.`; $('#waBtn').lastChild.textContent = 'Send again'; }
-  else {
-    $('#doneTitle').textContent = 'Receipt ready';
-    $('#doneText').textContent = out.sendError ? `Automatic sending did not work (${out.sendError}). Send it with the button instead.` : phone ? `Tap the button and WhatsApp opens with the receipt ready for +${phone}.` : 'Tap the button and choose who to send it to in WhatsApp.';
-    $('#waBtn').lastChild.textContent = 'Send on WhatsApp';
-  }
-  $('#newBtn').hidden = false;
-  if (innerWidth < 900) $('#done').scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-$('#copyBtn').onclick = async () => { if (!last) return; try { await navigator.clipboard.writeText(last.url); toast('Link copied'); } catch { toast('Copy did not work in this browser'); } };
-$('#newBtn').onclick = () => {
-  $('#sale').reset(); $('#items').innerHTML = ''; addItem(false); method = 'cash';
-  document.querySelectorAll('#method button').forEach((x) => x.setAttribute('aria-pressed', x.dataset.v === 'cash'));
-  $('#refWrap').hidden = true; $('#refBtn').hidden = false; $('#done').classList.remove('show'); $('#newBtn').hidden = true; last = null; render();
-  $('#cName').focus();
-};
-
-/* ---------- recent ---------- */
-const ICON = {
-  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2A9.8 9.8 0 003.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1012 2.2zm0 17.9a8.1 8.1 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1112 20.1z"/></svg>',
-  open: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5A1.5 1.5 0 0116.5 20h-11A1.5 1.5 0 014 18.5v-11A1.5 1.5 0 015.5 6H10"/></svg>',
-};
-function renderRecent() {
-  const rec = get('recent', []);
-  if (!rec.length) { $('#recent').innerHTML = '<div class="empty-list">Receipts you create appear here, on this device.</div>'; return; }
-  $('#recent').innerHTML = rec.map((r, i) => `<div class="rc"><div><b>${esc(r.name || (r.phone ? '+' + r.phone : 'Walk-in customer'))}</b><small>${esc(new Date(r.date).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }))} · ${esc(r.id)}${r.sent ? ' · sent' : ''}</small></div><span class="amt">${esc(r.total)}</span><div class="a"><a class="icon wa" href="${esc(r.wa)}" target="_blank" rel="noopener" title="Send on WhatsApp" aria-label="Send on WhatsApp">${ICON.wa}</a><a class="icon" href="${esc(r.url)}" target="_blank" rel="noopener" title="Open receipt" aria-label="Open receipt">${ICON.open}</a></div></div>`).join('');
-}
-
-/* ---------- business settings ---------- */
-function openBiz(first) {
-  $('#bName').value = biz.name; $('#bPhone').value = biz.phone; $('#bAddr').value = biz.address; $('#bCur').value = biz.currency || '₦'; $('#bKey').value = key;
-  $('#keyRow').hidden = !status.needsKey;
-  $('#bizTitle').textContent = first ? 'First, your business' : 'Your business';
-  $('#bizCancel').hidden = first && !biz.name;
-  if (!$('#biz').open) $('#biz').showModal();
-  setTimeout(() => $('#bName').focus(), 50);
-}
-$('#setBtn').onclick = () => openBiz(false);
-$('#biz').addEventListener('close', () => {
-  if ($('#biz').returnValue !== 'ok') return;
-  $('#biz').returnValue = '';
-  const name = $('#bName').value.trim();
-  if (!name) { openBiz(true); return; }
-  biz = { name, phone: $('#bPhone').value.trim(), address: $('#bAddr').value.trim(), currency: $('#bCur').value };
-  key = $('#bKey').value.trim();
-  put('biz', biz); put('key', key);
-  render(); toast('Saved');
-});
-
-/* ---------- status ---------- */
-fetch('/api/status').then((r) => r.json()).then((s) => {
-  status = s;
-  const p = $('#auto');
-  p.classList.toggle('on', !!s.autoSend);
-  p.lastChild.textContent = s.autoSend ? 'Automatic sending on' : 'Send with one tap';
-  p.title = s.autoSend ? 'Receipts go to the customer on WhatsApp by themselves.' : 'Receipts open in WhatsApp ready to send. Automatic sending needs WhatsApp Cloud API keys on the server.';
-  if (s.needsKey && !key) openBiz(!biz.name);
-}).catch(() => { $('#auto').lastChild.textContent = 'Offline'; });
-
-addItem(false);
-renderRecent();
-if (!biz.name) setTimeout(() => openBiz(true), 300);
-window.__slipp = { items, fullPhone };
-})();
-</script>
+<div class="toast" id="toast" role="status"></div>
+<script src="/assets/app.js"></script>
 </body>
 </html>

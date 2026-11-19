@@ -31,6 +31,7 @@ const server = http.createServer(async (req, res) => {
     try { return await require(file)(req, res); } catch (e) { console.error(e); res.statusCode = 500; return res.end("Error"); }
   }
   if (p.startsWith("/r/")) return serveFile(res, path.join(PUBLIC, "r", "index.html"));
+  if (p === "/dashboard") { res.statusCode = 307; res.setHeader("Location", "/app" + url.search); return res.end(); }
   let file = path.join(PUBLIC, p);
   if (!file.startsWith(PUBLIC)) { res.statusCode = 403; return res.end(); }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, "index.html");

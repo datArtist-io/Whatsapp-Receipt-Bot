@@ -245,7 +245,7 @@ test("the daily check tells owners about due invoices once, and only Vercel Cron
   assert.equal(out.sent, 1);
   const tgMsg = sentTo("sendMessage")[0];
   assert.match(tgMsg.body.text, /INV-0005 · Bayo · ₦3,000 · due today/);
-  assert.match(tgMsg.body.reply_markup.inline_keyboard[0][0].url, /\/dashboard\?login=/);
+  assert.match(tgMsg.body.reply_markup.inline_keyboard[0][0].url, /\/app\?login=/);
   assert.ok(outbox.some((o) => o.app === "whatsapp"), "the linked WhatsApp chat wrote within 24 hours, so it hears too");
   outbox = [];
   const again = await (await realFetch(`${base}/api/cron/daily`, { headers: { authorization: "Bearer cron-secret" } })).json();
@@ -278,4 +278,38 @@ test("the dashboard: sign in with a chat link, read the books, and act on invoic
   const err = await post({ action: "invoice", status: "paid", items: [{ name: "Mystery", qty: 1 }] });
   assert.equal(err.status, 400);
   assert.match((await err.json()).error, /price of "Mystery"/);
+});
+
+test("the website: sign up, chat with Slipp, see the receipt in the chat, sign in again", async () => {
+  const post = (path, body, cookie) => realFetch(`${base}${path}`, { method: "POST", headers: { "content-type": "application/json", ...(cookie ? { cookie } : {}) }, body: JSON.stringify(body) });
+  const bad = await post("/api/auth", { action: "signup", name: "Ada", business: "", phone: "2348011112222", password: "secret123" });
+  assert.equal(bad.status, 400);
+  const r = await post("/api/auth", { action: "signup", name: "Kemi Ade", business: "Kemi Foods", phone: "2348011112222", display: "+234 801 111 2222", password: "secret123" });
+  assert.equal(r.status, 200);
+  const cookie = r.headers.get("set-cookie").split(";")[0];
+  assert.equal((await post("/api/auth", { action: "signup", name: "X", business: "Y", phone: "2348011112222", password: "secret123" })).status, 400, "one account per number");
+
+  const first = await (await realFetch(`${base}/api/chat`, { headers: { cookie } })).json();
+  assert.equal(first.business.name, "Kemi Foods");
+  assert.deepEqual(first.messages, []);
+
+  script = [use("create_invoice", { customer_name: "Bola", items: [{ name: "Puff puff (dozen)", qty: 2, price: 1500 }], status: "paid", method: "cash" }), say("Recorded R-0001 for Bola: ₦3,000.")];
+  const reply = await (await post("/api/chat", { text: "sold 2 dozen puff puff to bola, 1500 each, cash" }, cookie)).json();
+  assert.equal(reply.text, "Recorded R-0001 for Bola: ₦3,000.");
+  assert.equal(reply.documents.length, 1);
+  assert.match(reply.documents[0].caption, /^Receipt R-0001 · Bola · ₦3,000\.00$/);
+  assert.match(calls.at(-1).system[1].text, /Slipp web app/);
+
+  const again = await (await realFetch(`${base}/api/chat`, { headers: { cookie } })).json();
+  assert.equal(again.messages.length, 2);
+  assert.equal(again.messages[1].documents[0].caption, reply.documents[0].caption, "receipts stay in the chat history");
+
+  const wrong = await post("/api/auth", { action: "signin", phone: "2348011112222", password: "nope-nope" });
+  assert.equal(wrong.status, 400);
+  const ok = await post("/api/auth", { action: "signin", phone: "2348011112222", password: "secret123" });
+  assert.equal(ok.status, 200);
+  const d = await (await realFetch(`${base}/api/dashboard`, { headers: { cookie: ok.headers.get("set-cookie").split(";")[0] } })).json();
+  assert.equal(d.business.phone, "+234 801 111 2222");
+  assert.equal(d.invoices[0].customer, "Bola");
+  assert.equal((await realFetch(`${base}/api/chat`)).status, 401);
 });
