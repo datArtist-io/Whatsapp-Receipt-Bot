@@ -72,8 +72,8 @@ html{scroll-behavior:smooth}
 section.block{padding-top:152px}
 
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center;padding:56px 0 24px}
-.hero h1{font:500 clamp(46px,5.9vw,86px)/.98 var(--display);letter-spacing:-.05em;margin:0 0 28px}
+.hero{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:48px;align-items:center;padding:56px 0 24px}
+.hero h1{font:500 clamp(42px,5.2vw,70px)/.98 var(--display);letter-spacing:-.05em;margin:0 0 28px}
 .hero .lead{font-size:18.5px;line-height:1.6;color:var(--mute);max-width:460px;margin:0 0 36px}
 .ctas{display:flex;gap:12px;flex-wrap:wrap}
 .ctas .btn{height:50px;padding:0 24px;font-size:15.5px}
@@ -432,6 +432,7 @@ fetch('/api/auth').then((r) => r.json()).then((m) => {
   document.querySelectorAll('footer a[href="/start?signin"]').forEach((a) => { a.href = '/app'; a.textContent = label; });
   const nav = document.querySelector('.nav [data-demo]');
   if (nav) { const a = document.createElement('a'); a.className = nav.className; a.href = '/app'; a.textContent = label; nav.replaceWith(a); }
+  if (m.demo) document.querySelectorAll('.hero [data-demo], .final [data-demo]').forEach((b) => { b.textContent = 'Back to the demo'; });
   const create = document.querySelector('.hero .ctas a[href="/start"]');
   if (create && !m.demo) { create.href = '/app'; create.textContent = 'Open my shop'; }
 }).catch(() => {});
