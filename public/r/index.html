@@ -23,6 +23,11 @@ main{width:100%;max-width:400px}
 .by:hover{color:var(--ink)}
 .err{text-align:center;padding:60px 10px;color:var(--mute)}
 .err h1{font:800 28px/1.1 var(--display);letter-spacing:-.03em;color:var(--ink);margin:0 0 10px}
+.paid.unpaid span{background:#FDF1DC;color:#8A5A00}
+.note{margin-top:14px;text-align:center;color:var(--mute);font-size:13px}
+.payto{margin-top:16px;background:var(--paper2);border-radius:10px;padding:10px 12px}
+.payto small{display:block;font:600 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+.payto b{font:600 14px/1.3 var(--mono)}
 .skeleton{height:420px;border-radius:4px;background:linear-gradient(90deg,var(--paper2),#F8F6F0,var(--paper2));background-size:200% 100%;animation:sh 1.2s linear infinite}
 @keyframes sh{to{background-position:-200% 0}}
 @media print{body{background:#fff;padding:0}.acts,.by{display:none}.slip{box-shadow:none}}
@@ -41,32 +46,38 @@ main{width:100%;max-width:400px}
   let r;
   try { const res = await fetch('/api/receipt?format=json&t=' + encodeURIComponent(t)); if (!res.ok) return fail(); r = await res.json(); } catch { return fail(); }
   const date = new Date(r.date).toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  document.title = `Receipt ${r.id} · ${r.business.name}`;
+  const unpaid = r.status === 'unpaid';
+  const kind = unpaid ? 'Invoice' : 'Receipt';
+  const day = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+  document.title = `${kind} ${r.id} · ${r.business.name}`;
+  document.querySelector('.by').lastChild.textContent = `${kind} by Slipp`;
   const pdf = '/api/receipt?format=pdf&t=' + encodeURIComponent(t);
   main.innerHTML = `
     <article class="slip" aria-label="Receipt">
       <div class="biz">${esc(r.business.name)}</div>
       ${r.business.address || r.business.phone ? `<div class="bizsub">${esc([r.business.address, r.business.phone].filter(Boolean).join(' · '))}</div>` : ''}
-      <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
+      <div class="paid${unpaid ? ' unpaid' : ''}"><span>${unpaid ? '' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'}${unpaid ? 'UNPAID' : 'PAID'}</span></div>
       <dl>
-        <dt>Receipt</dt><dd>${esc(r.id)}</dd>
+        <dt>${kind}</dt><dd>${esc(r.id)}</dd>
         <dt>Date</dt><dd>${esc(date)}</dd>
         <dt>Customer</dt><dd>${esc(r.customer.name || 'Walk-in customer')}</dd>
-        <dt>Payment</dt><dd>${esc(r.methodName)}</dd>
+        ${unpaid ? (r.due ? `<dt>Due</dt><dd>${esc(day(r.due))}</dd>` : '') : `<dt>Payment</dt><dd>${esc(r.methodName)}</dd>`}
         ${r.reference ? `<dt>Reference</dt><dd>${esc(r.reference)}</dd>` : ''}
       </dl>
       <hr class="cut">
       ${r.items.map((i) => `<div class="item"><span>${esc(i.name)}</span><b>${esc(i.amountText)}</b><small>${i.qty} × ${esc(i.priceText)}</small></div>`).join('')}
       <hr class="cut">
       <div class="total"><span>Total</span><b>${esc(r.totalText)}</b></div>
-      <div class="thanks">Thank you for your purchase.</div>
+      ${r.note ? `<div class="note">${esc(r.note)}</div>` : ''}
+      ${unpaid && r.business.bank ? `<div class="payto"><small>Pay to</small><b>${esc(r.business.bank)}</b></div>` : ''}
+      <div class="thanks">${unpaid ? 'Thank you for your business.' : 'Thank you for your purchase.'}</div>
     </article>
     <div class="acts">
       <a class="btn btn-ink" href="${pdf}&download=1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></svg>Download PDF</a>
       <button class="btn btn-line" id="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 13v5.5a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5V13"/></svg>Share</button>
     </div>`;
   document.getElementById('share').onclick = async () => {
-    const data = { title: document.title, text: `Receipt ${r.id} from ${r.business.name}: ${r.totalText}`, url: location.href };
+    const data = { title: document.title, text: `${kind} ${r.id} from ${r.business.name}: ${r.totalText}`, url: location.href };
     if (navigator.share) { try { await navigator.share(data); } catch {} }
     else { await navigator.clipboard.writeText(location.href).catch(() => {}); document.getElementById('share').lastChild.textContent = 'Link copied'; }
   };

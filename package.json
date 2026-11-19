@@ -4,12 +4,20 @@
   "private": true,
   "description": "Slipp: make a receipt for each sale and send it to the customer on WhatsApp",
   "type": "commonjs",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "node dev.js",
-    "test": "node --test test/*.test.js"
+    "test": "node --test --test-concurrency=1 test/*.test.js"
   },
   "dependencies": {
-    "pdfkit": "^0.15.0"
+    "@anthropic-ai/sdk": "^1.10.0",
+    "@vercel/functions": "^3.11.3",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.17"
   }
 }

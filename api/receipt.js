@@ -1,4 +1,4 @@
-// GET /api/receipt?t=...&format=json|pdf : the receipt behind a signed link.
+// GET /api/receipt?t=...&format=json|pdf : the receipt or invoice behind a signed link.
 const token = require("../lib/token");
 const { receiptPdf } = require("../lib/pdf");
 const { total, money, methodName } = require("../lib/sale");
@@ -13,13 +13,14 @@ module.exports = async (req, res) => {
       const pdf = await receiptPdf(sale);
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/pdf");
-      res.setHeader("Content-Disposition", `${q.get("download") ? "attachment" : "inline"}; filename="Receipt-${sale.id}.pdf"`);
+      res.setHeader("Content-Disposition", `${q.get("download") ? "attachment" : "inline"}; filename="${sale.s === "unpaid" ? "Invoice" : "Receipt"}-${sale.id}.pdf"`);
       res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       return res.end(pdf);
     }
     json(res, 200, {
       id: sale.id, date: sale.d,
-      business: { name: sale.b.n, phone: sale.b.p, address: sale.b.a, currency: sale.b.c },
+      status: sale.s === "unpaid" ? "unpaid" : "paid", due: sale.u || null, note: sale.o || "",
+      business: { name: sale.b.n, phone: sale.b.p, address: sale.b.a, currency: sale.b.c, bank: sale.b.k || "" },
       customer: { name: sale.c.n, phone: sale.c.p },
       method: sale.m, methodName: methodName(sale.m), reference: sale.r,
       items: sale.i.map(([name, qty, price]) => ({ name, qty, price, priceText: money(sale, price), amountText: money(sale, qty * price) })),
