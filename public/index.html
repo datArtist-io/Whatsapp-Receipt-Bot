@@ -252,8 +252,22 @@ button.btn[data-demo][disabled]{opacity:.7}
   <footer><span>Designed and built by <a class="me" href="https://josiaholuwadare.com" target="_blank" rel="noopener">Josiah Oluwadare</a></span><nav><a href="/start?signin">Sign in</a><a href="/api/sample">Sample receipt</a><a href="https://github.com/datArtist-io/Whatsapp-Receipt-Bot" target="_blank" rel="noopener">Source code</a></nav></footer>
 </div>
 <script>
+// Signed in already? Offer the way back in instead of "Sign in".
+let me = { signedIn: false };
+fetch('/api/auth').then((r) => r.json()).then((m) => {
+  me = m;
+  if (!m.signedIn) return;
+  const label = m.demo ? 'Back to the demo' : 'Open my shop';
+  document.querySelectorAll('a[href="/start?signin"]').forEach((a) => { a.href = '/app'; a.textContent = label; });
+  const nav = document.querySelector('.nav [data-demo]');
+  if (nav) { const a = document.createElement('a'); a.className = nav.className; a.href = '/app'; a.textContent = label; nav.replaceWith(a); }
+  const create = document.querySelector('.hero .ctas a[href="/start"]');
+  if (create && !m.demo) { create.href = '/app'; create.textContent = 'Open my shop'; }
+}).catch(() => {});
 // "Try the live demo": a private demo shop, opened straight into the app.
 document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('click', async () => {
+  if (me.signedIn && !me.demo && !confirm(`Opening the demo signs you out of ${me.name} on this browser. You can sign back in any time. Open the demo?`)) return;
+  if (me.signedIn && me.demo) { location.href = '/app'; return; }
   const all = document.querySelectorAll('[data-demo]');
   all.forEach((x) => { x.disabled = true; x.dataset.label = x.textContent; x.textContent = 'Opening the demo…'; });
   try {

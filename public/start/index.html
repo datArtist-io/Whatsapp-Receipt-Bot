@@ -127,6 +127,7 @@ select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card
 
 <script>
 const $ = (s) => document.querySelector(s);
+fetch('/api/auth').then((r) => r.json()).then((m) => { if (m.signedIn && !m.demo) location.replace('/app'); }).catch(() => {});
 let mode = new URLSearchParams(location.search).has('signin') ? 'signin' : 'signup';
 const q = new URLSearchParams(location.search);
 if (q.has('expired')) { $('#notice').hidden = false; $('#notice').textContent = 'That sign-in link has expired. Sign in with your number and password, or ask Slipp in your chat for a new link.'; mode = 'signin'; }

@@ -11,6 +11,12 @@ module.exports = async (req, res) => {
   const u = new URL(req.url, "http://x");
   if (u.searchParams.has("session") || u.pathname.endsWith("/session")) return session(req, res);
   try {
+    if (req.method === "GET") {
+      // Who is signed in on this browser, so pages can offer "Open my shop" instead of "Sign in".
+      const bid = auth.businessId(req);
+      const b = bid && require("../lib/db").ready() ? await store.getBusiness(bid) : null;
+      return json(res, 200, b ? { signedIn: true, name: b.name, demo: b.demo } : { signedIn: false });
+    }
     if (req.method !== "POST" || !auth.isJson(req)) return json(res, 405, { error: "Use POST with JSON." });
     if (!require("../lib/db").ready()) return json(res, 503, { error: "Slipp is getting set up. Accounts open in a few minutes, so please try again shortly." });
     const b = await jsonBody(req);

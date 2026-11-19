@@ -338,3 +338,14 @@ test("the live demo: one click opens a private shop full of sample data, removed
   assert.ok(cron.demoShopsRemoved >= 1);
   assert.equal((await realFetch(`${base}/api/chat`, { headers: { cookie } })).status, 401);
 });
+
+test("pages can tell who is signed in", async () => {
+  const out = await (await realFetch(`${base}/api/auth`)).json();
+  assert.deepEqual(out, { signedIn: false });
+  const r = await realFetch(`${base}/api/auth`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "signin", phone: "2348011112222", password: "secret123" }) });
+  const cookie = r.headers.get("set-cookie").split(";")[0];
+  const me = await (await realFetch(`${base}/api/auth`, { headers: { cookie } })).json();
+  assert.equal(me.signedIn, true);
+  assert.equal(me.name, "Kemi Foods");
+  assert.equal(me.demo, false);
+});
