@@ -48,7 +48,8 @@ html{scroll-behavior:smooth}
 /* buttons: square-ish, flat, no glow */
 .btn{border-radius:10px;box-shadow:none}
 .btn-green{box-shadow:none}
-.btn-line{background:transparent}
+.btn-line{background:transparent;box-shadow:inset 0 0 0 1px var(--line2)}
+.btn-line:hover{box-shadow:inset 0 0 0 1px var(--ink)}
 
 /* nav */
 .top{position:sticky;top:0;z-index:20;background:rgba(244,242,234,.86);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
@@ -137,7 +138,7 @@ section.block{padding-top:152px}
 .rc strong{font:600 19px/1.2 var(--mono);letter-spacing:-.03em}
 .rc .go{margin:2px 8px 8px;height:30px;border-radius:9px;background:var(--green);color:#fff;font-size:11.5px;font-weight:600;display:grid;place-items:center}
 .printer{position:absolute;left:5%;top:13%;width:222px;z-index:1;transition:opacity .6s var(--ease),transform .8s var(--ease)}
-.stage.s3 .printer{opacity:0;transform:translateY(-40px)}
+.stage.s3 .printer,.stage:not(.s2) .printer{opacity:0;transform:translateY(-40px)}
 .printer .head{position:relative;height:34px;border-radius:14px;background:linear-gradient(#2A3F33,#16261D);box-shadow:0 18px 30px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1)}
 .printer .head::before{content:"";position:absolute;left:16px;top:13px;width:7px;height:7px;border-radius:50%;background:#43554A;transition:background-color .3s,box-shadow .3s}
 .printer.on .head::before{background:var(--green);box-shadow:0 0 0 4px rgba(20,184,107,.22)}
@@ -176,13 +177,13 @@ section.block{padding-top:152px}
 .view{position:relative;height:560px;border-radius:24px;overflow:hidden;background:var(--paper2)}
 .view figure{position:absolute;inset:0;margin:0;opacity:0;transform:scale(1.02);transition:opacity .6s var(--ease),transform .9s var(--ease);pointer-events:none}
 .view figure.on{opacity:1;transform:none}
-.view .land{position:absolute;left:44px;top:48px;width:118%;border-radius:12px 0 0 0;box-shadow:0 0 0 1px rgba(14,31,22,.08),0 30px 60px -30px rgba(14,31,22,.35);background:#fff}
+.view .land{position:absolute;left:40px;top:50%;transform:translateY(-50%);width:calc(100% - 80px);border-radius:12px;box-shadow:0 0 0 1px rgba(14,31,22,.08),0 30px 60px -30px rgba(14,31,22,.35);background:#fff}
 .view .port{position:absolute;left:50%;bottom:0;width:300px;margin-left:-150px;border:8px solid #0B1A12;border-bottom:0;border-radius:32px 32px 0 0;overflow:hidden;box-shadow:0 30px 60px -30px rgba(14,31,22,.4)}
 .view img{display:block;width:100%;height:auto}
 .v1{background:#E4F0E7}.v2{background:#F1E9DA}.v3{background:#E3ECEC}.v4{background:#ECE8DF}
 
 /* the globe of owners (after the Orb Gallery reference) */
-.orb-wrap{position:relative;height:720px;perspective:1600px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden}
+.orb-wrap{position:relative;height:700px;perspective:1600px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden}
 .orb-wrap:active{cursor:grabbing}
 .orb{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
 .tile{position:absolute;left:-66px;top:-46px;width:132px;height:92px;border-radius:12px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 0 0 1px rgba(14,31,22,.07),0 10px 24px -14px rgba(14,31,22,.35)}
@@ -202,7 +203,7 @@ section.block{padding-top:152px}
 .tile.kp small{font:500 9.5px/1.2 var(--mono);color:var(--green-ink)}
 .tile.kp strong{font:600 17px/1 var(--mono);letter-spacing:-.03em}
 .tile.kp.low{background:#FCE9E2}.tile.kp.low small{color:var(--bad)}
-.orb-hint{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);font:500 12.5px/1 var(--mono);color:var(--mute);pointer-events:none}
+.orb-hint{position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:5;background:var(--paper);padding:6px 10px;border-radius:6px;font:500 12.5px/1 var(--mono);color:var(--mute);pointer-events:none}
 
 /* what it keeps: a typeset ledger, one row per job */
 .ledger{border-top:1px solid var(--ink)}
@@ -280,7 +281,8 @@ button.btn[data-demo][disabled]{opacity:.7}
   .st h3{font-size:26px}
   .st q{font-size:22px}
   .view{height:400px;border-radius:20px}
-  .view .land{left:20px;top:28px;width:150%}
+  .view .land{left:16px;width:calc(100% - 32px)}
+  .view{height:auto;aspect-ratio:4/3.4}
   .view .port{width:240px;margin-left:-120px}
   .orb-wrap{height:530px;margin:0 -16px}
   .final{border-radius:22px}
@@ -473,9 +475,10 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
     PH('ph-sky'), M('Sold 2 jeans to Ada, 18k each'), RC('R-0071', 'Ada Nwosu', '₦36,000'),
     PH('ph-tee'), M('Paid 15k for fuel', 1), K('Expense saved', '₦15,000'),
     PH('ph-cheer'), M('Who still owes me?'), RC('INV-0062', 'Emeka Obi', '₦35,400', 1), M('Remind Emeka about his invoice', 1), K('Sugar 1kg: 4 left', 'Running low', 1),
+    M('Sold 5 tins of milk to Mama Bisi', 1), K('Sales today', '₦52,400'),
   ];
-  const rings = [[-58, 7], [-34, 11], [-11, 14], [11, 14], [34, 11], [58, 7]];
-  const R = 330; let html = '', n = 0;
+  const rings = [[-44, 8], [-22, 11], [0, 12], [22, 11], [44, 8]];
+  const R = 310; let html = '', n = 0;
   for (const [lat, count] of rings) for (let k = 0; k < count; k++) {
     const lon = (360 / count) * k + (lat % 2 ? 0 : 180 / count) + lat;
     html += items[n++ % items.length].replace('class="tile', `style="transform:rotateY(${lon.toFixed(1)}deg) rotateX(${-lat}deg) translateZ(${R}px)" class="tile`);
@@ -483,7 +486,7 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
   orb.innerHTML = html;
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let ry = 20, rx = -10, vy = calm ? 0 : .08, vx = 0, drag = null, seen = false;
-  const fit = () => { const w = wrap.clientWidth, h = wrap.clientHeight; return Math.min(1, w / (w < 600 ? 600 : 820), h / 780); };
+  const fit = () => { const w = wrap.clientWidth, h = wrap.clientHeight; return Math.min(1, w / (w < 600 ? 700 : 820), h / 760); };
   let sc = fit(); addEventListener('resize', () => { sc = fit(); });
   const tick = () => {
     if (!drag) { ry += vy; rx += vx; vx *= .94; if (!calm) vy += (.08 * Math.sign(vy || 1) - vy) * .02; }
@@ -516,7 +519,7 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
   const heroH = document.querySelector('.hero h1');
   setTimeout(() => heroH.querySelectorAll('.ln').forEach((l) => l.classList.add('in')), 80);
   if (!('IntersectionObserver' in window)) return els.forEach((e) => e.classList.add('in'));
-  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -4% 0px', threshold: .01 });
   els.forEach((e) => { if (!heroH.contains(e)) io.observe(e); });
 })();
 // The story: the step in view drives what the pinned stage shows.
@@ -529,7 +532,7 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
     if (n === cur) return; cur = n;
     steps.forEach((s) => s.classList.toggle('on', +s.dataset.step <= n));
     parts.forEach((p) => p.classList.toggle('on', +p.dataset.at <= n));
-    paper.classList.toggle('on', n >= 2); stage.classList.toggle('s3', n >= 3);
+    paper.classList.toggle('on', n >= 2); stage.classList.toggle('s3', n >= 3); stage.classList.toggle('s2', n >= 2);
     if (n >= 3 && !note.classList.contains('on')) { note.classList.add('on'); count(note); }
     const last = steps[n - 1]; bar.style.height = last ? (last.offsetTop + last.offsetHeight * .4) + 'px' : 0;
   };
