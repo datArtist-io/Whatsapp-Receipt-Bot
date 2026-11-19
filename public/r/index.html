@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Receipt</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F4F2EA">
+<link rel="icon" href="/brand/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/slipp.css">
+<style>
+body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:32px 16px 40px}
+main{width:100%;max-width:400px}
+.slip{animation:drop .7s var(--ease) both}
+@keyframes drop{from{opacity:0;transform:translateY(-14px)}}
+.acts{display:flex;gap:8px;margin-top:20px}
+.acts .btn{flex:1}
+.by{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:26px;color:var(--mute);font-size:13px;text-decoration:none}
+.by img{width:16px}
+.by:hover{color:var(--ink)}
+.err{text-align:center;padding:60px 10px;color:var(--mute)}
+.err h1{font:800 28px/1.1 var(--display);letter-spacing:-.03em;color:var(--ink);margin:0 0 10px}
+.skeleton{height:420px;border-radius:4px;background:linear-gradient(90deg,var(--paper2),#F8F6F0,var(--paper2));background-size:200% 100%;animation:sh 1.2s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media print{body{background:#fff;padding:0}.acts,.by{display:none}.slip{box-shadow:none}}
+</style>
+</head>
+<body>
+<main id="main"><div class="skeleton" aria-label="Loading receipt"></div></main>
+<a class="by" href="/"><img src="/brand/logo.svg" alt="">Receipt by Slipp</a>
+<script>
+(async () => {
+  const main = document.getElementById('main');
+  const t = decodeURIComponent(location.pathname.replace(/^\/r\/?/, '').replace(/\/$/, ''));
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fail = () => { main.innerHTML = '<div class="err"><h1>Receipt not found</h1><p>This link is not valid. Ask the shop to send it again.</p></div>'; document.title = 'Receipt not found'; };
+  if (!t) return fail();
+  let r;
+  try { const res = await fetch('/api/receipt?format=json&t=' + encodeURIComponent(t)); if (!res.ok) return fail(); r = await res.json(); } catch { return fail(); }
+  const date = new Date(r.date).toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  document.title = `Receipt ${r.id} · ${r.business.name}`;
+  const pdf = '/api/receipt?format=pdf&t=' + encodeURIComponent(t);
+  main.innerHTML = `
+    <article class="slip" aria-label="Receipt">
+      <div class="biz">${esc(r.business.name)}</div>
+      ${r.business.address || r.business.phone ? `<div class="bizsub">${esc([r.business.address, r.business.phone].filter(Boolean).join(' · '))}</div>` : ''}
+      <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
+      <dl>
+        <dt>Receipt</dt><dd>${esc(r.id)}</dd>
+        <dt>Date</dt><dd>${esc(date)}</dd>
+        <dt>Customer</dt><dd>${esc(r.customer.name || 'Walk-in customer')}</dd>
+        <dt>Payment</dt><dd>${esc(r.methodName)}</dd>
+        ${r.reference ? `<dt>Reference</dt><dd>${esc(r.reference)}</dd>` : ''}
+      </dl>
+      <hr class="cut">
+      ${r.items.map((i) => `<div class="item"><span>${esc(i.name)}</span><b>${esc(i.amountText)}</b><small>${i.qty} × ${esc(i.priceText)}</small></div>`).join('')}
+      <hr class="cut">
+      <div class="total"><span>Total</span><b>${esc(r.totalText)}</b></div>
+      <div class="thanks">Thank you for your purchase.</div>
+    </article>
+    <div class="acts">
+      <a class="btn btn-ink" href="${pdf}&download=1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></svg>Download PDF</a>
+      <button class="btn btn-line" id="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 13v5.5a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5V13"/></svg>Share</button>
+    </div>`;
+  document.getElementById('share').onclick = async () => {
+    const data = { title: document.title, text: `Receipt ${r.id} from ${r.business.name}: ${r.totalText}`, url: location.href };
+    if (navigator.share) { try { await navigator.share(data); } catch {} }
+    else { await navigator.clipboard.writeText(location.href).catch(() => {}); document.getElementById('share').lastChild.textContent = 'Link copied'; }
+  };
+})();
+</script>
+</body>
+</html>
