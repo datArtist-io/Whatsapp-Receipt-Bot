@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Onest:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/slipp.css">
 <style>
 h1,h2,h3{text-wrap:balance}
@@ -33,7 +33,8 @@ p{text-wrap:pretty}
 
 /* hero: one statement, centred, then the product in its own panel */
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center;padding:56px 0 72px}
-.hero h1{font:600 clamp(42px,5.6vw,78px)/1.02 var(--display);letter-spacing:-.045em;margin:0 0 24px;max-width:12ch}
+.hero h1{font:500 clamp(44px,5.8vw,82px)/1 var(--display);letter-spacing:-.05em;margin:0 0 26px;max-width:11ch}
+.hero h1 .ital{color:var(--green-ink);letter-spacing:-.02em;padding-right:.04em}
 .hero h1 .muted{color:#7B877F}
 .chip{display:inline-grid;place-items:center;vertical-align:middle;width:1.18em;height:.86em;margin:0 .06em .1em;border-radius:.2em;background:var(--green);box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
 .chip svg{width:.5em;height:.5em}
@@ -132,7 +133,7 @@ p{text-wrap:pretty}
 section.block{padding:120px 0 0}
 .kicker{font:500 13px/1 var(--mono);color:var(--green-ink);margin:0 0 18px}
 .kicker i{font-style:normal;color:var(--faint);margin-right:8px}
-.h2{font:600 clamp(32px,4vw,52px)/1.05 var(--display);letter-spacing:-.04em;margin:0 0 16px;max-width:720px}
+.h2{font:500 clamp(32px,4vw,52px)/1.04 var(--display);letter-spacing:-.045em;margin:0 0 16px;max-width:720px}
 .sub{color:var(--mute);font-size:18px;max-width:560px;margin:0}
 .head2{display:flex;justify-content:space-between;align-items:flex-end;gap:32px}
 
@@ -200,7 +201,7 @@ section.block{padding:120px 0 0}
 .final .cheer{position:absolute;left:50%;bottom:0;height:92%;width:auto;transform:translateX(-50%)}
 .final::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 80% at 78% 60%,rgba(20,184,107,.22),transparent 70%)}
 .final>*{position:relative}
-.final h2{font:600 clamp(34px,4.6vw,60px)/1.02 var(--display);letter-spacing:-.04em;margin:0 0 16px;max-width:12ch}
+.final h2{font:500 clamp(34px,4.6vw,60px)/1 var(--display);letter-spacing:-.045em;margin:0 0 16px;max-width:12ch}
 .final p{color:#B7C4BC;margin:0 0 36px;font-size:17.5px;max-width:420px}
 .final .ctas{justify-content:flex-start}
 .final .btn-line{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
@@ -282,7 +283,7 @@ button.btn[data-demo][disabled]{opacity:.7}
   <main>
     <section class="hero">
       <div>
-      <h1 data-enter>Your shop's books, <span class="chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg></span> <span class="muted">kept by chat.</span></h1>
+      <h1 data-enter>Your shop's books, kept by <span class="ital">chat.</span></h1>
       <p class="lead" data-enter style="animation-delay:.08s">Tell Slipp what you sold, spent or want to know, the way you'd text a friend. It writes the receipts and invoices, keeps your stock count and tells you what you made.</p>
       <div class="ctas" data-enter style="animation-delay:.16s">
         <button class="btn btn-ink" data-demo>Try the live demo</button>
@@ -291,7 +292,7 @@ button.btn[data-demo][disabled]{opacity:.7}
       <p class="trust" data-enter style="animation-delay:.24s">Free · No card · Works in English and Pidgin</p>
       </div>
       <div class="art" aria-hidden="true" data-enter style="animation-delay:.2s">
-        <img class="who" src="/img/p-beanbag.webp" width="905" height="1100" alt="" fetchpriority="high">
+        <img class="who" src="/img/p-beanbag-2.webp" width="905" height="1100" alt="" fetchpriority="high">
         <div class="float f-kpi"><small>Profit this month</small><b>₦326,400</b><span>Sales minus spending</span><svg viewBox="0 0 120 28" fill="none" stroke="#14B86B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 24l18-6 16 3 18-10 16 4 18-9 16 2 14-6"/></svg></div>
         <div class="float f-msg">Sold 2 rice and 1 palm oil to Chidi, paid by transfer</div>
         <div class="float f-rcpt"><div><small>Receipt R-0061 <i>PAID</i></small><b>Chidi Okonkwo</b><strong>₦160,500</strong></div></div>
@@ -307,8 +308,8 @@ button.btn[data-demo][disabled]{opacity:.7}
     </div>
 
     <section class="block center" id="watch">
-      <p class="kicker"><i>01</i>Watch it work</p>
-      <h2 class="h2">One message in. A receipt out.</h2>
+      <p class="kicker">Watch it work</p>
+      <h2 class="h2">One message in. A <span class="ital">receipt</span> out.</h2>
       <p class="sub">A sample conversation from the demo shop. Slipp records the sale, prints the receipt and keeps the month's numbers up to date.</p>
     <div class="stage rise" aria-hidden="true">
       <div class="printer" id="paper">
@@ -340,7 +341,7 @@ button.btn[data-demo][disabled]{opacity:.7}
     </section>
 
     <section class="block" id="how">
-      <p class="kicker"><i>02</i>How it works</p>
+      <p class="kicker">How it works</p>
       <h2 class="h2">Text it. Slipp does the paperwork.</h2>
       <p class="sub">No forms or spreadsheets to learn. If you can send a message, you can keep proper books.</p>
       <div class="steps">
@@ -352,9 +353,9 @@ button.btn[data-demo][disabled]{opacity:.7}
 
     <section class="block" id="people">
       <div class="orb-head">
-        <div><p class="kicker"><i>03</i>Who it's for</p>
+        <div><p class="kicker">Who it's for</p>
         <h2 class="h2">Every kind of shop. Every kind of owner.</h2></div>
-        <p class="sub">Fashion, food, phones, provisions. These are the messages people send Slipp every day. Drag the globe to look around.</p>
+        <p class="sub">Fashion, food, phones, provisions. Here are the kinds of messages owners send Slipp, and what comes back. Drag the globe to look around.</p>
       </div>
       <div class="orb-wrap" id="orbWrap">
         <div class="orb" id="orb"></div>
@@ -363,7 +364,7 @@ button.btn[data-demo][disabled]{opacity:.7}
     </section>
 
     <section class="block" id="product">
-      <p class="kicker"><i>04</i>The product</p>
+      <p class="kicker">The product</p>
       <h2 class="h2">The whole business, one screen away.</h2>
       <p class="sub">These are real screens from the demo shop. Open it and they're yours to try.</p>
       <div class="panels">
@@ -387,10 +388,10 @@ button.btn[data-demo][disabled]{opacity:.7}
     </section>
 
     <section class="block" id="features">
-      <p class="kicker"><i>05</i>What it keeps for you</p>
+      <p class="kicker">What it keeps for you</p>
       <h2 class="h2">Everything a small shop needs to track.</h2>
       <div class="feat">
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg></span><b>Receipts and invoices</b><p>Clean PDFs with your name, address and bank details, sent on WhatsApp in a tap.</p></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg></span><b>Receipts and invoices</b><p>Clean PDFs with your name, address and bank details. Share them on WhatsApp in one tap.</p></div>
         <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Payment reminders</b><p>Each morning on Telegram, Slipp lists the invoices that are due. Say "remind" and the message to your customer is written for you.</p></div>
         <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><b>Stock and prices</b><p>Save a price once, then just say "sold 3 rice". Slipp tells you in the chat when an item runs low.</p></div>
         <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><b>Expenses</b><p>Fuel, rent, transport. Record them as they happen so your profit is honest.</p></div>
@@ -401,7 +402,7 @@ button.btn[data-demo][disabled]{opacity:.7}
 
     <section class="final">
       <div>
-        <h2>See it work in ten seconds.</h2>
+        <h2>See it work in <span class="ital">ten seconds.</span></h2>
         <p>Open a demo shop full of sample sales, then tell Slipp about a sale and watch the receipt appear.</p>
         <div class="ctas"><button class="btn btn-green" data-demo>Try the live demo</button><a class="btn btn-line" href="/start">Create your shop</a></div>
       </div>

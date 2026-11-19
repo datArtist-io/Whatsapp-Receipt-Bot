@@ -13,7 +13,7 @@ svg{flex:none}
 .side .brand{padding:4px 12px 20px;font-size:20px}
 .side .brand img{width:26px}
 .biz-card{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:12px;border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
-.biz-av{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--mint);color:var(--green-ink);font:800 15px/1 var(--display)}
+.biz-av{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--mint);color:var(--green-ink);font:600 15px/1 var(--display)}
 .biz-txt{min-width:0;display:grid}
 .biz-txt b{font-size:14px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .biz-txt small{font-size:12.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -40,7 +40,7 @@ svg{flex:none}
 .page{overflow-y:auto;padding:32px 40px 64px;scrollbar-gutter:stable}
 .page>*{max-width:1040px;margin-left:auto;margin-right:auto}
 .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px}
-.page-head h1{font:800 32px/1.05 var(--display);letter-spacing:-.035em;margin:0}
+.page-head h1{font:600 32px/1.05 var(--display);letter-spacing:-.035em;margin:0}
 .page-head .sub{margin:6px 0 0;color:var(--mute);font-size:14.5px}
 .card{background:var(--card);border-radius:18px;padding:20px;box-shadow:var(--shadow);min-width:0}
 .card h2{font:700 15px/1.3 var(--sans);margin:0}
@@ -91,7 +91,7 @@ svg{flex:none}
 .row:first-child{border-top:0}
 .row:has(>span:last-child:empty){grid-template-columns:44px minmax(0,1fr) auto}
 .row>span:last-child:empty{display:none}
-.row .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--paper2);color:var(--ink2);font:800 15px/1 var(--display)}
+.row .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--paper2);color:var(--ink2);font:600 15px/1 var(--display)}
 .row .ic.paid{background:var(--mint);color:var(--green-ink)}
 .row .ic.unpaid{background:#FDF1DC;color:#8A5A00}
 .row .ic.late{background:#FBE3D9;color:var(--bad)}
@@ -146,7 +146,7 @@ select.i{appearance:none;background:var(--card) url("data:image/svg+xml,%3Csvg x
 .thread{flex:1;overflow-y:auto;padding:24px 24px 8px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
 .thread>*{width:100%;max-width:720px;margin-left:auto;margin-right:auto}
 .hello{margin:auto;padding:24px 0;text-align:center}
-.hello h1{font:800 clamp(30px,4vw,40px)/1.05 var(--display);letter-spacing:-.04em;margin:0 0 12px}
+.hello h1{font:600 clamp(30px,4vw,40px)/1.05 var(--display);letter-spacing:-.04em;margin:0 0 12px}
 .hello p{color:var(--mute);margin:0 auto 28px;max-width:440px;font-size:16px}
 .ideas{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
 .ideas button{border:0;cursor:pointer;text-align:left;background:var(--card);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);display:grid;gap:6px;transition:transform .35s var(--spring),box-shadow .2s}
@@ -200,7 +200,7 @@ dialog::backdrop{background:rgba(14,31,22,.32);backdrop-filter:blur(3px)}
 @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}}
 .modal-in{padding:24px;display:grid;gap:16px}
 .modal-h{display:flex;align-items:center;justify-content:space-between}
-.modal-h h2{font:800 26px/1.1 var(--display);letter-spacing:-.03em;margin:0}
+.modal-h h2{font:600 26px/1.1 var(--display);letter-spacing:-.03em;margin:0}
 .x{width:40px;height:40px;border-radius:12px;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--mute);margin-right:-8px}
 .x:hover{background:var(--paper2);color:var(--ink)}
 .x svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
@@ -216,7 +216,7 @@ dialog::backdrop{background:rgba(14,31,22,.32);backdrop-filter:blur(3px)}
 .done{text-align:center;justify-items:center;padding:40px 24px 24px}
 .done-ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:var(--mint);color:var(--green-ink)}
 .done-ic svg{width:28px;height:28px}
-.done h2{font:800 26px/1.1 var(--display);letter-spacing:-.03em;margin:4px 0 0}
+.done h2{font:600 26px/1.1 var(--display);letter-spacing:-.03em;margin:4px 0 0}
 .done .muted{margin:0}
 .done-acts{display:flex;gap:8px;margin-top:8px}
 .sheet{margin:auto auto 0;width:100%;max-width:100%;border-radius:24px 24px 0 0;background:var(--paper);padding-bottom:env(safe-area-inset-bottom)}

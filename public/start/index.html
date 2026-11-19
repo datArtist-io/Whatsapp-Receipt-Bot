@@ -9,14 +9,15 @@
 <link rel="icon" href="/brand/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Onest:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/slipp.css">
 <style>
 body{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
 .form-side{display:flex;flex-direction:column;padding:28px 40px 32px}
 .form-side .brand{align-self:flex-start}
 .box{width:100%;max-width:400px;margin:auto;padding:40px 0}
-h1{font:800 clamp(32px,3.6vw,42px)/1.04 var(--display);letter-spacing:-.04em;margin:0 0 10px;text-wrap:balance}
+h1 .ital{color:var(--green-ink)}
+h1{font:500 clamp(34px,3.8vw,46px)/1.02 var(--display);letter-spacing:-.045em;margin:0 0 10px;text-wrap:balance}
 .lead{color:var(--mute);margin:0 0 28px;font-size:16px}
 .tabs{display:flex;gap:2px;padding:3px;border-radius:12px;background:var(--paper2);margin-bottom:24px}
 .tabs button{flex:1;height:38px;border:0;border-radius:9px;background:none;font-weight:600;font-size:14.5px;color:var(--mute);cursor:pointer;transition:background-color .15s,color .15s}
@@ -44,7 +45,7 @@ select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card
 .show{position:relative;overflow:hidden;background:var(--ink);display:grid;place-items:center;padding:48px}
 .show::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 70% 20%,rgba(20,184,107,.18),transparent 70%)}
 .quote{position:absolute;left:48px;right:48px;bottom:44px;color:#C9D5CD;font-size:15px;max-width:420px}
-.quote b{display:block;color:#fff;font:700 22px/1.25 var(--display);letter-spacing:-.02em;margin-bottom:8px}
+.quote b{display:block;color:#fff;font:600 22px/1.25 var(--display);letter-spacing:-.02em;margin-bottom:8px}
 .phonebox{position:relative;width:300px;border-radius:44px;background:#05120B;padding:10px;box-shadow:0 50px 90px -30px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.08);transform:translateY(-36px)}
 .scr{border-radius:35px;overflow:hidden;background:var(--paper);height:540px;display:flex;flex-direction:column}
 .scr .top{display:flex;align-items:center;gap:10px;padding:40px 16px 12px;border-bottom:1px solid var(--line)}
@@ -77,7 +78,7 @@ select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card
 <div class="form-side">
   <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
   <div class="box">
-    <h1 id="title">Start keeping your books in a chat.</h1>
+    <h1 id="title">Start keeping your books in a <span class="ital">chat.</span></h1>
     <p class="lead" id="lead">Free. Ready in a minute. No card needed.</p>
     <p class="notice" id="notice" hidden></p>
     <div class="tabs" role="tablist">
@@ -122,7 +123,7 @@ select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card
       <div class="b it" style="animation-delay:4s">Two people: Ngozi <b>₦21,000</b> (due today) and Bayo <b>₦15,400</b> (due Friday).</div>
     </div>
   </div></div>
-  <div class="quote"><b>Your sales, written down while you talk.</b>Receipts, invoices, stock and profit, from one chat.</div>
+  <div class="quote"><b>Your sales, written down as you text.</b>Receipts, invoices, stock and profit, from one chat.</div>
 </div>
 
 <script>
@@ -136,7 +137,7 @@ function setMode(m) {
   mode = m;
   document.querySelectorAll('.tabs button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.m === m));
   document.querySelectorAll('[data-only=signup]').forEach((el) => (el.hidden = m !== 'signup'));
-  $('#title').textContent = m === 'signup' ? 'Start keeping your books in a chat.' : 'Welcome back.';
+  $('#title').innerHTML = m === 'signup' ? 'Start keeping your books in a <span class="ital">chat.</span>' : 'Welcome <span class="ital">back.</span>';
   $('#lead').textContent = m === 'signup' ? 'Free. Ready in a minute. No card needed.' : 'Sign in with your phone number and password.';
   $('#go').textContent = m === 'signup' ? 'Create my account' : 'Sign in';
   $('#fine').hidden = m !== 'signup';
