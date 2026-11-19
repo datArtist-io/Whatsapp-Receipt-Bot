@@ -2,6 +2,8 @@
 
 # Slipp
 
+**Live:** [getslipp.vercel.app](https://getslipp.vercel.app). Click **Try the live demo** to open a sample shop and chat with Slipp, no sign-up needed.
+
 Slipp keeps a small shop's books in a WhatsApp or Telegram chat. The owner texts what they sold, spent or want to know, in plain words, and Slipp:
 
 - makes **receipts** and **invoices** as PDFs, with a button to forward each one to the customer on WhatsApp
