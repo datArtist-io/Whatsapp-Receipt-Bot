@@ -17,6 +17,9 @@ module.exports = async (req, res) => {
     let business;
     if (b.action === "signup") {
       business = await store.createAccount({ ownerName: b.name, businessName: b.business, phone: b.phone, display: b.display, password: b.password, currency: b.currency });
+    } else if (b.action === "demo") {
+      const { documentFor } = require("../lib/assistant");
+      business = await require("../lib/demo").createDemo(documentFor, require("../lib/sale").origin(req));
     } else if (b.action === "signin") {
       business = await store.signIn(b.phone, b.password);
     } else {

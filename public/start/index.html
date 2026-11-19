@@ -106,7 +106,7 @@ select.i{appearance:none;padding-right:30px;cursor:pointer;background:var(--card
       </label>
       <p class="err" id="err" role="alert"></p>
       <button class="btn btn-green submit" id="go">Create my account</button>
-      <p class="fine" id="fine">By creating an account you agree to keep your own records accurate. Slipp is free to use.</p>
+      <p class="fine" id="fine">Just looking? <a href="/" id="demoLink">Open the demo shop</a> instead. No sign-up needed.</p>
     </form>
   </div>
 </div>
@@ -146,6 +146,12 @@ function setMode(m) {
 document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.m)));
 setMode(mode);
 
+$('#demoLink').addEventListener('click', async (e) => {
+  e.preventDefault();
+  e.target.textContent = 'Opening…';
+  const r = await fetch('/api/auth', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{"action":"demo"}' });
+  if (r.ok) location.href = '/app'; else e.target.textContent = 'Open the demo shop';
+});
 $('#peek').addEventListener('click', () => {
   const pw = document.querySelector('[name=password]');
   pw.type = pw.type === 'password' ? 'text' : 'password';

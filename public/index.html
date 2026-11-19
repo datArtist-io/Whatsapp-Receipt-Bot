@@ -10,7 +10,8 @@
 <meta property="og:title" content="Slipp: your shop's books, kept by chat">
 <meta property="og:description" content="Receipts, invoices, stock, expenses and profit, from one chat.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/img/app-overview.jpg">
+<meta property="og:image" content="https://getslipp.vercel.app/img/app-overview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -122,6 +123,8 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:16px;co
 footer nav{display:flex;gap:20px}
 footer a{color:var(--mute);text-decoration:none}
 footer a:hover{color:var(--ink)}
+footer a.me{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+button.btn[data-demo][disabled]{opacity:.7}
 
 @media (max-width:1000px){
   .hero{grid-template-columns:1fr;min-height:0;gap:40px;padding-top:24px}
@@ -161,7 +164,7 @@ footer a:hover{color:var(--ink)}
     <span class="grow"></span>
     <a class="l" href="#how">How it works</a>
     <a class="l" href="/start?signin">Sign in</a>
-    <a class="btn btn-ink" href="/start">Get started</a>
+    <button class="btn btn-ink" data-demo>Try the demo</button>
   </header>
 
   <main>
@@ -170,11 +173,11 @@ footer a:hover{color:var(--ink)}
         <h1 data-enter>Your shop's books, <em>kept by chat.</em></h1>
         <p class="lead" data-enter style="animation-delay:.08s">Tell Slipp what you sold, spent or want to know, the way you'd text a friend. It writes the receipts and invoices, keeps your stock count and tells you what you made.</p>
         <div class="ctas" data-enter style="animation-delay:.16s">
-          <a class="btn btn-green" href="/start">Get started free</a>
-          <a class="btn btn-line" href="#how">See how it works</a>
+          <button class="btn btn-green" data-demo>Try the live demo</button>
+          <a class="btn btn-line" href="/start">Create your shop</a>
         </div>
         <div class="trust" data-enter style="animation-delay:.24s">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Free to use</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No sign-up for the demo</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing to install</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Pidgin is fine</span>
         </div>
@@ -240,15 +243,28 @@ footer a:hover{color:var(--ink)}
     </section>
 
     <section class="final">
-      <div><h2>Your next sale, written down for you.</h2><p>Create an account in a minute and tell Slipp about your first sale.</p></div>
-      <div class="ctas"><a class="btn btn-green" href="/start">Get started free</a><a class="btn btn-line" href="/start?signin">Sign in</a></div>
+      <div><h2>See it work in ten seconds.</h2><p>Open a demo shop full of sample sales, then tell Slipp about a sale and watch the receipt appear.</p></div>
+      <div class="ctas"><button class="btn btn-green" data-demo>Try the live demo</button><a class="btn btn-line" href="/start">Create your shop</a></div>
       <img class="mark" src="/brand/logo.svg" alt="">
     </section>
   </main>
 
-  <footer><span>© 2026 Slipp</span><nav><a href="/start?signin">Sign in</a><a href="/api/sample">Sample receipt</a><a href="https://github.com/datArtist-io/Whatsapp-Receipt-Bot">Source</a></nav></footer>
+  <footer><span>Designed and built by <a class="me" href="https://josiaholuwadare.com" target="_blank" rel="noopener">Josiah Oluwadare</a></span><nav><a href="/start?signin">Sign in</a><a href="/api/sample">Sample receipt</a><a href="https://github.com/datArtist-io/Whatsapp-Receipt-Bot" target="_blank" rel="noopener">Source code</a></nav></footer>
 </div>
 <script>
+// "Try the live demo": a private demo shop, opened straight into the app.
+document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('click', async () => {
+  const all = document.querySelectorAll('[data-demo]');
+  all.forEach((x) => { x.disabled = true; x.dataset.label = x.textContent; x.textContent = 'Opening the demo…'; });
+  try {
+    const r = await fetch('/api/auth', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{"action":"demo"}' });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'Try again');
+    location.href = '/app';
+  } catch (e) {
+    all.forEach((x) => { x.disabled = false; x.textContent = x.dataset.label; });
+    alert("The demo couldn't open just now. " + e.message);
+  }
+}));
 // The dashboard eases into place as it scrolls into view.
 (() => {
   const f = document.querySelector('.frame');

@@ -25,12 +25,12 @@ module.exports = async (req, res) => {
 
     if (req.method === "GET") {
       const msgs = await store.transcript(chat.id);
-      return json(res, 200, { business: { name: business.name, owner: business.owner_name, currency: business.currency }, messages: msgs.map(shape) });
+      return json(res, 200, { business: { name: business.name, owner: business.owner_name, currency: business.currency, demo: business.demo }, messages: msgs.map(shape) });
     }
     if (req.method !== "POST" || !auth.isJson(req)) return json(res, 405, { error: "Use POST with JSON." });
     const text = String((await jsonBody(req)).text || "").trim().slice(0, 2000);
     if (!text) return json(res, 400, { error: "Type a message first." });
-    if ((await store.sentToday(chat.id)) >= DAILY_LIMIT) {
+    if ((await store.sentToday(chat.id)) >= (business.demo ? 40 : DAILY_LIMIT)) {
       return json(res, 429, { error: "You've sent a lot of messages today. Slipp will be back for you tomorrow." });
     }
     let answer;

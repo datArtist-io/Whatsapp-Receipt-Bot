@@ -98,3 +98,7 @@ create table if not exists slipp.seen_updates (
   key text primary key,
   created_at timestamptz not null default now()
 );
+
+-- Added later. Demo shops are made for visitors who try Slipp without signing up,
+-- and are deleted after a day.
+alter table slipp.businesses add column if not exists demo boolean not null default false;

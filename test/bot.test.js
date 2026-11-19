@@ -313,3 +313,28 @@ test("the website: sign up, chat with Slipp, see the receipt in the chat, sign i
   assert.equal(d.invoices[0].customer, "Bola");
   assert.equal((await realFetch(`${base}/api/chat`)).status, 401);
 });
+
+test("the live demo: one click opens a private shop full of sample data, removed after a day", async () => {
+  const { query } = require("../lib/db");
+  const r = await realFetch(`${base}/api/auth`, { method: "POST", headers: { "content-type": "application/json" }, body: '{"action":"demo"}' });
+  assert.equal(r.status, 200);
+  const cookie = r.headers.get("set-cookie").split(";")[0];
+  const chat = await (await realFetch(`${base}/api/chat`, { headers: { cookie } })).json();
+  assert.equal(chat.business.demo, true);
+  assert.equal(chat.business.name, "Amaka's Provisions");
+  assert.equal(chat.messages.length, 4);
+  assert.equal(chat.messages[1].documents.length, 1, "the demo chat starts with a receipt card");
+  const d = await (await realFetch(`${base}/api/dashboard?period=all`, { headers: { cookie } })).json();
+  assert.ok(d.invoices.length >= 40, "six months of sales");
+  assert.equal(d.unpaid.length, 2);
+  assert.ok(d.unpaid.some((i) => i.overdue));
+  assert.ok(d.series.filter((m) => m.revenue > 0).length >= 5, "the chart has several months");
+  assert.equal(d.products.filter((p) => p.stock != null && p.stock <= p.low_stock).length, 1, "one item running low");
+  assert.ok(d.report.revenue > 0 && d.report.expenses > 0);
+
+  // a day later the daily job removes it
+  await query(`update slipp.businesses set created_at = now() - interval '2 days' where demo`);
+  const cron = await (await realFetch(`${base}/api/cron/daily`, { headers: { authorization: "Bearer cron-secret" } })).json();
+  assert.ok(cron.demoShopsRemoved >= 1);
+  assert.equal((await realFetch(`${base}/api/chat`, { headers: { cookie } })).status, 401);
+});

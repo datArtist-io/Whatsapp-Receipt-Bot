@@ -149,7 +149,7 @@
   });
   $('#signOut').addEventListener('click', async () => {
     await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{"logout":true}' });
-    location.replace('/start?signin');
+    location.replace($('#demoCard').hidden ? '/start?signin' : '/');
   });
 
   // ---------- chat ----------
@@ -280,6 +280,12 @@
     $('#bizName').textContent = chat.business.name || 'Your business';
     $('#bizAv').textContent = initials(chat.business.name);
     greet(chat.business.owner);
+    if (chat.business.demo) {
+      $('#demoCard').hidden = false;
+      $('.demo-cta').hidden = false;
+      $('#chatSub').textContent = 'Demo shop with sample data. Try it.';
+      $('#signOut').textContent = 'Leave the demo';
+    }
     if (chat.messages.length) chat.messages.forEach((m) => addMessage(m, false));
     else $('#hello').hidden = false;
     $('#shell').hidden = false;

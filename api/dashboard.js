@@ -28,7 +28,7 @@ async function load(req, bid, period) {
   const code = links.connectCode(bid);
   const has = new Set(chats.map((c) => c.channel));
   return {
-    business: { name: business.name, currency: business.currency, phone: business.phone, address: business.address, bank: business.bank },
+    business: { name: business.name, currency: business.currency, phone: business.phone, address: business.address, bank: business.bank, demo: business.demo },
     report, series,
     invoices: invoices.map((i) => inv(ctx, business, i)),
     unpaid: unpaid.map((i) => inv(ctx, business, i)),

@@ -18,7 +18,8 @@ function fromCron(req) {
 module.exports = async (req, res) => {
   try {
     if (!fromCron(req)) return json(res, 401, { error: "Only Vercel Cron can run this." });
-    const due = await store.dueInvoices();
+    const removed = await require("../../lib/demo").cleanup();
+    const due = (await store.dueInvoices()).filter((i) => !i.demo);
     const byBusiness = new Map();
     for (const inv of due) {
       if (!byBusiness.has(inv.business_id)) byBusiness.set(inv.business_id, []);
@@ -52,7 +53,7 @@ module.exports = async (req, res) => {
         for (const i of invs) await store.noteReminder(i.id);
       }
     }
-    json(res, 200, { ok: true, businesses: byBusiness.size, sent });
+    json(res, 200, { ok: true, businesses: byBusiness.size, sent, demoShopsRemoved: removed });
   } catch (e) {
     fail(res, e);
   }
