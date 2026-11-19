@@ -8,6 +8,7 @@ const { json, jsonBody, fail } = require("../lib/http");
 module.exports = async (req, res) => {
   try {
     if (req.method !== "POST" || !auth.isJson(req)) return json(res, 405, { error: "Use POST with JSON." });
+    if (!require("../lib/db").ready()) return json(res, 503, { error: "Slipp is getting set up. Accounts open in a few minutes, so please try again shortly." });
     const b = await jsonBody(req);
     let business;
     if (b.action === "signup") {
