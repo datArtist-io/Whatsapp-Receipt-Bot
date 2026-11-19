@@ -19,44 +19,44 @@
 <style>
 h1,h2,h3{text-wrap:balance}
 p{text-wrap:pretty}
-.top{position:sticky;top:0;z-index:20;background:rgba(244,242,234,.82);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+:root{--tint-mint:#E4F0E7;--tint-sand:#F1E9DA;--tint-sky:#E3ECEC;--tint-stone:#ECE8DF}
+
+/* nav */
+.top{position:sticky;top:0;z-index:20;background:rgba(244,242,234,.84);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
 .top.stuck{border-bottom-color:var(--line)}
 .nav{display:flex;align-items:center;gap:4px;height:68px}
 .nav .links{display:flex;gap:2px;margin-left:28px}
 .nav .grow{flex:1}
-.nav a.l{color:var(--ink2);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 12px;border-radius:8px;transition:background-color .15s,color .15s}
+.nav a.l{color:var(--ink2);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 12px;border-radius:8px;transition:background-color .15s}
 .nav a.l:hover{background:var(--paper2)}
-.nav .btn{height:38px;padding:0 16px;font-size:14.5px;border-radius:9px}
+.nav .btn{height:38px;padding:0 16px;font-size:14.5px;border-radius:99px}
 
-/* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) 580px;gap:48px;align-items:center;padding:72px 0 88px}
-.hero h1{font:600 clamp(44px,5.3vw,70px)/1.02 var(--display);letter-spacing:-.04em;margin:0 0 22px}
-.hero h1 em{font-style:normal;color:#7B877F}
-.pill{display:inline-flex;align-items:center;gap:10px;margin:0 0 28px;padding:5px 12px 5px 5px;border-radius:99px;background:var(--card);box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(14,31,22,.05);font-size:13.5px;color:var(--ink2);text-decoration:none;transition:box-shadow .2s}
-.pill:hover{box-shadow:0 0 0 1px var(--line2),0 4px 12px -4px rgba(14,31,22,.12)}
-.pill b{background:var(--mint);color:var(--green-ink);font:600 11.5px/1 var(--sans);padding:5px 9px;border-radius:99px}
-.pill svg{width:14px;height:14px;color:var(--mute)}
-.hero .lead{font-size:18px;line-height:1.6;color:var(--mute);max-width:480px;margin:0 0 32px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.ctas .btn{height:48px;padding:0 22px;font-size:15.5px;border-radius:10px}
-.trust{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;margin-top:24px;color:var(--faint);font-size:13.5px}
-.trust span{display:inline-flex;align-items:center;gap:7px}
-.trust svg{width:15px;height:15px;color:var(--mute)}
+/* hero: one statement, centred, then the product in its own panel */
+.hero{text-align:center;padding:104px 0 56px}
+.hero h1{font:600 clamp(42px,6.4vw,84px)/1.02 var(--display);letter-spacing:-.045em;margin:0 auto 24px;max-width:15ch}
+.hero h1 .muted{color:#7B877F}
+.chip{display:inline-grid;place-items:center;vertical-align:middle;width:1.18em;height:.86em;margin:0 .06em .1em;border-radius:.2em;background:var(--green);box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.chip svg{width:.5em;height:.5em}
+.hero .lead{font-size:18.5px;line-height:1.6;color:var(--mute);max-width:540px;margin:0 auto 34px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ctas .btn{height:50px;padding:0 24px;font-size:15.5px;border-radius:99px}
+.trust{margin-top:22px;color:var(--faint);font-size:13.5px}
 [data-enter]{opacity:0;transform:translateY(14px);animation:enter .8s var(--ease) forwards}
 @keyframes enter{to{opacity:1;transform:none}}
 
-/* the phone with a live chat, and a receipt that drops out of it */
-.stage{position:relative;height:660px;border-radius:28px;background:radial-gradient(120% 80% at 80% 0%,#E3F1E7 0,rgba(227,241,231,0) 60%),linear-gradient(var(--paper2),var(--paper2));box-shadow:inset 0 0 0 1px var(--line)}
-.stage::before{content:"";position:absolute;inset:0;border-radius:inherit;background-image:linear-gradient(rgba(14,31,22,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(14,31,22,.045) 1px,transparent 1px);background-size:32px 32px;-webkit-mask:radial-gradient(90% 70% at 50% 40%,#000,transparent);mask:radial-gradient(90% 70% at 50% 40%,#000,transparent)}
-.phone{position:absolute;right:24px;top:26px;width:284px;height:608px;border-radius:46px;background:#0B1A12;padding:11px;box-shadow:0 40px 60px -36px rgba(14,31,22,.55),inset 0 0 0 1.5px rgba(255,255,255,.07)}
-.phone::before{content:"";position:absolute;top:22px;left:50%;width:90px;height:26px;margin-left:-45px;border-radius:20px;background:#0B1A12;z-index:3}
+/* the set piece: a dark panel with the live chat and the printer */
+.stage{position:relative;height:700px;border-radius:32px;overflow:hidden;background:radial-gradient(70% 60% at 50% 0%,#1B3527 0,#0E1F16 70%);margin-bottom:40px}
+.stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;-webkit-mask:radial-gradient(70% 70% at 50% 40%,#000,transparent);mask:radial-gradient(70% 70% at 50% 40%,#000,transparent)}
+.stage .cap{position:absolute;left:28px;bottom:24px;font:500 12px/1 var(--mono);color:#7F9487;letter-spacing:.02em}
+.phone{position:absolute;left:50%;top:48px;width:300px;height:610px;margin-left:-150px;border-radius:46px;background:#050C08;padding:11px;box-shadow:0 50px 80px -30px rgba(0,0,0,.7),inset 0 0 0 1.5px rgba(255,255,255,.1)}
+.phone::before{content:"";position:absolute;top:22px;left:50%;width:90px;height:26px;margin-left:-45px;border-radius:20px;background:#050C08;z-index:3}
 .screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column}
 .sc-head{display:flex;align-items:center;gap:10px;padding:56px 16px 12px;border-bottom:1px solid var(--line);background:rgba(244,242,234,.9)}
 .sc-head .av{width:34px;height:34px;border-radius:10px;background:#fff;display:grid;place-items:center;box-shadow:var(--shadow)}
 .sc-head .av img{width:18px}
 .sc-head b{display:block;font-size:14px}
 .sc-head small{display:block;font-size:11.5px;color:var(--mute)}
-.sc-body{flex:1;min-height:0;overflow:hidden;padding:14px 12px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
+.sc-body{flex:1;min-height:0;overflow:hidden;padding:14px 12px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;text-align:left}
 .b{max-width:86%;padding:8px 12px;border-radius:16px;font-size:12.5px;line-height:1.45;opacity:0;transform:translateY(10px) scale(.97)}
 .b.me{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:5px;transform-origin:right bottom}
 .b.it{align-self:flex-start;background:#fff;border-bottom-left-radius:5px;box-shadow:0 0 0 1px var(--line);transform-origin:left bottom}
@@ -76,29 +76,41 @@ p{text-wrap:pretty}
 .rc strong{font:600 19px/1.2 var(--mono);letter-spacing:-.03em}
 .rc .go{margin:2px 8px 8px;height:30px;border-radius:9px;background:var(--green);color:#fff;font-size:11.5px;font-weight:600;display:grid;place-items:center}
 /* the printer: a receipt rolls out, upright, when the chat makes one */
-.printer{position:absolute;left:24px;top:110px;width:226px;z-index:1}
-.printer .head{position:relative;height:34px;border-radius:14px;background:linear-gradient(#1A2C22,#0B1A12);box-shadow:0 18px 30px -16px rgba(14,31,22,.55),inset 0 1px 0 rgba(255,255,255,.08)}
-.printer .head::before{content:"";position:absolute;left:16px;top:13px;width:7px;height:7px;border-radius:50%;background:#3A4A40;transition:background-color .3s,box-shadow .3s}
-.printer.on .head::before{background:var(--green);box-shadow:0 0 0 4px rgba(20,184,107,.18)}
-.printer .head::after{content:"";position:absolute;left:44px;right:16px;bottom:9px;height:4px;border-radius:4px;background:#050E09}
+.printer{position:absolute;right:calc(50% + 190px);top:150px;width:240px;z-index:1;text-align:left}
+.printer .head{position:relative;height:34px;border-radius:14px;background:linear-gradient(#2A3F33,#16261D);box-shadow:0 18px 30px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1)}
+.printer .head::before{content:"";position:absolute;left:16px;top:13px;width:7px;height:7px;border-radius:50%;background:#43554A;transition:background-color .3s,box-shadow .3s}
+.printer.on .head::before{background:var(--green);box-shadow:0 0 0 4px rgba(20,184,107,.22)}
+.printer .head::after{content:"";position:absolute;left:44px;right:16px;bottom:9px;height:4px;border-radius:4px;background:#050C08}
 .printer .feed{overflow:hidden;margin:-12px 12px 0;padding:0 6px 28px}
 .printer .slip{padding:20px 18px 26px;transform:translateY(-101%);transition:transform 2.2s cubic-bezier(.3,.7,.25,1)}
 .printer.on .slip{transform:none}
 .printer .slip .biz{font-size:16px}
 .printer .slip .item{font-size:12.5px}
 .printer .slip .total b{font-size:18px}
+/* a month-to-date note on the other side */
+.note{position:absolute;left:calc(50% + 190px);top:200px;width:220px;padding:18px 18px 16px;border-radius:18px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);color:#fff;text-align:left;opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.note.on{opacity:1;transform:none}
+.note small{display:block;font:500 11.5px/1 var(--mono);color:#8EA497;margin-bottom:12px}
+.note b{display:block;font:600 26px/1.1 var(--mono);letter-spacing:-.03em}
+.note span{display:block;font-size:13px;color:#A9BAB0;margin-top:4px}
+.note hr{border:0;border-top:1px solid rgba(255,255,255,.1);margin:14px 0}
+.note .row{display:flex;justify-content:space-between;font-size:13px;color:#C9D5CD;padding:3px 0}
+.note .row i{font-style:normal;font-family:var(--mono)}
 
 /* where it runs */
-.band{display:grid;grid-template-columns:auto repeat(4,1fr);align-items:center;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band{display:grid;grid-template-columns:auto repeat(4,1fr);align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .band p{margin:0;padding:22px 32px 22px 0;font-size:13.5px;color:var(--mute);max-width:190px;line-height:1.4}
 .band span{display:flex;align-items:center;justify-content:center;gap:10px;height:72px;border-left:1px solid var(--line);font-weight:600;font-size:15px;color:var(--ink2)}
-.band svg{width:20px;height:20px;color:var(--ink2);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.band svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .band small{font:500 11px/1 var(--sans);color:var(--faint);margin-left:-2px}
+
 /* sections */
-section.block{padding:112px 0}
-.kicker{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);margin:0 0 18px}
-.h2{font:600 clamp(32px,3.8vw,48px)/1.06 var(--display);letter-spacing:-.035em;margin:0 0 16px;max-width:720px}
+section.block{padding:120px 0 0}
+.kicker{font:500 13px/1 var(--mono);color:var(--green-ink);margin:0 0 18px}
+.kicker i{font-style:normal;color:var(--faint);margin-right:8px}
+.h2{font:600 clamp(32px,4vw,52px)/1.05 var(--display);letter-spacing:-.04em;margin:0 0 16px;max-width:720px}
 .sub{color:var(--mute);font-size:18px;max-width:560px;margin:0}
+.head2{display:flex;justify-content:space-between;align-items:flex-end;gap:32px}
 
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
 .step{padding-top:24px;border-top:1px solid var(--ink)}
@@ -108,131 +120,139 @@ section.block{padding:112px 0}
 .say{display:inline-block;margin-top:16px;background:var(--ink);color:#fff;border-radius:14px 14px 4px 14px;padding:9px 13px;font-size:14px}
 .say.it{background:#fff;color:var(--ink);border-radius:14px 14px 14px 4px;box-shadow:0 0 0 1px var(--line)}
 
-.show{margin-top:56px;position:relative}
-.frame{transform:translateY(40px) scale(.96);opacity:.4;transition:transform 1.1s var(--ease),opacity 1.1s var(--ease);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 2px 0 rgba(14,31,22,.04),0 50px 100px -40px rgba(14,31,22,.45),0 0 0 1px rgba(14,31,22,.08)}
-.frame.in{transform:none;opacity:1}
-.frame .bar{display:flex;gap:6px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
-.frame .bar i{width:10px;height:10px;border-radius:50%;background:var(--line2)}
-.frame .bar span{margin-left:12px;font:500 12px/1 var(--mono);color:var(--mute);background:#fff;padding:6px 12px;border-radius:7px;box-shadow:0 0 0 1px var(--line)}
-.frame img{display:block;width:100%;height:auto;outline:1px solid rgba(0,0,0,.06);outline-offset:-1px}
-.points{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:40px}
-.points b{display:block;font-size:16px;margin-bottom:4px}
-.points p{margin:0;color:var(--mute);font-size:15px}
+/* product panels: real screens from the demo shop */
+.panels{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:56px}
+.panel{position:relative;border-radius:28px;overflow:hidden;padding:44px 44px 0;display:flex;flex-direction:column;min-height:520px}
+.panel.wide{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:40px;padding:56px 0 0 56px;min-height:0}
+.panel>p:last-of-type,.panel>div>p:last-child{margin-bottom:40px}
+.panel h3{font:600 clamp(24px,2.4vw,30px)/1.15 var(--display);letter-spacing:-.03em;margin:0 0 12px;max-width:420px}
+.panel p{margin:0;color:var(--ink2);opacity:.8;font-size:16px;max-width:400px}
+.panel .tag{font:500 12px/1 var(--mono);color:var(--green-ink);margin-bottom:16px}
+.panel .shot{margin-top:auto;padding-top:0;align-self:stretch;border-radius:16px 16px 0 0;overflow:hidden;box-shadow:0 0 0 1px rgba(14,31,22,.08),0 30px 60px -30px rgba(14,31,22,.35);background:#fff}
+.panel.wide .shot{margin:0 0 0 0;border-radius:16px 0 0 0;align-self:end}
+.panel .shot img{display:block;width:100%;height:auto}
+.panel .shot.phone-shot{width:300px;align-self:center;border-radius:30px 30px 0 0;border:8px solid #0B1A12;border-bottom:0}
+.panel .shot.right{width:165%;margin-right:-44px;border-radius:16px 0 0 0}
+.mint{background:var(--tint-mint)}.sand{background:var(--tint-sand)}.sky{background:var(--tint-sky)}.stone{background:var(--tint-stone)}
+.rise{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rise.in{opacity:1;transform:none}
 
-.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;margin-top:48px}
-.f-row{display:flex;gap:16px;padding:22px 0;border-top:1px solid var(--line2)}
-.f-row .ic{width:42px;height:42px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center;flex:none;color:var(--green-ink)}
-.f-row .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.f-row b{display:block;font-size:16.5px;margin:2px 0 4px}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:48px}
+.f-row{padding:24px 0 28px;border-top:1px solid var(--line2)}
+.f-row .ic{width:40px;height:40px;border-radius:12px;background:var(--card);box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;color:var(--green-ink);margin-bottom:18px}
+.f-row .ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.f-row b{display:block;font-size:16.5px;margin:0 0 6px}
 .f-row p{margin:0;color:var(--mute);font-size:15px}
 
-.final{background:var(--ink);color:#fff;border-radius:24px;padding:80px 64px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;margin:0 0 32px;position:relative;overflow:hidden}
-.final h2{font:600 clamp(32px,4vw,50px)/1.05 var(--display);letter-spacing:-.035em;margin:0 0 14px}
-.final p{color:#B7C4BC;margin:0;font-size:17px;max-width:440px}
-.final .ctas{justify-content:flex-end}
+.final{background:var(--ink);color:#fff;border-radius:32px;padding:88px 64px;text-align:center;margin:120px 0 0;position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 0%,rgba(20,184,107,.18),transparent 70%)}
+.final>*{position:relative}
+.final h2{font:600 clamp(34px,4.6vw,60px)/1.02 var(--display);letter-spacing:-.04em;margin:0 auto 16px;max-width:14ch}
+.final p{color:#B7C4BC;margin:0 auto 36px;font-size:17.5px;max-width:460px}
 .final .btn-line{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
 .final .btn-line:hover{box-shadow:inset 0 0 0 1px #fff}
-.final .mark{position:absolute;right:-40px;top:-50px;width:260px;opacity:.06;transform:rotate(14deg);pointer-events:none}
-footer{color:var(--mute);font-size:14px;border-top:1px solid var(--line);margin-top:72px;padding:56px 0 40px}
+
+/* footer as a colophon, with the wordmark cut off at the bottom edge */
+footer{color:var(--mute);font-size:14px;padding:80px 0 0;overflow:hidden}
 footer .cols{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:32px}
 footer .about p{margin:14px 0 0;max-width:280px}
-footer h4{margin:4px 0 14px;font:600 13px/1 var(--sans);color:var(--ink)}
+footer h4{margin:4px 0 14px;font:500 12.5px/1 var(--mono);color:var(--ink)}
 footer nav{display:grid;gap:10px}
-footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--faint)}
 footer a{color:var(--mute);text-decoration:none}
 footer a:hover{color:var(--ink)}
-footer a.me{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+footer a.me{color:var(--ink);font-weight:600}
+footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--faint)}
+.mark{display:block;width:100%;height:auto;margin-top:48px;user-select:none}
+.mark text{font:800 330px var(--display);fill:var(--ink)}
 button.btn[data-demo][disabled]{opacity:.7}
 
 @media (max-width:1000px){
-  .hero{grid-template-columns:1fr;gap:48px;padding:48px 0 64px}
   .nav .links{display:none}
+  .hero{padding:64px 0 40px}
+  .printer,.note{display:none}
   .band{grid-template-columns:repeat(2,1fr)}
   .band p{grid-column:1/-1;max-width:none;padding:20px 0 4px}
   .band span{border-left:0;border-top:1px solid var(--line)}
   .band span:nth-of-type(even){border-left:1px solid var(--line)}
+  .steps,.feat{grid-template-columns:1fr;gap:0 28px}
+  .steps{gap:28px}
+  .panels{grid-template-columns:1fr}
+  .panel.wide{grid-template-columns:1fr;padding:40px 0 0 32px;gap:32px}
+  .panel{padding:36px 32px 0;min-height:0}
+  .panel .shot.right{margin-right:-32px}
+  .final{padding:56px 28px}
   footer .cols{grid-template-columns:1fr 1fr}
   footer .about{grid-column:1/-1}
-  .hero>div:first-child{max-width:640px}
-  .stage{max-width:560px;width:100%;margin:0 auto;height:640px}
-  .steps,.points{grid-template-columns:1fr;gap:28px}
-  .feat{grid-template-columns:1fr}
-  .final{grid-template-columns:1fr;padding:48px 32px}
-  .final .ctas{justify-content:flex-start}
-  section.block{padding:80px 0}
+  section.block{padding-top:88px}
 }
 @media (max-width:600px){
   .wrap{padding:0 16px}
   .nav a.l{display:none}
-  .nav .btn{height:40px;padding:0 14px}
+  .nav .btn{height:38px;padding:0 14px}
+  .hero h1{font-size:42px}
   .hero .lead{font-size:17px}
   .ctas .btn{flex:1}
-  .trust{gap:16px;font-size:13.5px}
-  .trust span:nth-child(3){display:none}
-  .stage{height:600px;border-radius:22px}
-  .phone{left:50%;right:auto;margin-left:-140px;width:280px;height:560px;top:20px}
-  .hero h1{font-size:42px}
-  .hero{padding-top:32px}
-  .printer{display:none}
-  .frame .bar span{display:none}
-  .frame{max-width:340px;margin:0 auto;border-radius:28px}
-  .frame .bar{display:none}
-  .final{border-radius:24px;padding:40px 24px}
+  .stage{height:600px;border-radius:24px;margin:0 -4px 32px}
+  .phone{width:280px;height:560px;margin-left:-140px;top:28px}
+  .stage .cap{display:none}
+  .panel{border-radius:22px;padding:30px 24px 0}
+  .panel.wide{padding:30px 0 0 24px}
+  .panel .shot.right{margin-right:-24px}
+  .panel .shot.phone-shot{width:240px}
+  .final{border-radius:24px;margin-top:88px}
 }
-.frame{will-change:transform}
-@media (prefers-reduced-motion:reduce){.frame{transform:none!important;opacity:1!important}.printer .slip{transform:none!important;transition:none}[data-enter],.b,.rc{opacity:1!important;transform:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){.rise,.note{opacity:1!important;transform:none!important}.printer .slip{transform:none!important;transition:none}[data-enter],.b,.rc{opacity:1!important;transform:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-</div>
 <div class="top" id="top"><div class="wrap">
   <header class="nav">
     <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
-    <nav class="links"><a class="l" href="#how">How it works</a><a class="l" href="#product">Dashboard</a><a class="l" href="#features">Features</a><a class="l" href="https://t.me/getslipp_bot" target="_blank" rel="noopener">Telegram</a></nav>
+    <nav class="links"><a class="l" href="#how">How it works</a><a class="l" href="#product">Product</a><a class="l" href="#features">Features</a><a class="l" href="https://t.me/getslipp_bot" target="_blank" rel="noopener">Telegram</a></nav>
     <span class="grow"></span>
     <a class="l" href="/start?signin">Sign in</a>
     <button class="btn btn-ink" data-demo>Try the demo</button>
   </header>
 </div></div>
 <div class="wrap">
-
   <main>
     <section class="hero">
-      <div>
-        <a class="pill" data-enter href="https://t.me/getslipp_bot" target="_blank" rel="noopener"><b>New</b>Slipp now works in Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a>
-        <h1 data-enter style="animation-delay:.04s">Your shop's books, <em>kept by chat.</em></h1>
-        <p class="lead" data-enter style="animation-delay:.08s">Tell Slipp what you sold, spent or want to know, the way you'd text a friend. It writes the receipts and invoices, keeps your stock count and tells you what you made.</p>
-        <div class="ctas" data-enter style="animation-delay:.16s">
-          <button class="btn btn-ink" data-demo>Try the live demo</button>
-          <a class="btn btn-line" href="/start">Create your shop</a>
-        </div>
-        <div class="trust" data-enter style="animation-delay:.24s">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No sign-up needed</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing to install</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Pidgin is fine</span>
-        </div>
+      <h1 data-enter>Your shop's books, <span class="chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg></span> <span class="muted">kept by chat.</span></h1>
+      <p class="lead" data-enter style="animation-delay:.08s">Tell Slipp what you sold, spent or want to know, the way you'd text a friend. It writes the receipts and invoices, keeps your stock count and tells you what you made.</p>
+      <div class="ctas" data-enter style="animation-delay:.16s">
+        <button class="btn btn-ink" data-demo>Try the live demo</button>
+        <a class="btn btn-line" href="/start">Create your shop</a>
       </div>
-
-      <div class="stage" aria-hidden="true">
-        <div class="phone"><div class="screen">
-          <div class="sc-head"><span class="av"><img src="/brand/logo.svg" alt=""></span><div><b>Slipp</b><small>Your bookkeeper</small></div></div>
-          <div class="sc-body" id="demo"></div>
-        </div></div>
-        <div class="printer" id="paper">
-          <div class="head"></div>
-          <div class="feed"><div class="slip">
-            <div class="biz">Amaka's Provisions</div>
-            <div class="bizsub">Ogbete Market, Enugu</div>
-            <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
-            <div class="item"><span>Rice 50kg</span><b>₦144,000</b><small>2 × ₦72,000</small></div>
-            <div class="item"><span>Palm oil 5L</span><b>₦16,500</b><small>1 × ₦16,500</small></div>
-            <hr class="cut">
-            <div class="total"><span>Total</span><b>₦160,500</b></div>
-          </div></div>
-        </div>
-      </div>
+      <p class="trust" data-enter style="animation-delay:.24s">Free · No card · Works in English and Pidgin</p>
     </section>
+
+    <div class="stage" aria-hidden="true" data-enter style="animation-delay:.3s">
+      <div class="printer" id="paper">
+        <div class="head"></div>
+        <div class="feed"><div class="slip">
+          <div class="biz">Amaka's Provisions</div>
+          <div class="bizsub">Ogbete Market, Enugu</div>
+          <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
+          <div class="item"><span>Rice 50kg</span><b>₦144,000</b><small>2 × ₦72,000</small></div>
+          <div class="item"><span>Palm oil 5L</span><b>₦16,500</b><small>1 × ₦16,500</small></div>
+          <hr class="cut">
+          <div class="total"><span>Total</span><b>₦160,500</b></div>
+        </div></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sc-head"><span class="av"><img src="/brand/logo.svg" alt=""></span><div><b>Slipp</b><small>Your bookkeeper</small></div></div>
+        <div class="sc-body" id="demo"></div>
+      </div></div>
+      <div class="note" id="note">
+        <small>November so far</small>
+        <b>₦326,400</b><span>profit</span>
+        <hr>
+        <div class="row"><span>Sales</span><i>₦398,400</i></div>
+        <div class="row"><span>Spent</span><i>₦72,000</i></div>
+        <div class="row"><span>Owed to you</span><i>₦105,000</i></div>
+      </div>
+      <span class="cap">Amaka's Provisions · sample shop</span>
+    </div>
 
     <div class="band">
       <p>Works in the places your shop already runs</p>
@@ -243,7 +263,7 @@ button.btn[data-demo][disabled]{opacity:.7}
     </div>
 
     <section class="block" id="how">
-      <p class="kicker">How it works</p>
+      <p class="kicker"><i>01</i>How it works</p>
       <h2 class="h2">Text it. Slipp does the paperwork.</h2>
       <p class="sub">No forms or spreadsheets to learn. If you can send a message, you can keep proper books.</p>
       <div class="steps">
@@ -253,38 +273,47 @@ button.btn[data-demo][disabled]{opacity:.7}
       </div>
     </section>
 
-    <section class="block" id="product" style="padding-top:0">
-      <p class="kicker">Your dashboard</p>
-      <h2 class="h2">The whole business on one screen.</h2>
-      <p class="sub">Everything you tell Slipp lands here: sales, spending, profit, stock and who owes you.</p>
-      <div class="show">
-        <div class="frame"><div class="bar"><i></i><i></i><i></i><span>getslipp.vercel.app/app</span></div>
-          <picture><source media="(max-width:600px)" srcset="/img/app-overview-phone.jpg" width="780" height="1560"><img src="/img/app-overview.jpg" width="2560" height="1600" alt="The Slipp overview: sales, spending, profit and money owed for the month, a six-month chart, best sellers and best customers" loading="lazy" decoding="async"></picture></div>
-      </div>
-      <div class="points">
-        <div><b>Profit you can trust</b><p>Sales minus what you spent, worked out the moment you record them.</p></div>
-        <div><b>Never forget a debt</b><p>Unpaid invoices stay in view, and Slipp gets a polite reminder ready to send.</p></div>
-        <div><b>Stock that counts itself</b><p>Every sale takes items out of stock, and Slipp warns you before you run out.</p></div>
+    <section class="block" id="product">
+      <p class="kicker"><i>02</i>The product</p>
+      <h2 class="h2">The whole business, one screen away.</h2>
+      <p class="sub">These are real screens from the demo shop. Open it and they're yours to try.</p>
+      <div class="panels">
+        <article class="panel wide mint rise">
+          <div><p class="tag">Overview</p><h3>Profit you can trust, worked out as you sell.</h3><p>Sales, spending, profit and money owed for the month, with a six-month chart and your best sellers.</p></div>
+          <div class="shot"><img src="/img/shot-overview.webp" width="1600" height="925" alt="The Slipp overview: ₦585,950 in sales, ₦72,000 spent, ₦513,950 profit and ₦140,400 owed, with a six-month chart and best sellers" loading="lazy" decoding="async"></div>
+        </article>
+        <article class="panel sand rise">
+          <p class="tag">Chat</p><h3>Receipts come back in the chat.</h3><p>Each sale gives you a PDF receipt and a button to send it to your customer.</p>
+          <div class="shot phone-shot"><img src="/img/shot-chat.webp" width="780" height="1170" alt="A Slipp chat: a sale to Chidi becomes receipt R-0063 for ₦144,000, then Slipp lists who still owes money" loading="lazy" decoding="async"></div>
+        </article>
+        <article class="panel sky rise">
+          <p class="tag">Sales</p><h3>Never forget a debt.</h3><p>Unpaid invoices stay at the top, with a reminder ready to send and one tap to mark them paid.</p>
+          <div class="shot phone-shot"><img src="/img/shot-sales.webp" width="780" height="1170" alt="The sales list, with an unpaid invoice for Emeka Obi showing Remind and Mark paid buttons" loading="lazy" decoding="async"></div>
+        </article>
+        <article class="panel wide stone rise">
+          <div><p class="tag">Stock</p><h3>Stock that counts itself.</h3><p>Every sale takes items out of stock, and Slipp warns you before you run out.</p></div>
+          <div class="shot"><img src="/img/shot-stock.webp" width="1400" height="617" alt="The stock list: six products with prices and counts, Sugar 1kg marked running low at 4" loading="lazy" decoding="async"></div>
+        </article>
       </div>
     </section>
 
-    <section class="block" id="features" style="padding-top:0">
-      <p class="kicker">What it keeps for you</p>
+    <section class="block" id="features">
+      <p class="kicker"><i>03</i>What it keeps for you</p>
       <h2 class="h2">Everything a small shop needs to track.</h2>
       <div class="feat">
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg></span><div><b>Receipts and invoices</b><p>Clean PDFs with your name, address and bank details, sent on WhatsApp in a tap.</p></div></div>
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Payment reminders</b><p>A list of who owes you each morning, with the reminder message already written.</p></div></div>
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><div><b>Stock and prices</b><p>Save a price once and just say "sold 3 rice". Low-stock warnings come by themselves.</p></div></div>
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><div><b>Expenses</b><p>Fuel, rent, transport. Record them as they happen so your profit is honest.</p></div></div>
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.6c1.6.8 2.7 2.6 3 5.4"/></svg></span><div><b>Customers</b><p>Names and numbers saved from your sales, with what each one has paid and owes.</p></div></div>
-        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H8.5z"/></svg></span><div><b>In your browser, WhatsApp or Telegram</b><p>Start on the web today. Connect your chat apps later, on the same records.</p></div></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.8L13 21l-2.5-1.8L8 21l-2-1.5z"/><path d="M9 8h6M9 12h4"/></svg></span><b>Receipts and invoices</b><p>Clean PDFs with your name, address and bank details, sent on WhatsApp in a tap.</p></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Payment reminders</b><p>A list of who owes you each morning, with the reminder message already written.</p></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><b>Stock and prices</b><p>Save a price once and just say "sold 3 rice". Low-stock warnings come by themselves.</p></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><b>Expenses</b><p>Fuel, rent, transport. Record them as they happen so your profit is honest.</p></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.6c1.6.8 2.7 2.6 3 5.4"/></svg></span><b>Customers</b><p>Names and numbers saved from your sales, with what each one has paid and owes.</p></div>
+        <div class="f-row"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H8.5z"/></svg></span><b>Browser or Telegram</b><p>Start on the web, then link Telegram. Both write to the same books.</p></div>
       </div>
     </section>
 
     <section class="final">
-      <div><h2>See it work in ten seconds.</h2><p>Open a demo shop full of sample sales, then tell Slipp about a sale and watch the receipt appear.</p></div>
+      <h2>See it work in ten seconds.</h2>
+      <p>Open a demo shop full of sample sales, then tell Slipp about a sale and watch the receipt appear.</p>
       <div class="ctas"><button class="btn btn-green" data-demo>Try the live demo</button><a class="btn btn-line" href="/start">Create your shop</a></div>
-      <img class="mark" src="/brand/logo.svg" alt="">
     </section>
   </main>
 
@@ -296,6 +325,7 @@ button.btn[data-demo][disabled]{opacity:.7}
       <div><h4>Project</h4><nav><a href="#how">How it works</a><a href="https://github.com/datArtist-io/Whatsapp-Receipt-Bot" target="_blank" rel="noopener">Source code</a><a href="https://josiaholuwadare.com" target="_blank" rel="noopener">Josiah Oluwadare</a></nav></div>
     </div>
     <div class="legal"><span>© 2026 Slipp</span><span>Designed and built by <a class="me" href="https://josiaholuwadare.com" target="_blank" rel="noopener">Josiah Oluwadare</a></span></div>
+    <svg class="mark" viewBox="0 0 1000 250" aria-hidden="true"><text x="0" y="300" textLength="1000" lengthAdjust="spacingAndGlyphs">Slipp</text></svg>
   </footer>
 </div>
 <script>
@@ -330,16 +360,16 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
     alert("The demo couldn't open just now. " + e.message);
   }
 }));
-// The dashboard eases into place as it scrolls into view.
+// Panels ease into place once, as they scroll into view.
 (() => {
-  const f = document.querySelector('.frame');
-  if (!('IntersectionObserver' in window)) return f.classList.add('in');
-  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { f.classList.add('in'); io.disconnect(); } }), { threshold: .2 });
-  io.observe(f);
+  const els = document.querySelectorAll('.rise');
+  if (!('IntersectionObserver' in window)) return els.forEach((e) => e.classList.add('in'));
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+  els.forEach((e) => io.observe(e));
 })();
 // The hero chat plays like a real conversation, once, then rests.
 (() => {
-  const box = document.getElementById('demo'), paper = document.getElementById('paper');
+  const box = document.getElementById('demo'), paper = document.getElementById('paper'), note = document.getElementById('note');
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const steps = [
     ['me', 'Sold 2 bags of rice and 1 oil to Chidi. He paid by transfer'],
@@ -353,14 +383,14 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
   const add = (html, cls) => { const el = document.createElement('div'); el.className = cls; el.innerHTML = html; box.append(el); requestAnimationFrame(() => el.classList.add('on')); return el; };
   if (calm) {
     for (const s of steps) if (s[0] === 'me' || s[0] === 'it') add(s[1], 'b ' + s[0] + ' on');
-    paper.classList.add('on'); return;
+    paper.classList.add('on'); note.classList.add('on'); return;
   }
   let t = 500, typing = null;
   for (const s of steps) {
     setTimeout(() => {
       if (typing) { typing.remove(); typing = null; }
       if (s[0] === 'typing') typing = add('<span class="typing"><i></i><i></i><i></i></span>', 'b it');
-      else if (s[0] === 'card') { add('<div class="in"><small>Receipt R-0061 <i>PAID</i></small><b>Chidi Okonkwo</b><strong>₦160,500</strong></div><div class="go">Send to Chidi on WhatsApp</div>', 'rc'); setTimeout(() => paper.classList.add('on'), 350); }
+      else if (s[0] === 'card') { add('<div class="in"><small>Receipt R-0061 <i>PAID</i></small><b>Chidi Okonkwo</b><strong>₦160,500</strong></div><div class="go">Send to Chidi on WhatsApp</div>', 'rc'); setTimeout(() => paper.classList.add('on'), 350); setTimeout(() => note.classList.add('on'), 2200); }
       else add(s[1], 'b ' + s[0]);
     }, t);
     t += s[0] === 'typing' ? 1100 : s[0] === 'card' ? 1300 : 900;
