@@ -29,7 +29,7 @@ p{text-wrap:pretty}
 .nav .btn{height:38px;padding:0 16px;font-size:14.5px;border-radius:9px}
 
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) 540px;gap:56px;align-items:center;padding:72px 0 88px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 580px;gap:48px;align-items:center;padding:72px 0 88px}
 .hero h1{font:600 clamp(44px,5.3vw,70px)/1.02 var(--display);letter-spacing:-.04em;margin:0 0 22px}
 .hero h1 em{font-style:normal;color:#7B877F}
 .pill{display:inline-flex;align-items:center;gap:10px;margin:0 0 28px;padding:5px 12px 5px 5px;border-radius:99px;background:var(--card);box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(14,31,22,.05);font-size:13.5px;color:var(--ink2);text-decoration:none;transition:box-shadow .2s}
@@ -48,7 +48,7 @@ p{text-wrap:pretty}
 /* the phone with a live chat, and a receipt that drops out of it */
 .stage{position:relative;height:660px;border-radius:28px;background:radial-gradient(120% 80% at 80% 0%,#E3F1E7 0,rgba(227,241,231,0) 60%),linear-gradient(var(--paper2),var(--paper2));box-shadow:inset 0 0 0 1px var(--line)}
 .stage::before{content:"";position:absolute;inset:0;border-radius:inherit;background-image:linear-gradient(rgba(14,31,22,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(14,31,22,.045) 1px,transparent 1px);background-size:32px 32px;-webkit-mask:radial-gradient(90% 70% at 50% 40%,#000,transparent);mask:radial-gradient(90% 70% at 50% 40%,#000,transparent)}
-.phone{position:absolute;right:40px;top:26px;width:300px;height:610px;border-radius:46px;background:#0B1A12;padding:11px;box-shadow:0 40px 60px -36px rgba(14,31,22,.55),inset 0 0 0 1.5px rgba(255,255,255,.07)}
+.phone{position:absolute;right:24px;top:26px;width:284px;height:608px;border-radius:46px;background:#0B1A12;padding:11px;box-shadow:0 40px 60px -36px rgba(14,31,22,.55),inset 0 0 0 1.5px rgba(255,255,255,.07)}
 .phone::before{content:"";position:absolute;top:22px;left:50%;width:90px;height:26px;margin-left:-45px;border-radius:20px;background:#0B1A12;z-index:3}
 .screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column}
 .sc-head{display:flex;align-items:center;gap:10px;padding:56px 16px 12px;border-bottom:1px solid var(--line);background:rgba(244,242,234,.9)}
@@ -76,13 +76,13 @@ p{text-wrap:pretty}
 .rc strong{font:600 19px/1.2 var(--mono);letter-spacing:-.03em}
 .rc .go{margin:2px 8px 8px;height:30px;border-radius:9px;background:var(--green);color:#fff;font-size:11.5px;font-weight:600;display:grid;place-items:center}
 /* the printer: a receipt rolls out, upright, when the chat makes one */
-.printer{position:absolute;left:-28px;top:110px;width:258px;z-index:1}
+.printer{position:absolute;left:24px;top:110px;width:226px;z-index:1}
 .printer .head{position:relative;height:34px;border-radius:14px;background:linear-gradient(#1A2C22,#0B1A12);box-shadow:0 18px 30px -16px rgba(14,31,22,.55),inset 0 1px 0 rgba(255,255,255,.08)}
 .printer .head::before{content:"";position:absolute;left:16px;top:13px;width:7px;height:7px;border-radius:50%;background:#3A4A40;transition:background-color .3s,box-shadow .3s}
 .printer.on .head::before{background:var(--green);box-shadow:0 0 0 4px rgba(20,184,107,.18)}
 .printer .head::after{content:"";position:absolute;left:44px;right:16px;bottom:9px;height:4px;border-radius:4px;background:#050E09}
 .printer .feed{overflow:hidden;margin:-12px 12px 0;padding:0 6px 28px}
-.printer .slip{padding:22px 20px 28px;transform:translateY(-101%);transition:transform 2.2s cubic-bezier(.3,.7,.25,1)}
+.printer .slip{padding:20px 18px 26px;transform:translateY(-101%);transition:transform 2.2s cubic-bezier(.3,.7,.25,1)}
 .printer.on .slip{transform:none}
 .printer .slip .biz{font-size:16px}
 .printer .slip .item{font-size:12.5px}
@@ -226,7 +226,7 @@ button.btn[data-demo][disabled]{opacity:.7}
             <div class="bizsub">Ogbete Market, Enugu</div>
             <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
             <div class="item"><span>Rice 50kg</span><b>₦144,000</b><small>2 × ₦72,000</small></div>
-            <div class="item"><span>Vegetable oil 5L</span><b>₦16,500</b><small>1 × ₦16,500</small></div>
+            <div class="item"><span>Palm oil 5L</span><b>₦16,500</b><small>1 × ₦16,500</small></div>
             <hr class="cut">
             <div class="total"><span>Total</span><b>₦160,500</b></div>
           </div></div>
