@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Slipp: receipts on WhatsApp</title>
-<meta name="description" content="Type the sale, tap send, and your customer has a neat receipt in their WhatsApp chat. Works with cash, transfers, Paystack and Flutterwave.">
+<title>Slipp: your shop's books, kept in chat</title>
+<meta name="description" content="Tell Slipp what you sold, spent or want to know on WhatsApp or Telegram. It writes receipts and invoices, tracks stock and expenses, and reports your sales and profit.">
 <meta name="theme-color" content="#F4F2EA">
 <link rel="icon" href="/brand/logo.svg" type="image/svg+xml">
-<meta property="og:title" content="Slipp: receipts on WhatsApp">
-<meta property="og:description" content="Type the sale, tap send, and your customer has a neat receipt in their WhatsApp chat.">
+<meta property="og:title" content="Slipp: your shop's books, kept in chat">
+<meta property="og:description" content="Receipts, invoices, stock, expenses and profit, from a WhatsApp or Telegram chat.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,12 +30,12 @@
 
 /* the signature: a receipt prints, then lands in a chat */
 .stage{position:relative;height:560px}
-.phone{position:absolute;right:0;top:40px;width:262px;height:500px;border-radius:40px;background:#0E1F16;padding:10px;box-shadow:0 40px 80px -30px rgba(14,31,22,.55)}
+.phone{position:absolute;right:0;top:40px;width:276px;height:510px;border-radius:40px;background:#0E1F16;padding:10px;box-shadow:0 40px 80px -30px rgba(14,31,22,.55)}
 .screen{position:relative;height:100%;border-radius:31px;overflow:hidden;background:#EFE7DC;display:flex;flex-direction:column}
 .chathead{display:flex;align-items:center;gap:10px;background:#0B5E3A;color:#fff;padding:34px 14px 12px;font-size:14px}
-.chathead .av{width:32px;height:32px;border-radius:50%;background:#F4D9A8;color:#6B4A12;display:grid;place-items:center;font-weight:700;font-size:13px}
+.chathead .av{width:32px;height:32px;border-radius:50%;background:#fff;color:#6B4A12;display:grid;place-items:center;font-weight:700;font-size:13px}
 .chathead small{display:block;opacity:.75;font-size:11.5px}
-.msgs{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:8px;justify-content:flex-end;
+.msgs{flex:1;min-height:0;overflow:hidden;padding:14px 10px;display:flex;flex-direction:column;gap:7px;justify-content:flex-end;
   background-image:radial-gradient(rgba(14,31,22,.06) 1px,transparent 1.2px);background-size:14px 14px}
 .bub{align-self:flex-end;max-width:84%;background:#D9FDD3;border-radius:12px 4px 12px 12px;padding:6px 6px 4px;box-shadow:0 1px 0 rgba(0,0,0,.08);opacity:0;transform:translateY(10px) scale(.96);transform-origin:right bottom}
 .bub.in{animation:pop .6s var(--spring) forwards}
@@ -44,7 +44,7 @@
 .doc .pdf{width:30px;height:36px;border-radius:4px;background:#E2463A;color:#fff;font:700 8.5px/36px var(--sans);text-align:center;flex:none}
 .doc b{display:block;font-size:12.5px}
 .doc small{color:var(--mute);font-size:11px}
-.bub p{margin:6px 4px 0;font-size:12.5px;line-height:1.4}
+.bub p{margin:6px 4px 0;font-size:12px;line-height:1.4}
 .bub .meta{display:flex;justify-content:flex-end;align-items:center;gap:3px;font-size:10px;color:var(--mute);margin:2px 2px 0}
 .bub .meta svg{width:15px;height:15px;color:#34B7F1}
 @keyframes pop{to{opacity:1;transform:none}}
@@ -104,21 +104,21 @@ footer a{color:var(--mute)}
     <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
     <nav>
       <a class="l" href="#how">How it works</a>
-      <a class="l" href="/api/sample">Sample receipt</a>
-      <a class="btn btn-ink" href="/app">Open Slipp</a>
+      <a class="l" href="/app">Quick receipt</a>
+      <a class="btn btn-ink" href="/dashboard">Dashboard</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
       <div>
-        <h1>Every sale ends with a receipt <span class="g">on WhatsApp.</span></h1>
-        <p class="lead">Type what they bought and tap send. Your customer gets a neat receipt in their chat, with nothing to install and no printer to buy.</p>
-        <div class="ctas">
+        <h1>Keep your shop's books <span class="g">in your chat.</span></h1>
+        <p class="lead">Tell Slipp what you sold, spent or want to know, the way you'd text a friend. It writes the receipts and invoices, counts your stock, reminds you who owes, and tells you what you made. On WhatsApp or Telegram.</p>
+        <div class="ctas" id="ctas">
           <a class="btn btn-green" href="/app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Make a receipt</a>
           <a class="btn btn-line" href="/api/sample">See a sample</a>
         </div>
-        <p class="fine">Free to use. Works with cash, transfers, Paystack and Flutterwave.</p>
+        <p class="fine">Free to use. Nothing to install: just open the chat and say hi.</p>
       </div>
 
       <div class="stage" aria-hidden="true">
@@ -131,22 +131,23 @@ footer a{color:var(--mute)}
               <div class="paid"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>PAID</span></div>
               <div class="item"><span>Jollof rice and chicken</span><b>₦7,000.00</b><small>2 × ₦3,500.00</small></div>
               <div class="item"><span>Small chops platter</span><b>₦8,000.00</b><small>1 × ₦8,000.00</small></div>
-              <div class="item"><span>Zobo (50cl)</span><b>₦2,100.00</b><small>3 × ₦700.00</small></div>
               <hr class="cut">
-              <div class="total"><span>Total</span><b>₦17,100.00</b></div>
+              <div class="total"><span>Total</span><b>₦15,000.00</b></div>
             </div>
           </div>
         </div>
         <div class="phone">
           <div class="screen">
-            <div class="chathead"><span class="av">AO</span><div>Ada Okafor<small>online</small></div></div>
+            <div class="chathead"><span class="av"><img src="/brand/logo.svg" alt="" style="width:18px"></span><div>Slipp<small>bookkeeping in chat</small></div></div>
             <div class="msgs">
-              <div class="bub them" data-at="2600"><p style="margin:4px 6px">Paid! Can you send my receipt? 🙏</p><div class="meta">12:41</div></div>
-              <div class="bub" data-at="3400">
-                <div class="doc"><span class="pdf">PDF</span><div><b>Receipt-8F2KQ7.pdf</b><small>1 page · 21 kB</small></div></div>
-                <p>Thanks for shopping with Mama Tee's Kitchen. Here is your receipt for ₦17,100.00</p>
-                <div class="meta">12:41 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13l4 4 8-9M10 15.5l1.5 1.5 8-9"/></svg></div>
+              <div class="bub" data-at="400"><p style="margin:4px 6px">Sold 2 jollof and 1 small chops to Ada. She paid by transfer</p><div class="meta">12:40</div></div>
+              <div class="bub them" data-at="2900">
+                <div class="doc"><span class="pdf">PDF</span><div><b>Receipt-R-0042.pdf</b><small>1 page · 21 kB</small></div></div>
+                <p>Recorded R-0042 for Ada: ₦15,000. Tap below to send it to her.</p>
+                <div class="meta">12:40</div>
               </div>
+              <div class="bub" data-at="4300"><p style="margin:4px 6px">How much did I make this week?</p><div class="meta">12:41</div></div>
+              <div class="bub them" data-at="5300"><p style="margin:4px 6px">This week: <b>₦184,500</b> in sales, ₦42,000 spent, <b>₦142,500</b> profit. Ngozi still owes ₦21,000.</p><div class="meta">12:41</div></div>
             </div>
           </div>
         </div>
@@ -154,22 +155,23 @@ footer a{color:var(--mute)}
     </section>
 
     <section class="steps" id="how">
-      <div><div class="n">01</div><h3>Add the sale</h3><p>The items, their prices and the customer's number. The total adds itself up.</p></div>
-      <div><div class="n">02</div><h3>Send it on WhatsApp</h3><p>Slipp opens WhatsApp with the receipt ready to send. Turn on automatic sending and it goes by itself.</p></div>
-      <div><div class="n">03</div><h3>They keep it</h3><p>A clean receipt page and PDF they can open any time. Every receipt is signed, so nobody can change it.</p></div>
+      <div><div class="n">01</div><h3>Text it</h3><p>"Sold 3 crates of eggs to Musa, he'll pay Friday." Casual English or Pidgin, amounts like 45k, all fine.</p></div>
+      <div><div class="n">02</div><h3>Slipp writes it down</h3><p>The receipt or invoice comes back as a PDF with a button to forward it to your customer. Stock and totals update by themselves.</p></div>
+      <div><div class="n">03</div><h3>Ask anything</h3><p>What you made this month, your best seller, who owes you. Or open the dashboard for the whole picture.</p></div>
     </section>
 
     <section class="pay">
-      <h2>However they pay, they get a receipt.</h2>
+      <h2>Everything a small shop keeps track of.</h2>
       <div class="chips">
-        <span class="chip"><i></i>Cash</span><span class="chip"><i></i>Bank transfer</span><span class="chip"><i></i>POS and card</span>
-        <span class="chip online"><i></i>Paystack, sent by itself</span><span class="chip online"><i></i>Flutterwave, sent by itself</span>
+        <span class="chip"><i></i>Receipts</span><span class="chip"><i></i>Invoices with your bank details</span><span class="chip"><i></i>Payment reminders</span>
+        <span class="chip"><i></i>Expenses</span><span class="chip"><i></i>Stock and low-stock alerts</span><span class="chip"><i></i>Customers and who owes</span>
+        <span class="chip"><i></i>Sales and profit</span><span class="chip online"><i></i>Web dashboard</span><span class="chip online"><i></i>WhatsApp and Telegram</span>
       </div>
     </section>
 
     <section class="final">
-      <div><h2>Your next sale could have a receipt.</h2><p>Add your business name once and you're ready. Nothing to sign up for.</p></div>
-      <a class="btn btn-green" href="/app" style="height:52px;padding:0 26px;font-size:16px;border-radius:14px">Open Slipp</a>
+      <div><h2>Your next sale, written down for you.</h2><p>Say hi to Slipp and tell it your business name. That's the whole sign-up.</p></div>
+      <a class="btn btn-green" id="finalCta" href="/app" style="height:52px;padding:0 26px;font-size:16px;border-radius:14px">Make a receipt</a>
       <img src="/brand/logo.svg" alt="">
     </section>
   </main>
@@ -180,6 +182,19 @@ footer a{color:var(--mute)}
 // play the chat once the receipt has printed (respecting reduced motion)
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('.bub').forEach((b) => setTimeout(() => b.classList.add('in'), calm ? 0 : +b.dataset.at));
+
+// When the chat bots are set up, the buttons open them; until then they point to the quick receipt maker.
+fetch('/api/status').then((r) => r.json()).then((s) => {
+  if (!s.whatsapp && !s.telegram) return;
+  const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.4-4.2A8 8 0 1 1 8.6 19z"/></svg>';
+  const btns = [];
+  if (s.whatsapp) btns.push(`<a class="btn btn-green" href="${s.whatsapp}">${icon}Start on WhatsApp</a>`);
+  if (s.telegram) btns.push(`<a class="btn ${s.whatsapp ? 'btn-line' : 'btn-green'}" href="${s.telegram}">${s.whatsapp ? '' : icon}Start on Telegram</a>`);
+  document.getElementById('ctas').innerHTML = btns.join('');
+  const f = document.getElementById('finalCta');
+  f.href = s.whatsapp || s.telegram;
+  f.textContent = s.whatsapp ? 'Start on WhatsApp' : 'Start on Telegram';
+}).catch(() => {});
 </script>
 </body>
 </html>

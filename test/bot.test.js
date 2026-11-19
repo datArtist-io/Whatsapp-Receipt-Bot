@@ -251,3 +251,31 @@ test("the daily check tells owners about due invoices once, and only Vercel Cron
   const again = await (await realFetch(`${base}/api/cron/daily`, { headers: { authorization: "Bearer cron-secret" } })).json();
   assert.equal(again.sent, 0, "not repeated the same day");
 });
+
+test("the dashboard: sign in with a chat link, read the books, and act on invoices", async () => {
+  const links = require("../lib/links");
+  const { business } = await store.chatFor("telegram", "501");
+  assert.equal((await realFetch(`${base}/api/dashboard`)).status, 401);
+  const bad = await realFetch(`${base}/api/session`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ login: "nope" }) });
+  assert.equal(bad.status, 401);
+  const s = await realFetch(`${base}/api/session`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ login: links.loginCode(business.id) }) });
+  assert.equal(s.status, 200);
+  const cookie = s.headers.get("set-cookie").split(";")[0];
+  assert.match(s.headers.get("set-cookie"), /HttpOnly; SameSite=Lax/);
+  const d = await (await realFetch(`${base}/api/dashboard?period=all`, { headers: { cookie } })).json();
+  assert.equal(d.business.name, "Ada Stores");
+  assert.ok(d.invoices.length >= 5);
+  assert.ok(d.unpaid.some((i) => i.customer === "Bayo"));
+  const post = (body, headers = {}) => realFetch(`${base}/api/dashboard`, { method: "POST", headers: { "content-type": "application/json", cookie, ...headers }, body: JSON.stringify(body) });
+  assert.equal((await post({ action: "mark_paid", number: "INV-0005" }, { "content-type": "text/plain" })).status, 405, "only JSON can change things");
+  const remind = await (await post({ action: "remind", number: "INV-0005" })).json();
+  assert.match(remind.url, /^https:\/\/wa\.me\/\?text=Hi%20Bayo%2C%20a%20friendly%20reminder/);
+  const paid = await (await post({ action: "mark_paid", number: "INV-0005", method: "cash" })).json();
+  assert.equal(paid.invoice.status, "paid");
+  const sale = await (await post({ action: "invoice", status: "paid", customer_name: "Kemi", items: [{ name: "Rice 50kg", qty: 1 }] })).json();
+  assert.equal(sale.invoice.total, 45000);
+  assert.match(sale.invoice.share, /^https:\/\/wa\.me\//);
+  const err = await post({ action: "invoice", status: "paid", items: [{ name: "Mystery", qty: 1 }] });
+  assert.equal(err.status, 400);
+  assert.match((await err.json()).error, /price of "Mystery"/);
+});

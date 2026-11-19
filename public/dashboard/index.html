@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard · Slipp</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F4F2EA">
+<link rel="icon" href="/brand/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/slipp.css">
+<style>
+body{min-height:100vh;min-height:100dvh}
+.top{display:flex;align-items:center;gap:14px;padding:18px 0}
+.top .biz{font:600 15px/1.2 var(--sans);color:var(--mute);padding-left:14px;border-left:1px solid var(--line2);max-width:40vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top .grow{flex:1}
+select.period{height:40px;border-radius:10px;border:0;box-shadow:inset 0 0 0 1px var(--line2);background:var(--card);padding:0 34px 0 12px;font-weight:600;font-size:14px;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235D6A61' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:16px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 14px}
+.kpi{background:var(--card);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+.kpi small{display:block;color:var(--mute);font-size:13px;font-weight:500}
+.kpi b{display:block;font:600 clamp(20px,2.4vw,27px)/1.15 var(--mono);letter-spacing:-.03em;margin-top:6px;font-feature-settings:"tnum" 1;overflow-wrap:anywhere}
+.kpi em{font-style:normal;font-size:12.5px;color:var(--mute)}
+.kpi.profit b{color:var(--green-ink)}
+.kpi.owed b{color:#8A5A00}
+.grid2{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-bottom:22px}
+.card{background:var(--card);border-radius:16px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.card h3{margin:0 0 12px;font:700 15px/1.2 var(--sans)}
+.grid2>.card:first-child{display:flex;flex-direction:column}
+.chart{display:flex;align-items:stretch;gap:10px;flex:1;min-height:150px;padding-top:6px}
+.chart .m{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.chart .bars{display:flex;align-items:flex-end;gap:3px;flex:1;min-height:110px;width:100%;justify-content:center}
+.chart .bars i{display:block;width:min(16px,40%);border-radius:4px 4px 1px 1px;background:var(--green);min-height:2px;transition:height .6s var(--ease)}
+.chart .bars i.x{background:#E6C79A}
+.chart span{font:500 11px/1 var(--mono);color:var(--mute)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--mute);margin-top:10px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--green);margin-right:6px}
+.legend i.x{background:#E6C79A}
+.list{margin:0;padding:0;list-style:none}
+.list li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.list li:first-child{border-top:0}
+.list b{font:600 13px/1.4 var(--mono);white-space:nowrap}
+.list .none{color:var(--faint)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line2);margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:600;font-size:14.5px;color:var(--mute);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--green)}
+.tabs .count{font:500 11px/1 var(--mono);background:var(--paper2);border-radius:999px;padding:3px 6px;margin-left:6px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:500;color:var(--mute);font-size:12.5px;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.num,th.num{text-align:right;white-space:nowrap}
+td.num{font-family:var(--mono);font-size:13px}
+td a.no{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.kpi.profit.loss b{color:var(--bad)}
+td .sub{display:block;color:var(--mute);font-size:12px}
+.chip{display:inline-block;font:700 10.5px/1 var(--sans);letter-spacing:.06em;padding:5px 8px;border-radius:999px;background:var(--mint);color:var(--green-ink)}
+.chip.unpaid{background:#FDF1DC;color:#8A5A00}
+.chip.overdue{background:#FBE3D9;color:var(--bad)}
+.acts{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.acts .btn{height:32px;padding:0 10px;font-size:13px;border-radius:9px}
+.filters{display:flex;gap:6px;margin-bottom:10px}
+.filters button{border:0;background:var(--paper2);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--mute);cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:#fff}
+.empty{padding:28px 10px;text-align:center;color:var(--mute)}
+.form{display:grid;gap:10px}
+.form .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+label.f{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 6px;font-size:13px;font-weight:600;color:var(--ink2)}
+label.f>.i{flex-basis:100%}
+label.f span{font-weight:400;color:var(--mute)}
+input.i,select.i{height:42px;border-radius:10px;border:0;box-shadow:inset 0 0 0 1px var(--line2);background:var(--card);padding:0 12px;font-size:15px;width:100%;min-width:0}
+input.i:focus,select.i:focus{outline:0;box-shadow:inset 0 0 0 2px var(--green)}
+.inline{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+.inline label.f{flex:1;min-width:120px}
+.apps{display:flex;gap:8px;flex-wrap:wrap}
+.app{display:inline-flex;align-items:center;gap:8px;background:var(--paper2);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:600}
+.app i{width:8px;height:8px;border-radius:50%;background:var(--green)}
+dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 24px);box-shadow:0 30px 80px -20px rgba(14,31,22,.45);background:var(--paper)}
+dialog::backdrop{background:rgba(14,31,22,.35);backdrop-filter:blur(3px)}
+dialog .in{padding:22px;display:grid;gap:12px}
+dialog h2{margin:0;font:800 24px/1.1 var(--display);letter-spacing:-.03em}
+.items{display:grid;gap:6px}
+.items .it{display:grid;grid-template-columns:1fr 64px 110px 32px;gap:6px}
+.seg{display:inline-flex;background:var(--paper2);border-radius:11px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:9px;padding:7px 12px;font-weight:600;font-size:14px;color:var(--mute);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(14,31,22,.12)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.foot .t{font:600 20px/1 var(--mono)}
+.err{color:var(--bad);font-size:14px;min-height:1em}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;transition:.35s var(--ease);pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.gate{min-height:100dvh;display:grid;place-items:center;padding:24px}
+.gate .box{max-width:440px;text-align:center}
+.gate img{width:56px}
+.gate h1{font:800 clamp(30px,6vw,40px)/1.05 var(--display);letter-spacing:-.04em;margin:18px 0 10px}
+.gate p{color:var(--mute);margin:0 0 22px}
+.gate .btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.gate kbd{font:600 14px var(--mono);background:var(--card);border-radius:6px;padding:2px 7px;box-shadow:inset 0 0 0 1px var(--line2)}
+.loading{opacity:.55;transition:opacity .2s}
+@media (max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.top .biz{display:none}}
+@media (max-width:620px){
+  .wrap{padding:0 16px}
+  .hide-s{display:none}
+  td,th{padding:9px 6px}
+  .items .it{grid-template-columns:1fr 52px 88px 30px}
+  .top .btn-green span{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <div class="box">
+    <img src="/brand/logo.svg" alt="">
+    <h1>Your books live in your chat.</h1>
+    <p id="gateMsg">To open your dashboard, send <kbd>dashboard</kbd> to Slipp on WhatsApp or Telegram. You'll get a sign-in link that works for 15 minutes.</p>
+    <div class="btns" id="gateBtns"></div>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="/"><img src="/brand/logo.svg" alt="">Slipp</a>
+      <span class="biz" id="bizName"></span>
+      <span class="grow"></span>
+      <label class="sr" for="period">Period</label>
+      <select class="period" id="period">
+        <option value="today">Today</option>
+        <option value="week">This week</option>
+        <option value="month" selected>This month</option>
+        <option value="last_month">Last month</option>
+        <option value="year">This year</option>
+        <option value="all">All time</option>
+      </select>
+      <button class="btn btn-green" id="newSale"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>New sale</span></button>
+    </header>
+
+    <main id="main">
+      <section class="kpis" aria-label="Summary">
+        <div class="kpi"><small>Sales</small><b id="kRev">–</b><em id="kRevSub"></em></div>
+        <div class="kpi"><small>Spent</small><b id="kExp">–</b><em id="kExpSub"></em></div>
+        <div class="kpi profit"><small>Profit</small><b id="kProfit">–</b><em>sales minus spending</em></div>
+        <div class="kpi owed"><small>Owed to you</small><b id="kOwed">–</b><em id="kOwedSub"></em></div>
+      </section>
+
+      <section class="grid2">
+        <div class="card">
+          <h3>Last 6 months</h3>
+          <div class="chart" id="chart"></div>
+          <div class="legend"><span><i></i>Sales</span><span><i class="x"></i>Spent</span></div>
+        </div>
+        <div class="card">
+          <h3>Best sellers</h3>
+          <ul class="list" id="best"></ul>
+          <h3 style="margin-top:16px">Best customers</h3>
+          <ul class="list" id="bestCust"></ul>
+        </div>
+      </section>
+
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="invoices" aria-selected="true">Invoices &amp; receipts</button>
+        <button role="tab" data-tab="customers" aria-selected="false">Customers</button>
+        <button role="tab" data-tab="stock" aria-selected="false">Stock</button>
+        <button role="tab" data-tab="expenses" aria-selected="false">Expenses</button>
+        <button role="tab" data-tab="settings" aria-selected="false">Settings</button>
+      </nav>
+
+      <section data-panel="invoices">
+        <div class="filters" id="invFilter">
+          <button data-f="all" aria-pressed="true">All</button>
+          <button data-f="unpaid" aria-pressed="false">Waiting for payment</button>
+          <button data-f="paid" aria-pressed="false">Paid</button>
+        </div>
+        <div class="card" style="padding:6px 8px"><table><thead><tr><th>Number</th><th>Customer</th><th class="hide-s">Date</th><th class="num">Total</th><th></th></tr></thead><tbody id="invRows"></tbody></table></div>
+      </section>
+
+      <section data-panel="customers" hidden>
+        <div class="card" style="padding:6px 8px"><table><thead><tr><th>Customer</th><th class="hide-s">Phone</th><th class="num">Paid</th><th class="num">Owes</th></tr></thead><tbody id="custRows"></tbody></table></div>
+      </section>
+
+      <section data-panel="stock" hidden>
+        <form class="inline" id="prodForm">
+          <label class="f">Product<input class="i" name="name" required maxlength="60" placeholder="Rice 50kg"></label>
+          <label class="f">Price<input class="i" name="price" inputmode="decimal" placeholder="45000"></label>
+          <label class="f">Add to stock<input class="i" name="stock_change" inputmode="numeric" placeholder="+20"></label>
+          <button class="btn btn-ink">Save</button>
+        </form>
+        <div class="card" style="padding:6px 8px"><table><thead><tr><th>Product</th><th class="num">Price</th><th class="num">In stock</th></tr></thead><tbody id="prodRows"></tbody></table></div>
+      </section>
+
+      <section data-panel="expenses" hidden>
+        <form class="inline" id="expForm">
+          <label class="f">What for<input class="i" name="description" required maxlength="120" placeholder="Diesel"></label>
+          <label class="f">Amount<input class="i" name="amount" required inputmode="decimal" placeholder="12000"></label>
+          <label class="f">Category<input class="i" name="category" maxlength="30" placeholder="fuel"></label>
+          <button class="btn btn-ink">Add</button>
+        </form>
+        <div class="card" style="padding:6px 8px"><table><thead><tr><th>Expense</th><th class="hide-s">Category</th><th class="hide-s">Date</th><th class="num">Amount</th></tr></thead><tbody id="expRows"></tbody></table></div>
+      </section>
+
+      <section data-panel="settings" hidden>
+        <div class="grid2">
+          <form class="card form" id="bizForm">
+            <h3>Business</h3>
+            <label class="f">Business name<input class="i" name="name" maxlength="60" required></label>
+            <div class="row">
+              <label class="f">Currency<input class="i" name="currency" maxlength="4"></label>
+              <label class="f">Phone<input class="i" name="phone" maxlength="30"></label>
+            </div>
+            <label class="f">Address<input class="i" name="address" maxlength="120"></label>
+            <label class="f">Bank details <span>printed on invoices</span><input class="i" name="bank" maxlength="120" placeholder="GTBank · 0123456789 · Ada Stores"></label>
+            <div><button class="btn btn-ink">Save</button></div>
+          </form>
+          <div class="card">
+            <h3>Connected chats</h3>
+            <div class="apps" id="apps"></div>
+            <div id="connect" style="margin-top:14px"></div>
+            <h3 style="margin-top:22px">Account</h3>
+            <button class="btn btn-line" id="signOut">Sign out</button>
+          </div>
+        </div>
+      </section>
+      <div style="height:60px"></div>
+    </main>
+  </div>
+</div>
+
+<dialog id="saleDlg">
+  <form class="in" id="saleForm" method="dialog">
+    <h2>New sale</h2>
+    <div class="seg" id="saleStatus"><button type="button" data-s="paid" aria-pressed="true">Paid now</button><button type="button" data-s="unpaid" aria-pressed="false">Invoice, pay later</button></div>
+    <div class="form row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <label class="f">Customer <span>optional</span><input class="i" name="customer_name" maxlength="60" list="custList"></label>
+      <label class="f">WhatsApp number <span>optional</span><input class="i" name="customer_phone" inputmode="tel" maxlength="20"></label>
+    </div>
+    <datalist id="custList"></datalist>
+    <datalist id="prodList"></datalist>
+    <div class="items" id="items"></div>
+    <div><button type="button" class="btn btn-ghost" id="addItem">+ Add item</button></div>
+    <div class="form row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <label class="f" id="methodF">Paid by<select class="i" name="method"><option value="transfer">Bank transfer</option><option value="cash">Cash</option><option value="pos">POS</option><option value="card">Card</option></select></label>
+      <label class="f" id="dueF" hidden>Due in<select class="i" name="due_in_days"><option value="0">Today</option><option value="3">3 days</option><option value="7" selected>7 days</option><option value="14">14 days</option><option value="30">30 days</option></select></label>
+    </div>
+    <div class="err" id="saleErr"></div>
+    <div class="foot"><span class="t" id="saleTotal">0</span><span style="display:flex;gap:8px"><button type="button" class="btn btn-ghost" id="saleCancel">Cancel</button><button class="btn btn-green" id="saleSave">Save</button></span></div>
+  </form>
+  <div class="in" id="saleDone" hidden>
+    <h2 id="doneTitle">Saved</h2>
+    <p id="doneSub" style="margin:0;color:var(--mute)"></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn btn-green" id="doneShare" target="_blank" rel="noopener">Send on WhatsApp</a>
+      <a class="btn btn-line" id="doneOpen" target="_blank" rel="noopener">Open</a>
+      <button class="btn btn-ghost" id="doneClose">Done</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let data = null, cur = '₦', filter = 'all', status = 'paid';
+const money = (n) => (Number(n) < 0 ? '-' : '') + cur + Math.abs(Number(n || 0)).toLocaleString('en-US', { maximumFractionDigits: 2 });
+const day = (d) => d ? new Date(d.length === 10 ? d + 'T12:00:00Z' : d).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : '';
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2400); }
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401) { showGate(); throw new Error(j.error || 'Signed out'); }
+  if (!r.ok) throw new Error(j.error || 'Something went wrong.');
+  return j;
+}
+
+async function showGate(msg) {
+  $('#app').hidden = true; $('#gate').hidden = false;
+  if (msg) $('#gateMsg').textContent = msg;
+  const s = await fetch('/api/status').then((r) => r.json()).catch(() => ({}));
+  $('#gateBtns').innerHTML = [
+    s.whatsapp ? `<a class="btn btn-green" href="${esc(s.whatsapp.replace(/text=[^&]*/, 'text=dashboard'))}">Open WhatsApp</a>` : '',
+    s.telegram ? `<a class="btn btn-ink" href="${esc(s.telegram)}">Open Telegram</a>` : '',
+  ].join('');
+}
+
+async function load() {
+  $('#main').classList.add('loading');
+  try { data = await api('/api/dashboard?period=' + $('#period').value); } finally { $('#main').classList.remove('loading'); }
+  cur = data.business.currency || '₦';
+  $('#gate').hidden = true; $('#app').hidden = false;
+  render();
+}
+
+function render() {
+  const r = data.report, b = data.business;
+  $('#bizName').textContent = b.name || 'Your business';
+  document.title = `${b.name || 'Dashboard'} · Slipp`;
+  $('#kRev').textContent = money(r.revenue);
+  $('#kRevSub').textContent = `${r.paid_sales} sale${r.paid_sales === 1 ? '' : 's'}${r.paid_sales ? ` · avg ${money(r.average_sale)}` : ''}`;
+  $('#kExp').textContent = money(r.expenses);
+  $('#kExpSub').textContent = r.top_expenses[0] ? `most on ${r.top_expenses[0].category}` : 'nothing recorded';
+  $('#kProfit').textContent = money(r.profit);
+  $('#kProfit').parentElement.classList.toggle('loss', r.profit < 0);
+  const owed = data.unpaid.reduce((s, i) => s + i.total, 0);
+  const overdue = data.unpaid.filter((i) => i.overdue).length;
+  $('#kOwed').textContent = money(owed);
+  $('#kOwedSub').textContent = data.unpaid.length ? `${data.unpaid.length} invoice${data.unpaid.length === 1 ? '' : 's'}${overdue ? ` · ${overdue} overdue` : ''}` : 'all paid up';
+
+  const max = Math.max(1, ...data.series.flatMap((m) => [m.revenue, m.expenses]));
+  $('#chart').innerHTML = data.series.map((m) => `<div class="m" title="${esc(m.month)}: ${esc(money(m.revenue))} sales, ${esc(money(m.expenses))} spent"><div class="bars"><i style="height:${(m.revenue / max) * 100}%"></i><i class="x" style="height:${(m.expenses / max) * 100}%"></i></div><span>${new Date(m.month + '-15').toLocaleDateString(undefined, { month: 'short' })}</span></div>`).join('');
+  const li = (rows, f) => rows.length ? rows.map(f).join('') : '<li class="none">Nothing yet in this period</li>';
+  $('#best').innerHTML = li(r.best_sellers, (x) => `<li><span>${esc(x.name)} <span style="color:var(--mute)">× ${x.qty}</span></span><b>${esc(money(x.amount))}</b></li>`);
+  $('#bestCust').innerHTML = li(r.best_customers, (x) => `<li><span>${esc(x.name)}</span><b>${esc(money(x.amount))}</b></li>`);
+
+  renderInvoices();
+  $('#custRows').innerHTML = data.customers.length ? data.customers.map((c) => `<tr><td>${esc(c.name)}<span class="sub">${c.invoices} invoice${c.invoices === 1 ? '' : 's'}${c.last_purchase ? ' · last ' + esc(day(c.last_purchase)) : ''}</span></td><td class="hide-s">${esc(c.phone)}</td><td class="num">${esc(money(c.paid_total))}</td><td class="num">${c.owing ? esc(money(c.owing)) : '–'}</td></tr>`).join('') : `<tr><td colspan="4" class="empty">Customers appear here as you record sales.</td></tr>`;
+  $('#prodRows').innerHTML = data.products.length ? data.products.map((p) => `<tr><td>${esc(p.name)}</td><td class="num">${p.price == null ? '–' : esc(money(p.price))}</td><td class="num">${p.stock == null ? '–' : p.stock <= p.low_stock ? `<span class="chip overdue">${p.stock} left</span>` : p.stock}</td></tr>`).join('') : `<tr><td colspan="3" class="empty">Add products to save prices and track stock.</td></tr>`;
+  $('#expRows').innerHTML = data.expenses.length ? data.expenses.map((e) => `<tr><td>${esc(e.description)}</td><td class="hide-s">${esc(e.category || 'other')}</td><td class="hide-s">${esc(day(e.spent_on))}</td><td class="num">${esc(money(e.amount))}</td></tr>`).join('') : `<tr><td colspan="4" class="empty">No expenses yet.</td></tr>`;
+  $('#custList').innerHTML = data.customers.map((c) => `<option value="${esc(c.name)}">`).join('');
+  $('#prodList').innerHTML = data.products.map((p) => `<option value="${esc(p.name)}">`).join('');
+
+  const f = $('#bizForm');
+  for (const k of ['name', 'currency', 'phone', 'address', 'bank']) if (document.activeElement !== f[k]) f[k].value = b[k] || '';
+  $('#apps').innerHTML = data.chats.map((c) => `<span class="app"><i></i>${c.channel === 'whatsapp' ? 'WhatsApp' : 'Telegram'}${c.name ? ' · ' + esc(c.name) : ''}</span>`).join('');
+  const cn = data.connect;
+  $('#connect').innerHTML = cn.telegram || cn.whatsapp ? `<p style="margin:0 0 8px;color:var(--mute);font-size:14px">Use Slipp in your other app too. The link works for 30 minutes.</p><div style="display:flex;gap:8px;flex-wrap:wrap">${cn.whatsapp ? `<a class="btn btn-line" href="${esc(cn.whatsapp)}">Connect WhatsApp</a>` : ''}${cn.telegram ? `<a class="btn btn-line" href="${esc(cn.telegram)}">Connect Telegram</a>` : ''}</div>` : '';
+}
+
+function renderInvoices() {
+  const rows = filter === 'unpaid' ? data.unpaid : data.invoices.filter((i) => filter === 'all' || i.status === filter);
+  $('#invRows').innerHTML = rows.length ? rows.map((i) => {
+    const chip = i.status === 'paid' ? '<span class="chip">PAID</span>' : i.overdue ? '<span class="chip overdue">OVERDUE</span>' : '<span class="chip unpaid">UNPAID</span>';
+    const acts = i.status === 'unpaid'
+      ? `<button class="btn btn-line" data-remind="${esc(i.number)}">Remind</button><button class="btn btn-ink" data-paid="${esc(i.number)}">Mark paid</button>`
+      : `<a class="btn btn-line" href="${esc(i.share)}" target="_blank" rel="noopener">Send</a>`;
+    return `<tr><td><a class="no" href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.number)}</a><span class="sub">${chip}</span></td>
+      <td>${esc(i.customer || 'Walk-in')}<span class="sub">${esc(i.items.map((x) => `${x[1]} × ${x[0]}`).join(', ').slice(0, 60))}</span></td>
+      <td class="hide-s">${esc(day(i.created))}${i.status === 'unpaid' && i.due ? `<span class="sub">due ${esc(day(i.due))}</span>` : ''}</td>
+      <td class="num">${esc(money(i.total))}</td><td><div class="acts">${acts}</div></td></tr>`;
+  }).join('') : `<tr><td colspan="5" class="empty">${filter === 'unpaid' ? 'Nobody owes you anything.' : 'Record a sale here or in your chat and it shows up here.'}</td></tr>`;
+}
+
+$('#invRows').addEventListener('click', async (e) => {
+  const paid = e.target.closest('[data-paid]'), remind = e.target.closest('[data-remind]');
+  if (paid) {
+    paid.disabled = true;
+    try { const r = await api('/api/dashboard', { action: 'mark_paid', number: paid.dataset.paid }); toast(`${r.invoice.number} marked paid`); await load(); } catch (err) { toast(err.message); paid.disabled = false; }
+  }
+  if (remind) {
+    const w = window.open('', '_blank');
+    try { const r = await api('/api/dashboard', { action: 'remind', number: remind.dataset.remind }); if (w) w.location = r.url; else location.href = r.url; } catch (err) { if (w) w.close(); toast(err.message); }
+  }
+});
+$('#invFilter').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  filter = b.dataset.f; $$('#invFilter button').forEach((x) => x.setAttribute('aria-pressed', x === b)); renderInvoices();
+});
+$$('.tabs button').forEach((t) => t.addEventListener('click', () => {
+  $$('.tabs button').forEach((x) => x.setAttribute('aria-selected', x === t));
+  $$('[data-panel]').forEach((p) => (p.hidden = p.dataset.panel !== t.dataset.tab));
+}));
+$('#period').addEventListener('change', load);
+
+const formData = (f) => Object.fromEntries([...new FormData(f)].map(([k, v]) => [k, String(v).trim()]).filter(([, v]) => v !== ''));
+const parseAmount = (v) => { const s = String(v || '').toLowerCase().replace(/[,\s₦$£]/g, ''); const m = s.match(/^([\d.]+)(k|m)?$/); return m ? Number(m[1]) * (m[2] === 'k' ? 1e3 : m[2] === 'm' ? 1e6 : 1) : NaN; };
+$('#prodForm').addEventListener('submit', async (e) => {
+  e.preventDefault(); const d = formData(e.target);
+  const body = { action: 'product', name: d.name };
+  if (d.price) body.price = parseAmount(d.price);
+  if (d.stock_change) body.stock_change = Number(d.stock_change.replace('+', ''));
+  try { await api('/api/dashboard', body); e.target.reset(); toast('Saved'); await load(); } catch (err) { toast(err.message); }
+});
+$('#expForm').addEventListener('submit', async (e) => {
+  e.preventDefault(); const d = formData(e.target);
+  try { await api('/api/dashboard', { action: 'expense', ...d, amount: parseAmount(d.amount) }); e.target.reset(); toast('Expense added'); await load(); } catch (err) { toast(err.message); }
+});
+$('#bizForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  try { await api('/api/dashboard', { action: 'business', ...formData(e.target) }); toast('Saved'); await load(); } catch (err) { toast(err.message); }
+});
+$('#signOut').addEventListener('click', async () => { await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{"logout":true}' }); showGate(); });
+
+// New sale
+function itemRow() {
+  const el = document.createElement('div'); el.className = 'it';
+  el.innerHTML = `<input class="i" name="n" placeholder="Item" maxlength="60" list="prodList" aria-label="Item"><input class="i" name="q" value="1" inputmode="numeric" aria-label="Quantity"><input class="i" name="p" placeholder="Price" inputmode="decimal" aria-label="Price"><button type="button" class="btn btn-ghost" aria-label="Remove item" style="padding:0">×</button>`;
+  $('button', el).onclick = () => { if ($$('#items .it').length > 1) el.remove(); total(); };
+  $('[name=n]', el).addEventListener('change', (e) => { const p = data.products.find((x) => x.name.toLowerCase() === e.target.value.trim().toLowerCase()); if (p && p.price != null && !$('[name=p]', el).value) { $('[name=p]', el).value = p.price; total(); } });
+  return el;
+}
+function items() { return $$('#items .it').map((el) => ({ name: $('[name=n]', el).value.trim(), qty: Number($('[name=q]', el).value) || 1, price: parseAmount($('[name=p]', el).value) })).filter((i) => i.name); }
+function total() { $('#saleTotal').textContent = money(items().reduce((s, i) => s + (i.price || 0) * i.qty, 0)); }
+$('#items').addEventListener('input', total);
+$('#addItem').onclick = () => { $('#items').append(itemRow()); $('#items .it:last-child [name=n]').focus(); };
+$('#saleStatus').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return; status = b.dataset.s;
+  $$('#saleStatus button').forEach((x) => x.setAttribute('aria-pressed', x === b));
+  $('#methodF').hidden = status !== 'paid'; $('#dueF').hidden = status === 'paid';
+});
+$('#newSale').onclick = () => {
+  $('#saleForm').reset(); $('#items').innerHTML = ''; $('#items').append(itemRow()); total();
+  $('#saleErr').textContent = ''; $('#saleForm').hidden = false; $('#saleDone').hidden = true; $('#saleDlg').showModal();
+};
+$('#saleCancel').onclick = () => $('#saleDlg').close();
+$('#doneClose').onclick = () => $('#saleDlg').close();
+$('#saleForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const d = formData(e.target), list = items();
+  if (!list.length) return ($('#saleErr').textContent = 'Add at least one item.');
+  if (list.some((i) => !(i.price >= 0))) return ($('#saleErr').textContent = 'Every item needs a price.');
+  $('#saleSave').disabled = true;
+  try {
+    const r = await api('/api/dashboard', { action: 'invoice', status, items: list, customer_name: d.customer_name, customer_phone: d.customer_phone, method: d.method, due_in_days: Number(d.due_in_days || 7) });
+    const i = r.invoice;
+    $('#doneTitle').textContent = `${i.status === 'paid' ? 'Receipt' : 'Invoice'} ${i.number} saved`;
+    $('#doneSub').textContent = `${i.customer || 'Walk-in customer'} · ${money(i.total)}`;
+    $('#doneShare').href = i.share; $('#doneOpen').href = i.url;
+    $('#saleForm').hidden = true; $('#saleDone').hidden = false;
+    load();
+  } catch (err) { $('#saleErr').textContent = err.message; }
+  finally { $('#saleSave').disabled = false; }
+});
+
+(async () => {
+  const q = new URLSearchParams(location.search);
+  const login = q.get('login');
+  if (login) {
+    history.replaceState(null, '', '/dashboard');
+    const r = await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ login }) });
+    if (!r.ok) return showGate((await r.json().catch(() => ({}))).error);
+  }
+  try { await load(); } catch (e) { if (!$('#gate').hidden) return; toast(e.message); }
+})();
+</script>
+</body>
+</html>
