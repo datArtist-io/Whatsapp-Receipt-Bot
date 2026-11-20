@@ -151,7 +151,10 @@ section.block{padding-top:152px}
 .printer .slip .item small{font-size:10.5px;white-space:nowrap}
 .printer .slip .total b{font-size:18px}
 .note{position:absolute;left:6%;top:18%;width:212px;padding:18px 18px 16px;border-radius:16px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);color:#fff;opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.note.on{opacity:1;transform:none}
+.note{transition-delay:0s}
+.note.on{opacity:1;transform:none;transition-delay:.45s}
+.stage.s3 .printer{transition-delay:0s}
+.printer{transition-delay:.35s}
 .note small{display:block;font:500 11.5px/1 var(--mono);color:#8EA497;margin-bottom:12px}
 .note b{display:block;font:600 26px/1.1 var(--mono);letter-spacing:-.03em}
 .note span{display:block;font-size:13px;color:#A9BAB0;margin-top:4px}
@@ -615,7 +618,7 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
     steps.forEach((s) => s.classList.toggle('on', +s.dataset.step <= n));
     parts.forEach((p) => p.classList.toggle('on', +p.dataset.at <= n));
     paper.classList.toggle('on', n >= 2); stage.classList.toggle('s3', n >= 3); stage.classList.toggle('s2', n >= 2);
-    if (n >= 3 && !note.classList.contains('on')) { note.classList.add('on'); count(note); }
+    const wasOn = note.classList.contains('on'); note.classList.toggle('on', n >= 3); if (n >= 3 && !wasOn) count(note);
     const last = steps[n - 1]; bar.style.height = last ? (last.offsetTop + last.offsetHeight * .4) + 'px' : 0;
   };
   if (matchMedia('(max-width:1000px)').matches) return show(3);
