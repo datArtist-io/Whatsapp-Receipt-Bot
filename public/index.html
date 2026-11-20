@@ -182,33 +182,53 @@ section.block{padding-top:152px}
 .view img{display:block;width:100%;height:auto}
 .v1{background:#E4F0E7}.v2{background:#F1E9DA}.v3{background:#E3ECEC}.v4{background:#ECE8DF}
 
-/* the owners globe: 24 tiles spread evenly on a sphere so none touch, faded by how squarely they face you */
-.globe{position:relative;height:820px;perspective:1800px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden}
+/* the owners globe: a disco ball of photos (after the Orbit reference). Each ring's tiles are sized to its
+   own circumference, so they tile the sphere with even gaps and never cut into each other. */
+.globe{position:relative;height:860px;perspective:1500px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden;margin:0 calc(50% - 50vw)}
 .globe.drag{cursor:grabbing}
-.orb{position:absolute;left:50%;top:46%;width:0;height:0;transform-style:preserve-3d}
-.tile{position:absolute;left:-75px;top:-94px;width:150px;height:188px;border-radius:16px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 0 0 1px rgba(14,31,22,.06),0 16px 30px -18px rgba(14,31,22,.45);will-change:opacity;cursor:pointer;transition:box-shadow .3s}
-.tile.focus{box-shadow:0 0 0 2px var(--green),0 20px 40px -18px rgba(14,31,22,.5)}
-.tile img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%;pointer-events:none}
-.tile.msg{display:flex;flex-direction:column;justify-content:space-between;padding:14px;background:var(--ink);color:#fff}
-.tile.msg .av{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 20%;box-shadow:0 0 0 2px rgba(255,255,255,.9)}
-.tile.msg span{font-size:15px;line-height:1.3;letter-spacing:-.01em}
-.tile.res{display:flex;flex-direction:column;padding:16px 14px 14px}
-.tile.res::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--green)}
-.tile.res.due::before{background:#D9A23B}.tile.res.stat{background:var(--mint)}.tile.res.stat::before{background:var(--green-ink)}
-.tile.res .av{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 20%;box-shadow:0 0 0 2px #fff,0 0 0 3px var(--line)}
-.tile.res small{margin-top:auto;font:500 11px/1.3 var(--mono);color:var(--mute)}
-.tile.res b{font:600 21px/1.15 var(--mono);letter-spacing:-.03em;margin-top:6px}
-.tile.res.due b{color:#9A6A12}.tile.res.stat b{color:var(--green-ink)}
-.tile.res i{position:absolute;right:12px;top:16px;font:700 9px/1 var(--sans);letter-spacing:.06em;font-style:normal;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green-ink)}
-.tile.res.due i{background:#FBEBD0;color:#9A6A12}.tile.res.stat i{background:#fff}
-.story-cap{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);width:min(560px,calc(100% - 32px));display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 16px 12px 12px;border-radius:18px;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 0 0 1px var(--line),0 18px 40px -20px rgba(14,31,22,.35);transition:opacity .35s var(--ease)}
-.story-cap.swap{opacity:0}
-.story-cap img{width:46px;height:46px;border-radius:12px;object-fit:cover;object-position:50% 20%}
-.story-cap q{display:block;font:400 19px/1.25 var(--serif);font-style:italic;color:var(--ink);quotes:"“" "”"}
-.story-cap small{display:block;font:500 12px/1.3 var(--mono);color:var(--mute);margin-top:3px}
-.story-cap b{font:600 17px/1 var(--mono);letter-spacing:-.02em;white-space:nowrap;color:var(--green-ink)}
-.story-cap b.due{color:#9A6A12}
-.globe-hint{position:absolute;right:0;top:8px;font:500 12px/1 var(--mono);color:var(--faint)}
+.orb{position:absolute;left:50%;top:47%;width:0;height:0;transform-style:preserve-3d}
+.tile{position:absolute;border-radius:10px;overflow:hidden;background:#E9E6DD;transform-style:preserve-3d;cursor:pointer}
+.tile>div{position:absolute;inset:0;border-radius:inherit;overflow:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;box-shadow:0 0 0 1px rgba(14,31,22,.05)}
+.tile.hot>div{transform:translateZ(46px) scale(1.12);box-shadow:0 24px 40px -16px rgba(14,31,22,.45)}
+.tile img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.tile .rc3{display:flex;flex-direction:column;justify-content:space-between;padding:9% 10%;background:#fff;height:100%;box-sizing:border-box}
+.tile .rc3::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--green)}
+.tile .rc3.due::before{background:#D9A23B}
+.tile .rc3 small{font:500 10px/1.2 var(--mono);color:var(--mute);display:flex;justify-content:space-between}
+.tile .rc3 small i{font-style:normal;font-weight:700;color:var(--green-ink)}
+.tile .rc3.due small i{color:#9A6A12}
+.tile .rc3 b{font:600 17px/1.1 var(--mono);letter-spacing:-.03em}
+.tile .ms3{display:flex;align-items:flex-end;padding:10%;background:var(--ink);color:#fff;font-size:12.5px;line-height:1.3;height:100%;box-sizing:border-box}
+.globe-pill{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:6px 18px 6px 6px;border-radius:99px;background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 0 0 1px var(--line),0 14px 30px -16px rgba(14,31,22,.35);font-size:14px;color:var(--ink2);z-index:3;white-space:nowrap}
+.globe-pill button{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;transition:transform .4s var(--spring)}
+.globe-pill button:hover{transform:rotate(90deg)}
+.globe-pill svg{width:16px;height:16px}
+.globe-pill span+span{padding-left:14px;border-left:1px solid var(--line2);color:var(--mute)}
+/* opening a tile: the ball rushes toward you and the story opens on top */
+.globe.open .gstory{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.gstory{position:absolute;inset:0;display:grid;place-items:center;z-index:4;pointer-events:none;opacity:0;transition:opacity .4s var(--ease)}
+.globe.open .gstory{opacity:1;pointer-events:auto}
+.story-card{width:min(860px,calc(100% - 32px));display:grid;grid-template-columns:1.05fr 1fr;border-radius:24px;overflow:hidden;background:var(--card);box-shadow:0 40px 80px -30px rgba(14,31,22,.55);transform:scale(.86) translateY(30px);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.globe.open .story-card{transform:none}
+.story-card .pic{aspect-ratio:4/5;background:var(--paper2)}
+.story-card .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
+.story-card .txt{padding:40px 36px;display:flex;flex-direction:column;gap:20px;justify-content:center}
+.story-card .lbl{font:500 12.5px/1 var(--mono);color:var(--mute)}
+.story-card .say2{align-self:flex-end;max-width:92%;background:var(--ink);color:#fff;font-size:16px;line-height:1.4;padding:12px 16px;border-radius:18px 18px 4px 18px}
+.story-card .slip2{border-radius:14px;background:var(--paper);padding:16px 18px;box-shadow:inset 0 0 0 1px var(--line);position:relative;overflow:hidden}
+.story-card .slip2::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--green)}
+.story-card .slip2.due::before{background:#D9A23B}
+.story-card .slip2 small{display:flex;justify-content:space-between;font:500 12px/1 var(--mono);color:var(--mute)}
+.story-card .slip2 small i{font-style:normal;font-weight:700;color:var(--green-ink)}
+.story-card .slip2.due small i{color:#9A6A12}
+.story-card .slip2 b{display:block;font:600 30px/1.1 var(--mono);letter-spacing:-.03em;margin-top:12px}
+.story-card .row2{display:flex;gap:10px;align-items:center;margin-top:4px}
+.story-card .row2 .btn{height:44px;padding:0 18px;font-size:14.5px}
+.story-x{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:5;all:unset;cursor:pointer}
+.globe .x{position:absolute;left:50%;bottom:30px;margin-left:-22px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;z-index:5;opacity:0;pointer-events:none;transition:opacity .3s;border:0;cursor:pointer}
+.globe.open .x{opacity:1;pointer-events:auto}
+.globe.open .globe-pill{opacity:0;pointer-events:none}
+.globe .x svg{width:16px;height:16px}
 
 /* what it keeps: a typeset ledger, one row per job */
 .ledger{border-top:1px solid var(--ink)}
@@ -289,12 +309,21 @@ button.btn[data-demo][disabled]{opacity:.7}
   .view{height:auto;aspect-ratio:4/3.4}
   .view .port{width:240px;margin-left:-120px}
   .final{border-radius:22px}
-  .globe{height:620px;margin:0 -16px}
-  .orb{top:40%}
-  .story-cap{grid-template-columns:auto 1fr;bottom:16px}
-  .story-cap b{grid-column:2;margin-top:-6px}
-  .story-cap q{font-size:17px}
-  .globe-hint{display:none}
+  .globe{height:600px}
+  .orb{top:45%}
+  .story-card{grid-template-columns:1fr;max-height:calc(100% - 100px);overflow:auto}
+  .story-card .pic{aspect-ratio:16/10}
+  .story-card .txt{padding:18px 18px 20px;gap:10px}
+  .story-card .slip2 b{font-size:22px;margin-top:8px}
+  .globe-pill{font-size:13.5px;bottom:18px}
+  .globe-pill span+span{display:none}
+  .gstory{place-items:start center;padding-top:16px}
+  .story-card{max-height:calc(100% - 96px)}
+  .story-card .pic{aspect-ratio:auto;height:150px}
+  .story-card .pic img{object-position:50% 10%}
+  .story-card .say2{font-size:15px;padding:10px 14px}
+  .story-card .slip2{padding:12px 14px}
+  .globe .x{bottom:18px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lt,.rv,.clip{transform:none!important;opacity:1!important;filter:none!important;clip-path:none!important;transition:none!important}.rule::before,.ledger::before{transform:none!important}.rule>*{opacity:1!important}.float{opacity:1!important;transform:none!important;animation:none!important}.printer .slip{transform:none!important;transition:none}[data-enter]{opacity:1!important;transform:none!important;animation:none!important}.idx .prog{display:none}.view figure{transition:none}}
 </style>
@@ -398,8 +427,9 @@ button.btn[data-demo][disabled]{opacity:.7}
       <div class="head"><h2 class="h2">Every kind of shop.<br><span class="ital">Every kind of owner.</span></h2><p class="sub">Fashion, food, phones, provisions. Each owner sits beside a message they might send, and what Slipp sends back.</p></div>
       <div class="globe" id="globe">
         <div class="orb" id="orb"></div>
-        <span class="globe-hint" aria-hidden="true">Drag to turn, tap a tile</span>
-        <div class="story-cap" id="cap" aria-live="polite"><img alt="" id="capImg"><div><q id="capMsg"></q><small id="capLbl"></small></div><b id="capVal"></b></div>
+        <div class="globe-pill"><button type="button" id="openOne" aria-label="Open a story"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><span>Open a story</span><span>Drag to spin</span></div>
+        <div class="gstory" id="story" role="dialog" aria-modal="false" aria-label="An owner's story"><div class="story-card"><div class="pic"><img id="stImg" alt=""></div><div class="txt"><span class="lbl" id="stLbl">They text Slipp</span><p class="say2" id="stMsg"></p><span class="lbl">Slipp sends back</span><div class="slip2" id="stSlip"><small><span id="stKind"></span><i id="stTag"></i></small><b id="stVal"></b></div><div class="row2"><button class="btn btn-ink" type="button" data-demo>Try it in the demo</button></div></div></div></div>
+        <button class="x" id="closeOne" type="button" aria-label="Close the story"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
     </section>
 
@@ -471,84 +501,92 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
   }
 }));
 
-// The owners globe. Tiles sit on an even (Fibonacci) spread with more room between them than their own size,
-// so they never cut into each other. Each tile fades by how squarely it faces you, and the one in front
-// is told in full in the caption underneath.
+// The owners globe, a disco ball of photos. Rings of tiles sized to each ring's own circumference so they
+// tile the sphere with even gaps. The back shows through, the tile under the pointer lifts out, and a click
+// opens that owner's story.
 (() => {
   const wrap = document.getElementById('globe'), orb = document.getElementById('orb');
   const O = [
-    ['ph-beanbag', 'Sold 2 rice and 1 palm oil to Chidi', 'Receipt R-0061', '₦160,500', 'paid'],
-    ['ph-stripes', 'Sold 3 cartons of Indomie to Tunde, 11,800 each', 'Receipt R-0064', '₦35,400', 'paid'],
-    ['ph-bags', 'Sold 2 handbags to Funke, 25k each', 'Receipt R-0072', '₦50,000', 'paid'],
-    ['ph-cardigan', 'Add 20 bags of rice to stock', 'Rice 50kg in stock', '40 bags', 'stat'],
-    ['ph-lime', 'What sold best this month?', 'Rice 50kg, 6 bags', '₦432,000', 'stat'],
-    ['ph-sky', 'Sold 2 jeans to Ada, 18k each', 'Receipt R-0071', '₦36,000', 'paid'],
-    ['ph-black', 'Invoice Kunle for 4 phone cases, 3,500 each, due Monday', 'Invoice INV-0073', '₦14,000', 'due'],
-    ['ph-laptop', 'How much did I make this week?', 'Profit this week', '₦96,200', 'stat'],
-    ['ph-orange', 'Sold 3 cargo trousers to Zainab, 12k each', 'Receipt R-0074', '₦36,000', 'paid'],
-    ['ph-tee', 'Paid 15k for fuel', 'Expense saved', '₦15,000', 'stat'],
-    ['ph-headwrap', 'Spent 40k on fabric', 'Expense saved', '₦40,000', 'stat'],
-    ['ph-cheer', 'Who still owes me?', 'Emeka Obi, due Friday', '₦35,400', 'due'],
+    ['beanbag', 'Sold 2 rice and 1 palm oil to Chidi', 'Receipt R-0061', '₦160,500', 'paid'],
+    ['stripes', 'Sold 3 cartons of Indomie to Tunde, 11,800 each', 'Receipt R-0064', '₦35,400', 'paid'],
+    ['bags', 'Sold 2 handbags to Funke, 25k each', 'Receipt R-0072', '₦50,000', 'paid'],
+    ['cardigan', 'Add 20 bags of rice to stock', 'Rice 50kg in stock', '40 bags', 'stat'],
+    ['lime', 'What sold best this month?', 'Best seller: Rice 50kg', '₦432,000', 'stat'],
+    ['sky', 'Sold 2 jeans to Ada, 18k each', 'Receipt R-0071', '₦36,000', 'paid'],
+    ['black', 'Invoice Kunle for 4 phone cases, 3,500 each, due Monday', 'Invoice INV-0073', '₦14,000', 'due'],
+    ['laptop', 'How much did I make this week?', 'Profit this week', '₦96,200', 'stat'],
+    ['orange', 'Sold 3 cargo trousers to Zainab, 12k each', 'Receipt R-0074', '₦36,000', 'paid'],
+    ['tee', 'Paid 15k for fuel', 'Expense saved', '₦15,000', 'stat'],
+    ['headwrap', 'Spent 40k on fabric', 'Expense saved', '₦40,000', 'stat'],
+    ['cheer', 'Who still owes me?', 'Emeka Obi, due Friday', '₦35,400', 'due'],
   ];
-  const tag = { paid: 'PAID', due: 'DUE', stat: 'SAVED' };
-  const N = O.length * 3, R = 440, GOLD = Math.PI * (3 - Math.sqrt(5));
-  const tiles = [];
-  for (let i = 0; i < N; i++) {
-    const y = 1 - 2 * (i + .5) / N, lat = Math.asin(y) * 180 / Math.PI, lon = (i * GOLD * 180 / Math.PI) % 360;
-    const k = i % O.length, kind = Math.floor(i / O.length), o = O[(k * 5 + kind * 4) % O.length], el = document.createElement('div');
-    if (kind === 0) { el.className = 'tile'; el.innerHTML = `<img src="/img/${o[0]}.webp" alt="" loading="lazy" decoding="async">`; }
-    else if (kind === 1) { el.className = 'tile msg'; el.innerHTML = `<img class="av" src="/img/${o[0]}.webp" alt=""><span>${o[1]}</span>`; }
-    else { el.className = 'tile res ' + o[4]; el.innerHTML = `<img class="av" src="/img/${o[0]}.webp" alt=""><i>${tag[o[4]]}</i><small>${o[2]}</small><b>${o[3]}</b>`; }
-    el.style.transform = `rotateY(${lon.toFixed(2)}deg) rotateX(${(-lat).toFixed(2)}deg) translateZ(${R}px)`;
-    el.dataset.o = O.indexOf(o); orb.append(el); tiles.push({ el, lon, lat });
+  const TAG = { paid: 'PAID', due: 'DUE', stat: 'SAVED' };
+  const R = 330, BANDS = 10, dLat = 180 / BANDS, GAP = .9, rad = Math.PI / 180;
+  const tiles = []; let n = 0;
+  for (let b = 0; b < BANDS; b++) {
+    const lat = -90 + dLat * (b + .5), cl = Math.cos(lat * rad);
+    const h = 2 * R * Math.sin(dLat / 2 * rad) * GAP;
+    const count = Math.max(3, Math.floor(2 * Math.PI * R * cl / (h * 1.32)));
+    const w = 2 * R * cl * Math.sin(Math.PI / count) * GAP;
+    for (let k = 0; k < count; k++) {
+      const lon = 360 / count * k + (b % 2) * 180 / count;
+      const o = O[(n * 7 + b) % O.length], kind = n % 9 === 4 ? 'rc' : n % 11 === 7 ? 'ms' : 'ph'; n++;
+      const el = document.createElement('div'); el.className = 'tile';
+      el.style.cssText = `width:${w.toFixed(1)}px;height:${h.toFixed(1)}px;left:${(-w / 2).toFixed(1)}px;top:${(-h / 2).toFixed(1)}px;transform:rotateY(${lon.toFixed(2)}deg) rotateX(${(-lat).toFixed(2)}deg) translateZ(${R}px)`;
+      el.innerHTML = kind === 'ph' ? `<div><img src="/img/th-${o[0]}.webp" alt="" loading="lazy" decoding="async"></div>`
+        : kind === 'rc' ? `<div><div class="rc3 ${o[4]}"><small>${o[2].replace('Receipt ', '').replace('Invoice ', '')}<i>${TAG[o[4]]}</i></small><b>${o[3]}</b></div></div>`
+        : `<div><div class="ms3">${o[1]}</div></div>`;
+      el.dataset.o = O.indexOf(o); orb.append(el); tiles.push({ el, lon, lat });
+    }
   }
-  const cap = document.getElementById('cap'), ci = document.getElementById('capImg'), cm = document.getElementById('capMsg'), cl = document.getElementById('capLbl'), cv = document.getElementById('capVal');
-  let shown = -1;
-  const tell = (k) => {
-    if (k === shown) return; const first = shown < 0; shown = k; const o = O[k];
-    const put = () => { ci.src = `/img/${o[0]}.webp`; cm.textContent = o[1]; cl.textContent = 'Slipp: ' + o[2]; cv.textContent = o[3]; cv.className = o[4] === 'due' ? 'due' : ''; cap.classList.remove('swap'); };
-    if (first) return put(); cap.classList.add('swap'); setTimeout(put, 200);
-  };
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let ry = 0, rx = -8, vy = calm ? 0 : .06, vx = 0, drag = null, moved = 0, aim = null, seen = false, sc = 1, focus = null;
-  const fit = () => { sc = Math.min(1, wrap.clientWidth / (wrap.clientWidth < 600 ? 620 : 1040), (wrap.clientHeight - 110) / 900); };
+  let ry = 0, rx = -12, vy = calm ? 0 : .09, vx = 0, drag = null, moved = 0, seen = false, sc = 1, zoom = 1, zoomTo = 1, open = false;
+  const fit = () => { const w = wrap.clientWidth, h = wrap.clientHeight; sc = Math.min(1.25, w / (w < 600 ? 720 : 900), (h - 120) / 720); };
   fit(); addEventListener('resize', fit);
-  const rad = Math.PI / 180;
   const frame = () => {
-    if (aim) { ry += (aim.ry - ry) * .1; rx += (aim.rx - rx) * .1; if (Math.abs(aim.ry - ry) < .2 && Math.abs(aim.rx - rx) < .2) aim = null; }
-    else if (!drag) { ry += vy; rx += vx; vx *= .93; vy += ((calm ? 0 : .06) * Math.sign(vy || 1) - vy) * .02; }
-    rx = Math.max(-40, Math.min(40, rx));
-    orb.style.transform = `translateZ(${-R}px) scale(${sc}) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    // how squarely each tile faces the viewer: the z of its normal after the globe's rotation
-    let best = -2, bestT = null;
+    if (!drag && !open) { ry += vy; rx += vx; vx *= .92; vy += ((calm ? 0 : .09) * Math.sign(vy || 1) - vy) * .02; }
+    rx = Math.max(-35, Math.min(35, rx));
+    zoom += (zoomTo - zoom) * .08;
+    orb.style.transform = `translateZ(${(-R * .4).toFixed(1)}px) scale(${(sc * zoom).toFixed(4)}) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    // tiles on the far side stay visible through the gaps, just softer
     const cx = Math.cos(rx * rad), sx = Math.sin(rx * rad);
     for (const t of tiles) {
       const a = (ry + t.lon) * rad, l = t.lat * rad;
-      const nx = Math.sin(a) * Math.cos(l), ny0 = Math.sin(l), nz0 = Math.cos(a) * Math.cos(l);
-      const nz = nz0 * cx + ny0 * sx;
-      const op = Math.max(0, Math.min(1, (nz + .02) / .42)) * (.55 + .45 * Math.max(0, nz));
-      if (t.op !== op) { t.el.style.opacity = op.toFixed(3); t.el.style.visibility = op ? 'visible' : 'hidden'; t.op = op; }
-      if (nz > best) { best = nz; bestT = t; }
+      const nz = Math.cos(a) * Math.cos(l) * cx + Math.sin(l) * sx;
+      const op = nz > 0 ? 1 : .55 + .45 * (1 + nz);
+      if (Math.abs((t.op || 0) - op) > .02) { t.el.style.opacity = op.toFixed(2); t.op = op; }
     }
-    if (bestT !== focus) { if (focus) focus.el.classList.remove('focus'); focus = bestT; focus.el.classList.add('focus'); tell(+focus.el.dataset.o); }
     if (seen) requestAnimationFrame(frame);
   };
   new IntersectionObserver((es) => { const v = es[0].isIntersecting; if (v && !seen) { seen = true; requestAnimationFrame(frame); } else if (!v) seen = false; }).observe(wrap);
   seen = true; frame(); seen = false;
-  wrap.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY }; moved = 0; aim = null; wrap.classList.add('drag'); wrap.setPointerCapture(e.pointerId); });
+  // the tile under the pointer lifts out
+  let hot = null;
   wrap.addEventListener('pointermove', (e) => {
-    if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; moved += Math.abs(dx) + Math.abs(dy);
-    ry += dx * .22; rx -= dy * .18; vy = dx * .22; vx = -dy * .18; drag.x = e.clientX; drag.y = e.clientY;
+    if (drag) { const dx = e.clientX - drag.x, dy = e.clientY - drag.y; moved += Math.abs(dx) + Math.abs(dy); ry += dx * .2; rx -= dy * .16; vy = dx * .2; vx = -dy * .16; drag.x = e.clientX; drag.y = e.clientY; }
+    if (e.pointerType !== 'mouse' || open) return;
+    const el = e.target.closest && e.target.closest('.tile');
+    if (el !== hot) { if (hot) hot.classList.remove('hot'); hot = el; if (hot && !drag) hot.classList.add('hot'); }
   });
+  wrap.addEventListener('pointerleave', () => { if (hot) hot.classList.remove('hot'); hot = null; });
+  wrap.addEventListener('pointerdown', (e) => { if (open || e.target.closest('.globe-pill,.story-card,.x')) return; drag = { x: e.clientX, y: e.clientY }; moved = 0; wrap.classList.add('drag'); });
   const up = (e) => {
-    if (!drag) return; drag = null; wrap.classList.remove('drag'); vy = Math.max(-5, Math.min(5, vy)); vx = Math.max(-3, Math.min(3, vx));
-    if (moved < 6) { // a tap: turn the tapped tile to face you
-      const el = document.elementsFromPoint(e.clientX, e.clientY).find((n) => n.classList && n.classList.contains('tile'));
-      const t = el && tiles.find((x) => x.el === el);
-      if (t) { let target = -t.lon; while (target - ry > 180) target -= 360; while (ry - target > 180) target += 360; aim = { ry: target, rx: Math.max(-40, Math.min(40, t.lat)) }; vy = calm ? 0 : .06 * Math.sign(vy || 1); }
-    }
+    if (!drag) return; drag = null; wrap.classList.remove('drag'); vy = Math.max(-6, Math.min(6, vy)); vx = Math.max(-3, Math.min(3, vx));
+    if (moved < 6) { const el = e.target.closest && e.target.closest('.tile'); if (el) show(+el.dataset.o); }
   };
-  wrap.addEventListener('pointerup', up); wrap.addEventListener('pointercancel', up);
+  addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  // opening a story: the ball rushes toward you, blurs, and the card rises on top
+  const st = { img: document.getElementById('stImg'), msg: document.getElementById('stMsg'), slip: document.getElementById('stSlip'), kind: document.getElementById('stKind'), tag: document.getElementById('stTag'), val: document.getElementById('stVal') };
+  const show = (k) => {
+    const o = O[k]; st.img.src = `/img/ph-${o[0]}.webp`; st.msg.textContent = o[1]; st.kind.textContent = o[2]; st.tag.textContent = TAG[o[4]]; st.val.textContent = o[3];
+    st.slip.className = 'slip2' + (o[4] === 'due' ? ' due' : '');
+    open = true; zoomTo = 2.1; wrap.classList.add('open'); if (hot) hot.classList.remove('hot');
+  };
+  const close = () => { open = false; zoomTo = 1; wrap.classList.remove('open'); };
+  document.getElementById('closeOne').onclick = close;
+  document.getElementById('openOne').onclick = () => show(Math.floor(Math.random() * O.length));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) close(); });
+  document.getElementById('story').addEventListener('click', (e) => { if (e.target.id === 'story') close(); });
 })();
 
 // Motion: split headings into masked lines, tag blocks, reveal each once as it enters the view.
@@ -557,7 +595,7 @@ document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('clic
     h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map((line, i) => `<span class="ln"><span class="lt" style="--d:${(i * .12).toFixed(2)}s">${line}</span></span>`).join('');
   });
   const tag = (sel, step = .08, base = 0) => document.querySelectorAll(sel).forEach((el, i) => { el.classList.add('rv'); el.style.setProperty('--d', (base + (i % 8) * step).toFixed(2) + 's'); });
-  tag('.head .sub', 0, .25); tag('.idx li'); tag('.lr', .07); tag('.final p, .final .ctas', .1, .3); tag('footer .cols > div', .08); tag('.globe', 0, .1);
+  tag('.head .sub', 0, .25); tag('.idx li'); tag('.lr', .07); tag('.final p, .final .ctas', .1, .3); tag('footer .cols > div', .08); 
   document.querySelectorAll('.view, .final .pic').forEach((el) => el.classList.add('clip'));
   const els = document.querySelectorAll('.ln, .rv, .rule, .ledger, .clip');
   const heroH = document.querySelector('.hero h1');
