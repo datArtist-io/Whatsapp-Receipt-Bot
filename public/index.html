@@ -139,13 +139,15 @@ section.block{padding-top:152px}
 .rc .go{margin:2px 8px 8px;height:30px;border-radius:9px;background:var(--green);color:#fff;font-size:11.5px;font-weight:600;display:grid;place-items:center}
 .printer{position:absolute;left:5%;top:13%;width:222px;z-index:1;transition:opacity .6s var(--ease),transform .8s var(--ease)}
 .stage.s3 .printer,.stage:not(.s2) .printer{opacity:0;transform:translateY(-40px)}
-.printer .head{position:relative;height:34px;border-radius:14px;background:linear-gradient(#2A3F33,#16261D);box-shadow:0 18px 30px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1)}
-.printer .head::before{content:"";position:absolute;left:16px;top:13px;width:7px;height:7px;border-radius:50%;background:#43554A;transition:background-color .3s,box-shadow .3s}
+.printer .head{display:block;margin:0;position:relative;z-index:2;height:38px;border-radius:14px 14px 10px 10px;background:linear-gradient(#2A3F33,#16261D);box-shadow:0 18px 30px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1)}
+.printer .head::before{content:"";position:absolute;left:16px;top:12px;width:7px;height:7px;border-radius:50%;background:#43554A;transition:background-color .3s,box-shadow .3s}
 .printer.on .head::before{background:var(--green);box-shadow:0 0 0 4px rgba(20,184,107,.22)}
-.printer .head::after{content:"";position:absolute;left:44px;right:16px;bottom:9px;height:4px;border-radius:4px;background:#050C08}
-.printer .feed{overflow:hidden;margin:-12px 12px 0;padding:0 6px 28px}
-.printer .slip{padding:20px 18px 26px;transform:translateY(-101%);transition:transform 2s cubic-bezier(.3,.7,.25,1)}
-.printer.on .slip{transform:none}
+.printer .head::after{content:"";position:absolute;left:12px;right:12px;bottom:-3px;height:7px;border-radius:4px;background:#030806;box-shadow:inset 0 2px 3px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.06)}
+.printer .feed{position:relative;z-index:1;overflow:hidden;margin:0 18px;padding:0 0 28px}
+.printer .feed::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:2;background:linear-gradient(rgba(0,0,0,.28),transparent);pointer-events:none}
+.printer .slip{padding:18px 16px 24px;transform:translateY(-104%);transition:transform 2.4s cubic-bezier(.45,.05,.25,1);transition-delay:0s}
+.printer .slip::before{display:none}
+.printer.on .slip{transform:none;transition-delay:.9s}
 .printer .slip .biz{font-size:16px}
 .printer .slip .item{font-size:12.5px}
 .printer .slip .item small{font-size:10.5px;white-space:nowrap}
