@@ -151,10 +151,11 @@ section.block{padding-top:152px}
 .printer .slip .item small{font-size:10.5px;white-space:nowrap}
 .printer .slip .total b{font-size:18px}
 .note{position:absolute;left:6%;top:18%;width:212px;padding:18px 18px 16px;border-radius:16px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);color:#fff;opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.note{transition-delay:0s}
-.note.on{opacity:1;transform:none;transition-delay:.45s}
-.stage.s3 .printer{transition-delay:0s}
-.printer{transition-delay:.35s}
+/* the receipt and the month card take turns: each waits until the other has fully faded */
+.stage .note{transition:opacity .4s var(--ease),transform .5s var(--ease);transition-delay:0s}
+.stage .note.on{opacity:1;transform:none;transition-delay:.5s}
+.stage .printer{transition:opacity .4s var(--ease),transform .5s var(--ease);transition-delay:.5s}
+.stage.s3 .printer,.stage:not(.s2) .printer{transition-delay:0s}
 .note small{display:block;font:500 11.5px/1 var(--mono);color:#8EA497;margin-bottom:12px}
 .note b{display:block;font:600 26px/1.1 var(--mono);letter-spacing:-.03em}
 .note span{display:block;font-size:13px;color:#A9BAB0;margin-top:4px}
